@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>screen</key>
+	<dict>
+		<key>settings</key>
+		<dict>
+			<key>form</key>
+			<dict>
+				<key>phone</key>
+				<string>Phone</string>
+				<key>name</key>
+				<string>Name</string>
+				<key>email</key>
+				<string>Email</string>
+				<key>profile-settings</key>
+				<string>Profile Settings</string>
+				<key>appearance-settings</key>
+				<string>Appearance Settings</string>
+				<key>open-device-settings</key>
+				<string>Open Device Settings</string>
+				<key>developer-controls</key>
+				<string>Developer Controls</string>
+				<key>onboarding-tutorials</key>
+				<string>Onboardinbg Tutorials</string>
+				<key>terms-and-conditions</key>
+				<string>Terms &amp; Conditions</string>
+				<key>contact-us</key>
+				<string>Contact us</string>
+				<key>reset-settings</key>
+				<string>Reset Settings</string>
+			</dict>
+		</dict>
+	</dict>
+	<key>tabbar</key>
+	<dict/>
+	<key>navigation</key>
+	<dict>
+		<key>title</key>
+		<dict>
+			<key>home</key>
+			<string>@home</string>
+			<key>my-stuffs</key>
+			<string>@my stuffs</string>
+			<key>services</key>
+			<string>@services</string>
+			<key>settings</key>
+			<string>@settings</string>
+			<key>post</key>
+			<string>@create</string>
+		</dict>
+		<key>item</key>
+		<dict>
+			<key>cancel</key>
+			<string>Cancel</string>
+			<key>done</key>
+			<string>Done</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

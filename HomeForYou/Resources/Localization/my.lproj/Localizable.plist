@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>screen</key>
+	<dict>
+		<key>settings</key>
+		<dict>
+			<key>form</key>
+			<dict>
+				<key>phone</key>
+				<string>ဖုန်း</string>
+				<key>name</key>
+				<string>နာမည်</string>
+				<key>email</key>
+				<string>အီးမေးလ်</string>
+				<key>profile-settings</key>
+				<string>ပရိုဖိုင် ဆက်တင်များ</string>
+				<key>appearance-settings</key>
+				<string>အသွင်အပြင် ဆက်တင်များ</string>
+				<key>open-device-settings</key>
+				<string>ဖုန်းဆက်တင်များ</string>
+				<key>developer-controls</key>
+				<string>Developer ထိန်းချုပ်မှုများ</string>
+				<key>onboarding-tutorials</key>
+				<string>စတင်အသုံးပြုခြင်း ကျူတိုရီရယ်</string>
+				<key>terms-and-conditions</key>
+				<string>စည်းကမ်းသတ်မှတ်ချက်များ</string>
+				<key>contact-us</key>
+				<string>ကျွန်ုပ်တို့ထံ ဆက်သွယ်ပါ</string>
+				<key>reset-settings</key>
+				<string>ဆက်တင်များကို ပြန်သတ်မှတ်ပါ</string>
+			</dict>
+		</dict>
+	</dict>
+	<key>tabbar</key>
+	<dict/>
+	<key>navigation</key>
+	<dict>
+		<key>title</key>
+		<dict>
+			<key>home</key>
+			<string>မူလစာမျက်နှာ</string>
+			<key>my-stuffs</key>
+			<string>ငါ့စာရင်းများ</string>
+			<key>services</key>
+			<string>ဝန်ဆောင်မှုများ</string>
+			<key>settings</key>
+			<string>ဆက်တင်များ</string>
+			<key>post</key>
+			<string>ပို့စ်တစ်ခုလုပ်ရအောင်</string>
+		</dict>
+		<key>item</key>
+		<dict>
+			<key>cancel</key>
+			<string>ပယ်ဖျက်</string>
+			<key>done</key>
+			<string>ပြီးပြီ</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
