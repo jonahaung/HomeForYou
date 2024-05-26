@@ -253,9 +253,13 @@
 		47B716E12C01CDEA00A9932A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716E02C01CDEA00A9932A /* FirebaseMessaging */; };
 		47B716E32C01CDEA00A9932A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716E22C01CDEA00A9932A /* FirebaseStorage */; };
 		47B716E52C01CDEA00A9932A /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716E42C01CDEA00A9932A /* FirebaseStorageCombine-Community */; };
-		47B716E82C01CE2B00A9932A /* FireAuthManager in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716E72C01CE2B00A9932A /* FireAuthManager */; };
 		47B716EB2C01CE4400A9932A /* MediaPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716EA2C01CE4400A9932A /* MediaPicker */; };
 		47B716EE2C01CE7C00A9932A /* SwiftyTheme in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716ED2C01CE7C00A9932A /* SwiftyTheme */; };
+		47DCF5E22C03B0F700D41AFD /* SecureStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5E12C03B0F700D41AFD /* SecureStorage */; };
+		47DCF5E52C03B10F00D41AFD /* XUI in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5E42C03B10F00D41AFD /* XUI */; };
+		47DCF5E92C03B18D00D41AFD /* FireAuthManager in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5E82C03B18D00D41AFD /* FireAuthManager */; };
+		47DCF5ED2C03B2D000D41AFD /* SwiftyTheme in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5EC2C03B2D000D41AFD /* SwiftyTheme */; };
+		47DCF5F02C03B2EC00D41AFD /* FireAuthManager in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5EF2C03B2EC00D41AFD /* FireAuthManager */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -527,13 +531,17 @@
 				470E7A312C0338DA00063345 /* XUI in Frameworks */,
 				47B716D72C01CD6600A9932A /* L10n-swift in Frameworks */,
 				47B716E52C01CDEA00A9932A /* FirebaseStorageCombine-Community in Frameworks */,
+				47DCF5E52C03B10F00D41AFD /* XUI in Frameworks */,
 				47B716EB2C01CE4400A9932A /* MediaPicker in Frameworks */,
-				47B716E82C01CE2B00A9932A /* FireAuthManager in Frameworks */,
 				47B716DA2C01CD8400A9932A /* Lottie in Frameworks */,
+				47DCF5F02C03B2EC00D41AFD /* FireAuthManager in Frameworks */,
 				47B716E12C01CDEA00A9932A /* FirebaseMessaging in Frameworks */,
 				47B716EE2C01CE7C00A9932A /* SwiftyTheme in Frameworks */,
 				47B716DD2C01CDEA00A9932A /* FirebaseFirestore in Frameworks */,
+				47DCF5E92C03B18D00D41AFD /* FireAuthManager in Frameworks */,
+				47DCF5E22C03B0F700D41AFD /* SecureStorage in Frameworks */,
 				47B716DF2C01CDEA00A9932A /* FirebaseFirestoreSwift in Frameworks */,
+				47DCF5ED2C03B2D000D41AFD /* SwiftyTheme in Frameworks */,
 				47B716E32C01CDEA00A9932A /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1530,10 +1538,14 @@
 				47B716E02C01CDEA00A9932A /* FirebaseMessaging */,
 				47B716E22C01CDEA00A9932A /* FirebaseStorage */,
 				47B716E42C01CDEA00A9932A /* FirebaseStorageCombine-Community */,
-				47B716E72C01CE2B00A9932A /* FireAuthManager */,
 				47B716EA2C01CE4400A9932A /* MediaPicker */,
 				47B716ED2C01CE7C00A9932A /* SwiftyTheme */,
 				470E7A302C0338DA00063345 /* XUI */,
+				47DCF5E12C03B0F700D41AFD /* SecureStorage */,
+				47DCF5E42C03B10F00D41AFD /* XUI */,
+				47DCF5E82C03B18D00D41AFD /* FireAuthManager */,
+				47DCF5EC2C03B2D000D41AFD /* SwiftyTheme */,
+				47DCF5EF2C03B2EC00D41AFD /* FireAuthManager */,
 			);
 			productName = HomeForYou;
 			productReference = 47B7146F2C01CC4800A9932A /* HomeForYou.app */;
@@ -1612,10 +1624,11 @@
 				47B716D52C01CD6600A9932A /* XCRemoteSwiftPackageReference "L10n-swift" */,
 				47B716D82C01CD8400A9932A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				47B716DB2C01CDEA00A9932A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				47B716E62C01CE2B00A9932A /* XCLocalSwiftPackageReference "../Documents - Aung’s MacBook Pro /FireAuthManager" */,
-				47B716E92C01CE4400A9932A /* XCLocalSwiftPackageReference "../Documents - Aung’s MacBook Pro /MediaPicker" */,
-				47B716EC2C01CE7C00A9932A /* XCLocalSwiftPackageReference "../SwiiftyTheme/SwiftyTheme" */,
-				470E7A2F2C0338DA00063345 /* XCLocalSwiftPackageReference "../Documents - Aung’s MacBook Pro /XUI" */,
+				47DCF5E02C03B0F700D41AFD /* XCLocalSwiftPackageReference "../Packages/SecureStorage" */,
+				47DCF5E32C03B10F00D41AFD /* XCLocalSwiftPackageReference "../Packages/XUI" */,
+				47DCF5EA2C03B2AC00D41AFD /* XCLocalSwiftPackageReference "../Packages/MediaPicker" */,
+				47DCF5EB2C03B2D000D41AFD /* XCLocalSwiftPackageReference "../Packages/SwiiftyTheme/SwiftyTheme" */,
+				47DCF5EE2C03B2EC00D41AFD /* XCLocalSwiftPackageReference "../Packages/FireAuthManager" */,
 			);
 			productRefGroup = 47B714702C01CC4800A9932A /* Products */;
 			projectDirPath = "";
@@ -2258,21 +2271,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		470E7A2F2C0338DA00063345 /* XCLocalSwiftPackageReference "../Documents - Aung’s MacBook Pro /XUI" */ = {
+		47DCF5E02C03B0F700D41AFD /* XCLocalSwiftPackageReference "../Packages/SecureStorage" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = "../Documents - Aung’s MacBook Pro /XUI";
+			relativePath = ../Packages/SecureStorage;
 		};
-		47B716E62C01CE2B00A9932A /* XCLocalSwiftPackageReference "../Documents - Aung’s MacBook Pro /FireAuthManager" */ = {
+		47DCF5E32C03B10F00D41AFD /* XCLocalSwiftPackageReference "../Packages/XUI" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = "../Documents - Aung’s MacBook Pro /FireAuthManager";
+			relativePath = ../Packages/XUI;
 		};
-		47B716E92C01CE4400A9932A /* XCLocalSwiftPackageReference "../Documents - Aung’s MacBook Pro /MediaPicker" */ = {
+		47DCF5EA2C03B2AC00D41AFD /* XCLocalSwiftPackageReference "../Packages/MediaPicker" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = "../Documents - Aung’s MacBook Pro /MediaPicker";
+			relativePath = ../Packages/MediaPicker;
 		};
-		47B716EC2C01CE7C00A9932A /* XCLocalSwiftPackageReference "../SwiiftyTheme/SwiftyTheme" */ = {
+		47DCF5EB2C03B2D000D41AFD /* XCLocalSwiftPackageReference "../Packages/SwiiftyTheme/SwiftyTheme" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../SwiiftyTheme/SwiftyTheme;
+			relativePath = ../Packages/SwiiftyTheme/SwiftyTheme;
+		};
+		47DCF5EE2C03B2EC00D41AFD /* XCLocalSwiftPackageReference "../Packages/FireAuthManager" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Packages/FireAuthManager;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -2343,10 +2360,6 @@
 			package = 47B716DB2C01CDEA00A9932A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
 		};
-		47B716E72C01CE2B00A9932A /* FireAuthManager */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FireAuthManager;
-		};
 		47B716EA2C01CE4400A9932A /* MediaPicker */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MediaPicker;
@@ -2354,6 +2367,26 @@
 		47B716ED2C01CE7C00A9932A /* SwiftyTheme */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftyTheme;
+		};
+		47DCF5E12C03B0F700D41AFD /* SecureStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SecureStorage;
+		};
+		47DCF5E42C03B10F00D41AFD /* XUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XUI;
+		};
+		47DCF5E82C03B18D00D41AFD /* FireAuthManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FireAuthManager;
+		};
+		47DCF5EC2C03B2D000D41AFD /* SwiftyTheme */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftyTheme;
+		};
+		47DCF5EF2C03B2EC00D41AFD /* FireAuthManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FireAuthManager;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -18,4 +18,8 @@ enum Constansts {
     struct Posting {
         static let Number_Of_Max_Attachments_Allowed = 6
     }
+    
+    enum Defaults: String {
+        case currentUserRegion
+    }
 }

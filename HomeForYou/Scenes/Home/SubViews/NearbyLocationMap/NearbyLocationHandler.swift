@@ -41,7 +41,7 @@ final class NearbyLocationHandler: ViewModel, ObservableObject {
     
     func getNearbyPosts(for geoHash: String, _ category: Category) async -> [Post]{
         let query = collectionReference(category).whereField(PostKeys.geoHash.rawValue, isGreaterThanOrEqualTo: geoHash)
-            .whereField(PostKeys.geoHash.rawValue, isLessThanOrEqualTo: geoHash)
+            .whereField(PostKeys.geoHash.rawValue, isLessThan: geoHash + "\u{f8ff}").order(by: PostKeys.geoHash.rawValue, descending: true)
         return await getPosts(for: query)
     }
     func onUpdateCategory(_ category: Category) async {

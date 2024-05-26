@@ -12,12 +12,12 @@ import NukeUI
 import Nuke
 
 struct PostSingleColumnLargeCell: View {
-
+    
     @EnvironmentObject private var post: Post
     @Injected(\.ui) private var ui
     @Injected(\.utils) private var utils
     @Injected(\.router) private var router
-
+    
     var body: some View {
         InsetGroupSection(4) {
             VStack(alignment: .leading, spacing: 0) {
@@ -35,48 +35,43 @@ struct PostSingleColumnLargeCell: View {
             }
         }
     }
-
+    
     private var content: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: 0) {
             HStack {
-                Text("\(post.price)")
+                Text("$\(utils.kmbFormatter.string(fromNumber: post.price))")
                     .font(.system(.title3, weight: .bold))
                 Spacer()
-                Group {
-                    Text("\(Image(systemName: SFSymbol.building2CropCircle.rawValue))\(post.propertyType.title) ")
-                    +
-                    Text("\(Image(systemName: SFSymbol.windSnowCircle.rawValue))\(post.roomType?.title ?? "") ")
-                    +
-                    Text("\(Image(systemName: SFSymbol.bedDoubleCircle.rawValue))\(post.beds.title) ")
-                    +
-                    Text("\(Image(systemName: SFSymbol.toiletCircle.rawValue))\(post.baths.title) ")
+                HStack {
+                    Text("\(Image(systemName: SFSymbol.buildingFill.rawValue))\(post.propertyType.title)")
+                    
+                    Text("\(Image(systemName: SFSymbol.windowAwningClosed.rawValue))\(post._roomType.title)")
+                    
+                    Text("\(Image(systemName: SFSymbol.bedDoubleFill.rawValue))\(post.beds.title)")
+                    
+                    Text("\(Image(systemName: SFSymbol.showerFill.rawValue))\(post.baths.title)")
                 }
-                .font(ui.fonts.caption1)
+                .font(ui.fonts.footnote)
                 .foregroundStyle(.secondary)
             }
-
             Text(post.title)
-                .lineLimit(2)
                 .font(ui.fonts.subheadline.weight(.medium))
-
-            Group {
-                Text("\(Image(systemName: SFSymbol.mappinCircle.rawValue))\(post.area.title) ")
-                +
-                Text("\(Image(systemName: SFSymbol.tramCircle.rawValue))\(post.mrt) ")
-                +
-                Text("(\(post.mrtDistance) mins)").italic()
+            HStack {
+                Text("\(Image(systemName: SFSymbol.mappin.rawValue))\(post.area.title) ")
+                Text("\(Image(systemName: SFSymbol.tram.rawValue))\(post.mrt) (\(post.mrtDistance) mins)")
             }
-            .font(ui.fonts.caption1)
+            .font(ui.fonts.footnote)
             .foregroundStyle(.secondary)
         }
     }
     private func imageCarousellView () -> some View {
         ZStack {
-            ImageCarousellView(attachments: post.attachments, onTap: { _ in
+            Color.secondary
+            ImageCarousellView(attachments: post.attachments) { _ in
                 DispatchQueue.main.async {
                     router.push(to: SceneItem(.postDetails, data: post))
                 }
-            })
+            }
             VStack {
                 Spacer()
                 HStack(alignment: .bottom) {

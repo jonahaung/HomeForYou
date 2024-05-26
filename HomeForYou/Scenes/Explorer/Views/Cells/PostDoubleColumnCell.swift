@@ -30,39 +30,40 @@ struct PostDoubleColumnCell: View {
     }
 
     private func imageView() -> some View {
-        PostCellImageView(post: post)
-            .aspectRatio(0.8, contentMode: .fill)
-            .overlay {
-                VStack {
-                    HStack(spacing: 1) {
-                        Group {
-                            Text(post.propertyType.title)
-                            if post.category == .rental_room {
-                                Text(post._roomType.title)
-                            }
-                        }
-                        .padding(.horizontal, 4)
-                        .font(ui.fonts.caption1)
-                        .background(Color.secondary)
-                        .foregroundColor(ui.colors.backgroundColor)
-                        Spacer()
-                        if let url = post.author.photoURL {
-                            AvatarView(urlString: url, size: 25)
+        ZStack {
+            Color(uiColor: .placeholderText)
+            PostCellImageView(post: post)
+            VStack {
+                HStack(spacing: 1) {
+                    Group {
+                        Text(post.propertyType.title)
+                        if post.category == .rental_room {
+                            Text(post._roomType.title)
                         }
                     }
+                    .padding(.horizontal, 4)
+                    .font(ui.fonts.caption1)
+                    .background(Color.secondary)
+                    .foregroundColor(ui.colors.backgroundColor)
                     Spacer()
-                    HStack {
-                        Text(post.area.title)
-                            .padding(.horizontal, 4)
-                            .background(Color.secondary)
-                            .font(ui.fonts.caption1.italic())
-                            .foregroundColor(ui.colors.backgroundColor)
-
-                        Spacer()
+                    if let url = post.author.photoURL {
+                        AvatarView(urlString: url, size: 25)
                     }
                 }
-                .padding(3)
-                .routable(to: SceneItem(.postDetails, data: post))
+                Spacer()
+                HStack {
+                    Text(post.area.title)
+                        .padding(.horizontal, 4)
+                        .background(Color.secondary)
+                        .font(ui.fonts.caption1.italic())
+                        .foregroundColor(ui.colors.backgroundColor)
+
+                    Spacer()
+                }
             }
+            .padding(3)
+            .routable(to: SceneItem(.postDetails, data: post))
+        }
+        .aspectRatio(0.8, contentMode: .fill)
     }
 }

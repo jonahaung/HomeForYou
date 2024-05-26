@@ -9,6 +9,7 @@ import XUI
 import Firebase
 import FirebaseFirestore
 import FireAuthManager
+import SecureStorage
 
 struct AppState {
     var utils = Utils()
@@ -20,6 +21,9 @@ struct AppState {
     init() {
         FirebaseApp.configure()
         currentUser = .init()
+        if !SecureStorage.shared.isKeyCreated {
+            SecureStorage.shared.password = Auth.auth().currentUser?.uid ?? ""
+        }
     }
 
     func configure() {
