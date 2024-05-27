@@ -6,40 +6,16 @@
 //
 
 import SwiftUI
-import XUI
-import NukeUI
+import URLImage
 
 struct WaterfallImage: View {
-
     let urlString: String?
-    private let imageLoader = ImageLoader()
-    private let imageCDN = XImageCDN()
-    @State private var result: Result<UIImage, Error>?
-
+    @State private var aspectRatio = CGFloat(1)
     var body: some View {
-        ZStack {
-            if let result {
-                switch result {
-                case .success(let success):
-                    Image(uiImage: success)
-                        .resizable()
-                        .scaledToFit()
-                case .failure(let failure):
-                    Text(failure.localizedDescription)
-                        .font(.footnote)
-                        .italic()
-                        .foregroundColor(.secondary)
-                }
-            } else {
-                Color.clear
-            }
+        URLImage(url: .init(string: urlString.str), imageSize: .medium) { image in
+            aspectRatio = image.size.width / image.size.height
         }
-        .task {
-            guard result == nil else { return }
-            imageLoader
-                .loadImage(url: URL(string: urlString ?? ""), imageCDN: imageCDN, imageSize: .medium) { result in
-                    self.result = result
-                }
-        }
+        .aspectRatio(aspectRatio, contentMode: .fill)
+        .clipShape(RoundedRectangle(cornerRadius: 4))
     }
 }

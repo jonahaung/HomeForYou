@@ -26,7 +26,7 @@ public struct ListRowLabel: View {
         SystemImage(icon, 18)
             .imageScale(.small)
             .aspectRatio(1, contentMode: .fit)
-            .foregroundColor(Color.systemBackground)
+            .foregroundColor(Color(uiColor: .systemBackground))
             .padding(6)
             .background {
                 LinearGradient(

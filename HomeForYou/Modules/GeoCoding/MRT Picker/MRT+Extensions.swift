@@ -13,11 +13,10 @@ extension MRT {
     var coordinate: CLLocationCoordinate2D { .init(latitude: self.latitude, longitude: self.longitude)}
     var location: CLLocation { CLLocation.init(latitude: latitude, longitude: longitude) }
 
-    static func closestMRT(from location: CLLocation) -> LocationInfo.NearestMRT? {
+    static func closestMRT(from location: CLLocation) -> LocationInfo.NearestMRT {
         let mrts = MRT.allValues
         var closestMRT: MRT?
         var smallestDistance: CLLocationDistance?
-
         for mrt in mrts {
             let mrtLocation = mrt.location
             let distance = location.distance(from: mrtLocation)
@@ -30,7 +29,7 @@ extension MRT {
         if let closestMRT, let smallestDistance {
             return .init(mrt: closestMRT.name, distance: smallestDistance.seconds / 60)
         }
-        return nil
+        return .init(mrt: closestMRT?.name ?? "", distance: 0)
     }
 }
 

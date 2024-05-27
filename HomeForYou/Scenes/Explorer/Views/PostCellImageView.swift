@@ -6,8 +6,7 @@
 //
 
 import SwiftUI
-import NukeUI
-import Nuke
+import URLImage
 
 struct PostCellImageView: View {
     let post: Post

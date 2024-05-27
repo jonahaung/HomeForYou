@@ -13,45 +13,47 @@ import FirebaseFirestore
 
 final class NearbyLocationHandler: ViewModel, ObservableObject {
     
-    @Published var currentLocation: CLLocationCoordinate2D?
-    var geoHash: String?
-    @Published var nearbyPosts = [Post]()
-    private var cancelBag = CancelBag()
     var alert: XUI._Alert?
     var loading: Bool = false
+    var geoHash: String?
+    var location: LocationInfo?
+    @Published var nearbyPosts = [Post]()
+    
+    private let locationPublisher = LocationPublisher()
+    private var cancelBag = CancelBag()
     
     init() {
-        $currentLocation
+        locationPublisher.locationPublisher()
             .removeDuplicates()
-            .compactMap{ $0?.geohash(length: 6)}
-            .removeDuplicates()
-            .debounce(for: 0.5, scheduler: RunLoop.main)
-            .sink { [weak self] geoHash in
+            .debounce(for: 0.2, scheduler: RunLoop.main)
+            .sink { [weak self] value in
                 guard let self else { return }
+                await self.setLoading(true)
+                let geoHash = value.coordinate.geohash(length: 6)
+                let posts = await self.getNearbyPosts(for: geoHash, Category.current)
+                let info = try? await GeoCoder.createLocationInfo(from: value)
+                await self.setLoading(false)
                 await MainActor.run {
                     self.geoHash = geoHash
-                }
-                let nearbyPosts = await self.getNearbyPosts(for: geoHash, .current)
-                await MainActor.run {
-                    self.nearbyPosts = nearbyPosts
+                    self.location = info
+                    self.nearbyPosts = posts
                 }
             }
             .store(in: cancelBag)
+        locationPublisher.startUpdatingLocation()
     }
     
+    private
     func getNearbyPosts(for geoHash: String, _ category: Category) async -> [Post]{
-        let query = collectionReference(category).whereField(PostKeys.geoHash.rawValue, isGreaterThanOrEqualTo: geoHash)
+        let query = Firestore.firestore().collection(category.rawValue).whereField(PostKeys.geoHash.rawValue, isGreaterThanOrEqualTo: geoHash)
             .whereField(PostKeys.geoHash.rawValue, isLessThan: geoHash + "\u{f8ff}").order(by: PostKeys.geoHash.rawValue, descending: true)
         return await getPosts(for: query)
     }
     func onUpdateCategory(_ category: Category) async {
-        guard let geoHash else {
+        guard let geoHash = await getGeohash() else {
             return
         }
         self.nearbyPosts = await getNearbyPosts(for: geoHash, category)
-    }
-    private func collectionReference(_ category: Category) -> CollectionReference {
-        Firestore.firestore().collection(category.rawValue)
     }
     private func getPosts(for query: Query) async -> [Post] {
         do {
@@ -61,14 +63,17 @@ final class NearbyLocationHandler: ViewModel, ObservableObject {
             return []
         }
     }
-    @MainActor func getGeoHash() async -> String? {
-        return geoHash
-    }
     func refresh(_ category: Category) async {
-        guard let geoHash = await getGeoHash() else { return }
+        guard let geoHash = await getGeohash() else {
+            return
+        }
         let nearbyPosts = await self.getNearbyPosts(for: geoHash, category)
         await MainActor.run {
             self.nearbyPosts = nearbyPosts
         }
+    }
+    @MainActor
+    private func getGeohash() -> String? {
+        geoHash
     }
 }

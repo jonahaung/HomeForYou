@@ -33,25 +33,29 @@ struct HomeNearbyPostsScetion: View {
             }
             .transition(.opacity.animation(.bouncy))
             .frame(height: 170.scaled)
+            .showLoading(nearbyLocationHandler.loading)
+            .alertPresenter($nearbyLocationHandler.alert)
         } header: {
-            if let geoHash = nearbyLocationHandler.geoHash {
+            if let location = nearbyLocationHandler.location {
                 HomeSectionHeaderView(
                     "Nearby Posts",
                     .locationFill,
-                    [.init(.geoHash, [geoHash])]
+                    [.init(.geoHash, [location.geoInfo.geoHash])]
                 )
             }
         } footer: {
             VStack {
-                if let geoHash = nearbyLocationHandler.geoHash {
-                    Label(geoHash, systemSymbol: .mappinAndEllipse)
+                if let location = nearbyLocationHandler.location {
+                    Label(location.address.text, systemSymbol: .mappinAndEllipse)
                         .font(.system(size: 14.scaled, weight: .semibold).italic())
                 }
-                NearbyLocationMap(items: nearbyLocationHandler.nearbyPosts, currentLocation: $nearbyLocationHandler.currentLocation)
-                    .aspectRatio(1.5, contentMode: .fit)
+//                NearbyLocationMap(items: nearbyLocationHandler.nearbyPosts, currentLocation: $nearbyLocationHandler.currentLocation)
+//                    .aspectRatio(1.5, contentMode: .fit)
             }
         }
-        .appPermissionOverlay(.currentLocation)
+        
+//        .appPermissionOverlay(.currentLocation)
         .padding(2.scaled)
+        
     }
 }

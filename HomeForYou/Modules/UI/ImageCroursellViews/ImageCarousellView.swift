@@ -9,6 +9,7 @@ import SwiftUI
 import NukeUI
 import XUI
 import SwiftyTheme
+import URLImage
 
 public struct ImageCarousellView: View {
     
@@ -28,18 +29,27 @@ public struct ImageCarousellView: View {
                 url: item._url,
                 imageSize: .medium
             )
+            .containerRelativeFrame([.horizontal, .vertical])
+            .scrollTransition(topLeading: .interactive, bottomTrailing: .interactive, transition: { view, phase in
+                view
+                    .scaleEffect(1-(phase.value < 0 ? -phase.value/2 : phase.value/2), anchor: phase.value < 0 ? .trailing : .leading)
+            })
+            .id(item)
         }
         .onTapGesture {
+            _Haptics.play(.soft)
             if let onTap {
                 onTap(selection)
             } else {
                 tappedIndex = selection
             }
         }
-        .fullScreenCover(item: $tappedIndex) { _ in
-            PhotoGalleryView(attachments: attachments, title: "Gallery", selection: $selection)
-                .swiftyThemeStyle()
-        }
-        .equatable(by: attachments)
+        .if(onTap == nil, { view in
+            view
+                .fullScreenCover(item: $tappedIndex) { _ in
+                    PhotoGalleryView(attachments: attachments, title: "Gallery", selection: $selection)
+                        .swiftyThemeStyle()
+                }
+        })
     }
 }

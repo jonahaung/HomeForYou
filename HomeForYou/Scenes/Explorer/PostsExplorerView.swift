@@ -52,45 +52,30 @@ struct PostsExplorerView: View {
     @ViewBuilder private func loadedView(_ posts: LazyList<Post>, _ isLoadingMore: Bool) -> some View {
         ScrollView(.vertical, showsIndicators: true) {
             VStack {
-                switch appearance.gridStyle {
-                case .Large:
-                    headerBar
-                    LazyVGrid(
-                        columns: Array(repeating: GridItem(.flexible()), count: 1),
-                        spacing: 0
-                    ) {
+                headerBar
+                WaterfallVList(columns: appearance.gridStyle == .TwoCol ? 2 : 1, spacing: appearance.gridStyle == .TwoCol ? 3 : 0) {
+                    switch appearance.gridStyle {
+                    case .Large:
                         ForEach(posts) { post in
                             PostSingleColumnLargeCell()
                                 .environmentObject(post)
                         }
-                    }
-                case .List:
-                    LazyVStack(pinnedViews: [.sectionHeaders]) {
-                        Section {
-                            ForEach(posts) { post in
-                                PostSingleColumnSmallCell()
-                                    .environmentObject(post)
-                            }
-                        } header: {
-                            headerBar
+                    case .List:
+                        ForEach(posts) { post in
+                            PostSingleColumnSmallCell()
+                                .environmentObject(post)
                         }
-                    }
-                case .TwoCol:
-                    headerBar
-                    LazyVGrid(
-                        columns: Array(repeating: GridItem(.flexible()), count: 2),
-                        spacing: 0
-                    ) {
+                    case .TwoCol:
                         ForEach(posts) { post in
                             PostDoubleColumnCell()
                                 .environmentObject(post)
                         }
                     }
-                    .safeAreaPadding(4)
                 }
             }
+            .safeAreaPadding(.horizontal, 2)
         }
-        .background(ui.colors.systemGroupedBackground, ignoresSafeAreaEdges: .bottom)
+        .background(ui.colors.systemGroupedBackground)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 SystemImage(.magnifyingglass)

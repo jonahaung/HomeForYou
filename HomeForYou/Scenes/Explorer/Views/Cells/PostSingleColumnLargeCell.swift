@@ -19,7 +19,7 @@ struct PostSingleColumnLargeCell: View {
     @Injected(\.router) private var router
     
     var body: some View {
-        InsetGroupSection(4) {
+        InsetGroupSection(0) {
             VStack(alignment: .leading, spacing: 0) {
                 imageCarousellView()
                 content
@@ -66,7 +66,6 @@ struct PostSingleColumnLargeCell: View {
     }
     private func imageCarousellView () -> some View {
         ZStack {
-            Color.secondary
             ImageCarousellView(attachments: post.attachments) { _ in
                 DispatchQueue.main.async {
                     router.push(to: SceneItem(.postDetails, data: post))
@@ -81,7 +80,6 @@ struct PostSingleColumnLargeCell: View {
                         .tint(.white)
                 }
             }
-            ._flexible(.all)
         }
         .aspectRatio(1.6, contentMode: .fill)
     }

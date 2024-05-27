@@ -14,7 +14,6 @@ struct PostForm_Address: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel = CreateAddressViewModel()
     @Injected(\.ui) private  var ui
-    @Injected(\.locationManager) private var locationManager
     @Environment(PostingFlowRouter.self) private var router
     
     var body: some View {
@@ -87,7 +86,7 @@ struct PostForm_Address: View {
             Section {
                 Group {
                     AsyncButton {
-                        viewModel.startCurrentLocation()
+                        await viewModel.startCurrentLocation()
                     } label: {
                         Text("\(Image(systemSymbol: .mappinAndEllipse)) Use current location as address")
                             ._borderedProminentLightButtonStyle()
@@ -126,6 +125,8 @@ struct PostForm_Address: View {
                 .disabled(!viewModel.location.isValid)
             }
         }
+        .showLoading(viewModel.loading)
+        .alertPresenter($viewModel.alert)
         .synchronizeLazily($post._location, $viewModel.location)
     }
 }
@@ -137,11 +138,29 @@ private final class CreateAddressViewModel: ViewModel {
     var loading: Bool = false
     var location = LocationInfo.empty
     
-    @MainActor func startCurrentLocation() {
-        @Injected(\.locationManager) var locationManager
-        locationManager.getCurrentLocation { coordinate in
-            
-        }
+    private let locationPublisher = LocationPublisher()
+    private let cancelBag = CancelBag()
+    
+    func startCurrentLocation() async {
+        locationPublisher.stopUpdatingLocation()
+        locationPublisher
+            .locationPublisher()
+            .removeDuplicates()
+            .debounce(for: 0.3, scheduler: RunLoop.main)
+            .sink { [weak self] value in
+                guard let self else { return }
+                do {
+                    await setLoading(true)
+                    let location = try await GeoCoder.createLocationInfo(from: value)
+                    await self.setLoading(false)
+                    await updateLocation(location)
+                } catch {
+                    await updateLocation(.empty)
+                    await self.showAlert(.init(error: error))
+                }
+            }
+            .store(in: cancelBag)
+        locationPublisher.startUpdatingLocation()
     }
     func reset() {
         location = LocationInfo.empty

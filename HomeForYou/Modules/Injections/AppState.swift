@@ -12,11 +12,11 @@ import FireAuthManager
 import SecureStorage
 
 struct AppState {
+    
     var utils = Utils()
     let currentUser: CurrentUser
     var ui = UI()
     var router = Router()
-    var locationManager = LocationManager()
     
     init() {
         FirebaseApp.configure()
@@ -69,15 +69,6 @@ extension InjectedValues {
             store.value.router = newValue
             store.bulkUpdate { state in
                 state.router = newValue
-            }
-        }
-    }
-    var locationManager: LocationManager {
-        get { store.value.locationManager }
-        set {
-            store.value.locationManager = newValue
-            store.bulkUpdate { state in
-                state.locationManager = newValue
             }
         }
     }

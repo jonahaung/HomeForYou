@@ -22,67 +22,66 @@ struct PostForm_Attachmments: View {
     @MainActor
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            VStack(alignment: .leading) {
-                Section {
-                    WaterfallVList(columns: calculateNoOfColumns(), spacing: 3) {
-                        ReorderableForEach($attachments, allowReordering: .constant(true)) { item, isDragged in
-                            ZStack(alignment: .topTrailing) {
-                                if item.type == .photo {
-                                    WaterfallImage(urlString: item.url)
-                                } else if item.type == .video, let url = item._url {
-                                    VideoPlayer(player: AVPlayer(url: url))
-                                        .frame(minHeight: 150)
-                                }
-                                if editing {
-                                    SystemImage(isSelected(for: item) ? .checkmarkCircleFill : .circle)
-                                        .foregroundColor(.white)
-                                }
+            Section {
+                WaterfallVList(columns: calculateNoOfColumns(), spacing: 3) {
+                    ReorderableForEach($attachments, allowReordering: .constant(true)) { item, isDragged in
+                        ZStack(alignment: .topTrailing) {
+                            if item.type == .photo {
+                                WaterfallImage(urlString: item.url)
+                            } else if item.type == .video, let url = item._url {
+                                VideoPlayer(player: AVPlayer(url: url))
+                                    .frame(minHeight: 150)
                             }
-                            .opacity(isDragged ? 0.3 : 1)
-                            .onTapGesture {
-                                if editing {
-                                    toggleSelected(for: item)
-                                } else {
-                                    tapped = item
-                                }
+                            if editing {
+                                SystemImage(isSelected(for: item) ? .checkmarkCircleFill : .circle)
+                                    .foregroundColor(.white)
+                            }
+                        }
+                        .opacity(isDragged ? 0.3 : 1)
+                        .onTapGesture {
+                            if editing {
+                                toggleSelected(for: item)
+                            } else {
+                                tapped = item
                             }
                         }
                     }
-                } header: {
-                    Spacer(minLength: 20)
-                    Text("Add photos, videos or RoomPlan 3D data")
                 }
-                
-                Text("\(Image(systemSymbol: .photoStack)) Select from Photo Library")
-                    ._borderedProminentLightButtonStyle()
-                    ._presentFullScreen {
-                        _PhotoPicker(attachments: $attachments, multipleSelection: true)
-                            .selectionLimit(Constansts.Posting.Number_Of_Max_Attachments_Allowed)
-                            .edgesIgnoringSafeArea(.all)
-                    }
-                    ._hidable(attachments.count >= Constansts.Posting.Number_Of_Max_Attachments_Allowed)
-                
-                Spacer(minLength: 20)
-                
-                HStack {
-                    Text("Capture \(Image(systemSymbol: .rotate3d)) RoomPlan 3D")
-                        ._presentFullScreen {
-                            RoomCaptureWelcomeView()
-                                .ignoresSafeArea()
-                                .statusBarHidden()
-                        }
-                    
-                    if let url = post._roomURL {
-                        ShareLink(item: url) {
-                            SystemImage(.checkmarkCircleFill)
-                                .foregroundColor(.orange)
-                        }
-                        .buttonStyle(.borderless)
-                    }
-                }._borderedProminentLightButtonStyle()
+            } header: {
+                Text("Add photos, videos or RoomPlan 3D data")
             }
-            .padding()
+            Section {
+                Spacer(minLength: 100)
+            } footer: {
+                VStack {
+                    Text("\(Image(systemSymbol: .photoStack)) Select from Photo Library")
+                        ._borderedProminentLightButtonStyle()
+                        ._presentFullScreen {
+                            _PhotoPicker(attachments: $attachments, multipleSelection: true)
+                                .selectionLimit(Constansts.Posting.Number_Of_Max_Attachments_Allowed)
+                                .edgesIgnoringSafeArea(.all)
+                        }
+                        ._hidable(attachments.count >= Constansts.Posting.Number_Of_Max_Attachments_Allowed)
+                    HStack {
+                        Text("Capture \(Image(systemSymbol: .rotate3d)) RoomPlan 3D")
+                            ._presentFullScreen {
+                                RoomCaptureWelcomeView()
+                                    .ignoresSafeArea()
+                                    .statusBarHidden()
+                            }
+                        
+                        if let url = post._roomURL {
+                            ShareLink(item: url) {
+                                SystemImage(.checkmarkCircleFill)
+                                    .foregroundColor(.orange)
+                            }
+                            .buttonStyle(.borderless)
+                        }
+                    }._borderedProminentLightButtonStyle()
+                }
+            }
         }
+        .safeAreaPadding(4)
         .animation(.default, value: editing)
         .animation(.interactiveSpring(), value: selections)
         .scrollContentBackground(.hidden)

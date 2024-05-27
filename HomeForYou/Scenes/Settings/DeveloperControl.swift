@@ -34,19 +34,13 @@ struct DeveloperControl: View {
 
     private func takeAction() async {
         await withThrowingTaskGroup(of: Void.self) { group in
-            for post in posts {
+            for post in lookings {
                 group.addTask {
                     let post = post
-                    var urls = [URL]()
-                    (3...6).forEach { _ in
-                        urls.append(DemoImages.demoPhotosURLs.random()!)
-                    }
-                    post.attachments = urls.map { .init(url: $0.absoluteString, type: .photo)}
-                    post._location.geoInfo.geoHash = post._location.geoInfo.coordinate.geohash(length: 6)
+                    post.description = Lorem.paragraph
                     try await Repo.async_add(post)
                 }
             }
-
         }
     }
 

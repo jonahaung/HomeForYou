@@ -11,7 +11,7 @@ import XUI
 struct HomeView: View {
     
     @State private var datasource = HomeDatasource()
-    private var nearbyLocationHandler = NearbyLocationHandler()
+    @StateObject private var nearbyLocationHandler = NearbyLocationHandler()
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {

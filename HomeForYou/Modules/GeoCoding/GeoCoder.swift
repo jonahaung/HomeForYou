@@ -15,17 +15,17 @@ struct GeoCoder {
         request.naturalLanguageQuery = postalCode
         let response = try await MKLocalSearch(request: request).start()
         let placemarks = response.mapItems.map { $0.placemark }
-        let region = response.boundingRegion
-
-        guard
-            let placemark = placemarks.last,
-            let mrtResult = MRT.closestMRT(from: .init(latitude: placemark.coordinate.latitude, longitude: placemark.coordinate.longitude))
-        else {
+        guard let placemark = placemarks.last else {
             throw XError.unknownError
         }
+        return await createLocationInfo(from: placemark)
+    }
+
+    static func createLocationInfo(from placemark: MKPlacemark) async -> LocationInfo {
+        let mrtResult = MRT.closestMRT(from: .init(latitude: placemark.coordinate.latitude, longitude: placemark.coordinate.longitude))
         let addressText = generateAddress(placemark: placemark)
         let mrt = mrtResult.mrt
-        let location = GeoLocation(latitude: region.center.latitude, longitude: region.center.longitude)
+        let location = GeoLocation(latitude: placemark.coordinate.latitude, longitude: placemark.coordinate.longitude)
         let area: Area = {
             for each in Area.allCases {
                 let text = each.title.trimmed
@@ -37,16 +37,15 @@ struct GeoCoder {
             }
             return .Any
         }()
-
-        let address = LocationInfo.Address(text: addressText, postal: postalCode)
-        let geoHash = location.coordinate.geohash(precision: .twentyFourHundredMeters)
+        let address = LocationInfo.Address(text: addressText, postal: placemark.postalCode ?? "")
+        let geoHash = location.coordinate.geohash(length: 6)
         let geoInfo = LocationInfo.GeoInfo(latitude: location.latitude, longitude: location.longitude, geoHash: geoHash)
         return LocationInfo(area: area, nearestMRT: mrtResult, address: address, geoInfo: geoInfo)
     }
-
+    
     static func createLocationInfo(from location: CLLocation) async throws -> LocationInfo {
         let placemarks = try await CLGeocoder().reverseGeocodeLocation(location)
-        guard !placemarks.isEmpty, let postalCode = placemarks.first?.postalCode else {
+        guard !placemarks.isEmpty, let postalCode = placemarks.last?.postalCode else {
             throw XError.unwrapping
         }
         return try await GeoCoder.createLocationInfo(postalCode)

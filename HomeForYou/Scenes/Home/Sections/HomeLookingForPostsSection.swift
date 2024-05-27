@@ -20,8 +20,7 @@ struct HomeLookingForPostsSection: View {
                         Text(each.title)
                             .bold()
                             .lineLimit(1)
-                        CollapsableText(text: each.description)
-                            .foregroundStyle(.secondary)
+                        ExpandableText(text: each.description)
                         if each != datasource.lookings.last {
                             Divider()
                         }
@@ -37,6 +36,5 @@ struct HomeLookingForPostsSection: View {
         } footer: {
             Spacer(minLength: 40)
         }
-        .equatable(by: datasource.lookings)
     }
 }

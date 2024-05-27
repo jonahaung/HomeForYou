@@ -14,7 +14,6 @@ struct AddressPickerView: View {
     @Binding var addressText: String
     @Environment(\.dismiss) private var dismiss
     @Injected(\.router) private var router
-    @Injected(\.locationManager) private var locationManager
     @State private var isPresentedSearch = true
     var body: some View {
         List(self.viewModel.results) { address in

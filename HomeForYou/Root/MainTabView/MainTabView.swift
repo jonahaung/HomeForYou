@@ -13,7 +13,6 @@ struct MainTabView: View {
     
     @State var router: Router
     @State private var magicButtonViewModel = MagicButtonViewModel()
-    @Injected(\.locationManager) private var locationManager
     @Injected(\.utils) private var utils: Utils
     
     var body: some View {

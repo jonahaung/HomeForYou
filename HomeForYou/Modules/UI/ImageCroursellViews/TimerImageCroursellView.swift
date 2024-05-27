@@ -8,6 +8,7 @@
 import SwiftUI
 import XUI
 import SwiftyTheme
+import URLImage
 
 struct TimerImageCroursellView: View {
     
