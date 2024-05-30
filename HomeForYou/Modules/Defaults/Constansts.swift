@@ -21,5 +21,6 @@ enum Constansts {
     
     enum Defaults: String {
         case currentUserRegion
+        case currentCategory
     }
 }

@@ -7,27 +7,27 @@
 
 import Foundation
 
-struct KeyWord: Identifiable, Hashable, Codable {
-
+struct KeyWord: Codable, Hashable, Identifiable {
+    
     var id: String { keyValueString }
     let key: PostKeys
     var value: String
-
+    
     var rawValue: String { keyValueString }
-
+    
     init(_ key: PostKeys, _ value: String) {
         self.key = key
         self.value = value
     }
-
-    static func keyWord(for key: PostKeys, to post: Post) -> [KeyWord] {
+    
+    static func keyWord(for key: PostKeys, to post: any Postable) -> [KeyWord] {
         switch key {
         case .category:
             return [.init(key, post.category.rawValue)]
         case .id:
             return [.init(key, post.id)]
         case .autherID:
-            return [.init(key, post.autherID)]
+            return [.init(key, post.author.id)]
         case .phoneNumber:
             return [.init(key, post.phoneNumber)]
         case .price:
@@ -70,18 +70,17 @@ struct KeyWord: Identifiable, Hashable, Codable {
             return []
         }
     }
-
+    
     var keyValueString: String {
         "\(key.rawValue):\(value)"
     }
-
+    
     var localizedString: String {
         "\(value.title) \(key.localized)"
     }
     init?(keyValueString: String) {
         let strings = keyValueString.components(separatedBy: ":")
         guard
-            strings.count == 2,
             let keyString = strings[safe: 0],
             let key = PostKeys(rawValue: keyString),
             let value = strings[safe: 1]
@@ -90,7 +89,7 @@ struct KeyWord: Identifiable, Hashable, Codable {
         }
         self.init(key, value)
     }
-
+    
     static let all: [KeyWord] = {
         var keywords = [KeyWord]()
         let mrts = MRT.allValueStrings.map { KeyWord(.mrt, $0)}

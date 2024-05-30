@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct GeoLocation: Identifiable, Codable, Hashable {
-    var id = UUID().uuidString
+    var id: Double { latitude + longitude }
     let latitude: Double
     let longitude: Double
     var coordinate: CLLocationCoordinate2D {

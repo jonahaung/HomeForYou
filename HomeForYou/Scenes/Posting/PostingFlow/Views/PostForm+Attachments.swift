@@ -11,7 +11,7 @@ import AVKit
 
 struct PostForm_Attachmments: View {
     
-    @EnvironmentObject private var post: Post
+    @Binding var post: MutablePost
     @State private var attachments = [XAttachment]()
     @State private var selections = [XAttachment]()
     @State private var tapped: XAttachment?
@@ -65,7 +65,7 @@ struct PostForm_Attachmments: View {
                     HStack {
                         Text("Capture \(Image(systemSymbol: .rotate3d)) RoomPlan 3D")
                             ._presentFullScreen {
-                                RoomCaptureWelcomeView()
+                                RoomCaptureScanView()
                                     .ignoresSafeArea()
                                     .statusBarHidden()
                             }

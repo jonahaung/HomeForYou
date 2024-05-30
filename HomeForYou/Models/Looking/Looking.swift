@@ -9,10 +9,9 @@ import Foundation
 import FireAuthManager
 
 class Looking: Repoable, ObservableObject {
-
     static let collectionPath = "looking"
     var collectionPath: String { "looking" }
-
+    
     var id = Looking.createID()
     var category: Category
     var authorID = String()
@@ -45,7 +44,7 @@ extension Looking {
         get { propertyType }
         set { propertyType = newValue }
     }
-
+    
     func updateUI() {
         DispatchQueue.safeAsync { [weak self] in
             self?.objectWillChange.send()

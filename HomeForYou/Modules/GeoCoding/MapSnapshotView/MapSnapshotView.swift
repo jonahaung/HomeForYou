@@ -26,13 +26,13 @@ struct MapSnapshotView: View {
                         .resizable()
                         .scaledToFit()
                     LinkButton(.appleMap(lattitude: location.latitude, longitude: location.longitude)) {
-                        SystemImage(.circlebadgeFill)
-                            .foregroundColor(.white)
+                        SystemImage(.mappin, 30)
+                            .foregroundColor(.red)
                             .padding()
                     }
                     .buttonStyle(.plain)
                 } else {
-                    Color.secondary
+                    Color.clear
                     ProgressView()
                         .task {
                             await generateSnapshot(width: geometry.size.width, height: geometry.size.height)
@@ -44,16 +44,15 @@ struct MapSnapshotView: View {
         }
     }
     
+    @MainActor
     private func generateSnapshot(width: CGFloat, height: CGFloat) async {
         let rect = CGRect(origin: .zero, size: .init(width: width, height: height))
         let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: span, longitudeDelta: span))
         let options = MKMapSnapshotter.Options()
-        options.region = region
+        options.camera = .init(lookingAtCenter: region.center, fromDistance: 1000, pitch: 75, heading: 1)
         options.size = CGSize(width: width, height: height)
-        options.showsBuildings = true
-        options.mapType = .standard
-        options.scale = await UIScreen.main.scale
-        options.traitCollection = .init(userInterfaceStyle: .light)
+        options.showsBuildings = true 
+        options.scale = UIScreen.main.scale
         let snapshotter = MKMapSnapshotter(options: options)
         do {
             let snapshot = try await snapshotter.start()

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension Post {
+extension Postable {
     func getPostCaption() -> LocalizedStringKey {
         switch self.category {
         case .rental_room:

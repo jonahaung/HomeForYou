@@ -14,7 +14,7 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Self.CurrentUserInfSection()
+            SettingsCurrentUserSection()
             Section {
                 LanguagePickerView()
             } header: {

@@ -7,68 +7,64 @@
 
 import SwiftUI
 import _SpriteKit_SwiftUI
+import XUI
 
 struct RoomCaptureScanView: View {
-    // MARK: - Properties & State
     private let model = RoomCaptureModel.shared
-
+    @Environment(\.dismiss) private var dismiss
     @State private var isScanning = false
     @State private var isShowingFloorPlan = false
-
-    // MARK: - View Body
+    
     var body: some View {
         ZStack {
-            // The RoomCaptureView
             RoomCaptureRepresentable()
                 .ignoresSafeArea()
-
             VStack {
                 Spacer()
-
-                // The button changes accoring to the state of isScanning
-                Button(isScanning ? "Done" : "View 2D floor plan") {
-                    if isScanning {
-                        stopSession()
-                    } else {
-                        isShowingFloorPlan = true
+                HStack {
+                    Button {
+                        model.stopSession()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            dismiss()
+                        }
+                    } label: {
+                        Text("Cancel")
+                    }
+                    Spacer()
+                    Button {
+                        if isScanning {
+                            stopSession()
+                        } else {
+                            isShowingFloorPlan = true
+                        }
+                    } label: {
+                        Text(isScanning ? "Done" : "View 2D floor plan")
                     }
                 }
                 .padding()
-                .background(Color.accentColor)
-                .foregroundColor(.white)
-                .clipShape(Capsule())
-                .fontWeight(.bold)
-                .padding(.bottom)
+                .padding(.bottom, 50)
             }
         }
         .onAppear {
             startSession()
         }
         .sheet(isPresented: $isShowingFloorPlan) {
-            SpriteView(scene: FloorPlanScene(capturedRoom: model.finalRoom!))
-                .ignoresSafeArea()
+            if let finalRoom = model.finalRoom {
+                SpriteView(scene: FloorPlanScene(capturedRoom: finalRoom))
+                    .ignoresSafeArea()
+            }
         }
     }
-
+    
     private func startSession() {
         isScanning = true
         model.startSession()
-
-        // Prevent the screen from sleeping
         UIApplication.shared.isIdleTimerDisabled = true
     }
-
+    
     private func stopSession() {
         isScanning = false
         model.stopSession()
-
-        // Enable the screen to sleep again
         UIApplication.shared.isIdleTimerDisabled = false
-    }
-}
-
-struct RoomCaptureScanView_Previews: PreviewProvider {
-    static var previews: some View {
-        RoomCaptureScanView()
     }
 }

@@ -61,7 +61,7 @@ extension LocationPublisher {
     }
 }
 extension LocationPublisher {
-    func locationPublisher() -> AnyPublisher<CLLocation, Never> {
+    func publisher() -> AnyPublisher<CLLocation, Never> {
         locationSubject
             .eraseToAnyPublisher()
     }

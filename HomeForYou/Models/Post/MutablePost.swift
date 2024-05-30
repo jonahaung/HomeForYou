@@ -1,18 +1,18 @@
 //
-//  Post.swift
+//  PostingData.swift
 //  HomeForYou
 //
-//  Created by Aung Ko Min on 7/2/23.
+//  Created by Aung Ko Min on 28/5/24.
 //
 
 import Foundation
 import XUI
 
-final class Post: Postable, ObservableObject {
-    
+struct MutablePost: Postable {
     var collectionPath: String { category.rawValue }
     var id: String
     var category: Category
+    var autherID: String
     var author: PersonInfo
     
     var attachments = [XAttachment]()
@@ -50,22 +50,14 @@ final class Post: Postable, ObservableObject {
     var createdAt: Date = .now
     var keywords = [String]()
     var views = [String]()
-    var favourites = [String]() { willSet { updateUI() }}
+    var favourites = [String]()
     
     var additional: [String: String]?
     
     init(category: Category, authorInfo: PersonInfo) {
         self.id = Post.createID()
         self.category = category
+        self.autherID = authorInfo.id
         self.author = authorInfo
-    }
-    
-    static func == (lhs: Post, rhs: Post) -> Bool {
-        lhs.toDictionary() ==  rhs.toDictionary()
-    }
-    private func updateUI() {
-        if Thread.isMainThread {
-            objectWillChange.send()
-        }
     }
 }

@@ -23,12 +23,11 @@ enum XError: Error {
     }
 }
 
-
 struct Repo {
-
+    
     private static let db = Firestore.firestore()
     private static func collection<T: Repoable>(_ item: T) -> CollectionReference { db.collection(item.collectionPath) }
-
+    
     // Add / Merge
     static func add<T: Repoable>(_ item: T, merge: Bool = true, _ completion: ((Error?) -> Void)?) {
         guard !item.id.isEmpty else {
@@ -41,14 +40,14 @@ struct Repo {
             completion?(error)
         }
     }
-
+    
     static func async_add<T: Repoable>(_ item: T, _ merge: Bool = true) async throws {
         guard !item.id.isEmpty else {
             throw XError.unknownError
         }
         try await collection(item).document(item.id).setData(item.toFirestoreData(), merge: merge)
     }
-
+    
     // Fetch
     static func fetch<T: Repoable>(path: String, for id: String, as type: T.Type, _ completion: @escaping ((T?, Error?)) -> Void ) {
         guard !id.isEmpty else {
@@ -61,7 +60,7 @@ struct Repo {
                 return
             }
             do {
-
+                
                 let item = try snap?.data(as: T.self)
                 completion((item, nil))
             } catch {
@@ -69,16 +68,16 @@ struct Repo {
             }
         }
     }
-
+    
     static func async_fetch<T: Repoable>(path: String, for id: String, as type: T.Type) async throws -> T {
         return try await db.collection(path).document(id).getDocument(as: T.self)
     }
-
+    
     static func async_fetch<T: Repoable>(query: Query) async throws -> [T] {
         let snapshot = try await query.getDocuments()
         return snapshot.documents.compactMap { try? $0.data(as: T.self) }
     }
-
+    
     // Update
     static func update<T: Repoable>(path: String, for id: String, in type: T.Type, data: [PostKeys: Any], completion: ((Error?) -> Void)? = nil) {
         var fields = [String: Any]()
@@ -86,9 +85,8 @@ struct Repo {
             fields[key.rawValue] = value
         }
         db.collection(path).document(id).updateData(fields, completion: completion)
-
     }
-
+    
     static func async_update<T: Repoable>(path: String, for id: String, in type: T.Type, data: [PostKeys: Any]) async throws {
         var fields = [String: Any]()
         data.forEach { (key, value) in
@@ -96,7 +94,7 @@ struct Repo {
         }
         try await db.collection(path).document(id).updateData(fields)
     }
-
+    
     // Delege
     static func delete<T: Repoable>(_ item: T, _ completion: ((Error?) -> Void)? = nil) {
         guard !item.id.isEmpty else {
@@ -105,7 +103,7 @@ struct Repo {
         }
         collection(item).document(item.id).delete(completion: completion)
     }
-
+    
     // Observe
     static func listen<T: Repoable>(path: String, for id: String, onData: @escaping (_ item: T?) -> Void) -> ListenerRegistration {
         db.collection(path).document(id).addSnapshotListener { snapshot, error in
@@ -124,11 +122,11 @@ struct Repo {
             .whereField(key, isGreaterThanOrEqualTo: value)
             .whereField(key, isLessThan: value + "\u{f8ff}")
             .limit(to: limit)
-
+        
         let snapshot = try await query.getDocuments()
         return snapshot.documents.compactMap { try? $0.decode(as: T.self) }
     }
-
+    
     static func search<T: Repoable>(category: Category, words: [String], as type: T.Type, limit: Int) async throws -> [T] {
         return []
     }

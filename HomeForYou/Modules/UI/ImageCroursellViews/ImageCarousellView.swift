@@ -6,9 +6,7 @@
 //
 
 import SwiftUI
-import NukeUI
 import XUI
-import SwiftyTheme
 import URLImage
 
 public struct ImageCarousellView: View {

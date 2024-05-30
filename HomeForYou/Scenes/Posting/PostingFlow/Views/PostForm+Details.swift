@@ -10,36 +10,36 @@ import XUI
 
 struct PostForm_Details: View {
     
-    @EnvironmentObject private var post: Post
+    @Binding var postingData: MutablePost
     @Environment(PostingFlowRouter.self) private var router
     @MainActor
     var body: some View {
         Form {
             Section {
                 Group {
-                    XNavPickerBar("Property Type", PropertyType.allCases, $post.propertyType)
-                    XNavPickerBar("Room Type", RoomType.allCases, $post._roomType)
-                        ._hidable(post.category != .rental_room)
-                    XNavPickerBar("Tenant Type", TenantType.allCases, $post._tenantType)
-                        ._hidable(post.category != .rental_room)
-                    XNavPickerBar("Occupant", Occupant.allCases, $post._occupant)
-                        ._hidable(post.category != .rental_room)
+                    XNavPickerBar("Property Type", PropertyType.allCases, $postingData.propertyType)
+                    XNavPickerBar("Room Type", RoomType.allCases, $postingData._roomType)
+                        ._hidable(postingData.category != .rental_room)
+                    XNavPickerBar("Tenant Type", TenantType.allCases, $postingData._tenantType)
+                        ._hidable(postingData.category != .rental_room)
+                    XNavPickerBar("Occupant", Occupant.allCases, $postingData._occupant)
+                        ._hidable(postingData.category != .rental_room)
                 }
                 Group {
-                    XNavPickerBar("Lease Term", LeaseTerm.allCases, $post._leaseTerm)
-                        ._hidable(post.category == .selling)
-                    XNavPickerBar("Furnishing", Furnishing.allCases, $post._furnishing)
-                        ._hidable(post.category == .selling)
-                    XNavPickerBar("Floor Level", FloorLevel.allCases, $post.floorLevel)
-                    XNavPickerBar("Tenure", Tenure.allCases, $post._tenure)
-                        ._hidable(post.category != .selling)
-                    XNavPickerBar("Beds", Bedroom.allCases, $post.beds)
-                    XNavPickerBar("Bathroom", Bathroom.allCases, $post.baths)
+                    XNavPickerBar("Lease Term", LeaseTerm.allCases, $postingData._leaseTerm)
+                        ._hidable(postingData.category == .selling)
+                    XNavPickerBar("Furnishing", Furnishing.allCases, $postingData._furnishing)
+                        ._hidable(postingData.category == .selling)
+                    XNavPickerBar("Floor Level", FloorLevel.allCases, $postingData.floorLevel)
+                    XNavPickerBar("Tenure", Tenure.allCases, $postingData._tenure)
+                        ._hidable(postingData.category != .selling)
+                    XNavPickerBar("Beds", Bedroom.allCases, $postingData.beds)
+                    XNavPickerBar("Bathroom", Bathroom.allCases, $postingData.baths)
                 }
                 Group {
                     DatePicker(
                         "Available Date",
-                        selection: $post.availableDate,
+                        selection: $postingData.availableDate,
                         displayedComponents: [.date]
                     )
                     .datePickerStyle(.automatic)
@@ -50,13 +50,13 @@ struct PostForm_Details: View {
             }
             
             Section("Features") {
-                GridMultiPicker(source: Feature.allCases, selection: $post.features)
+                GridMultiPicker(source: Feature.allCases, selection: $postingData.features)
                     .listRowInsets(.init())
             }
             .listRowBackground(Color.clear)
             
             Section("Restrictions") {
-                GridMultiPicker(source: Restriction.allCases, selection: $post.restrictions)
+                GridMultiPicker(source: Restriction.allCases, selection: $postingData.restrictions)
                     .listRowInsets(.init())
             }
             .listRowBackground(Color.clear)
@@ -78,13 +78,13 @@ struct PostForm_Details: View {
     }
     
     private func isValid() -> Bool {
-        switch post.category {
+        switch postingData.category {
         case .rental_flat:
-            return post.propertyType != .Any && post.leaseTerm != .Any && post.furnishing != .Any && post.floorLevel != .Any && post.beds != .Any && post.baths != .Any
+            return postingData.propertyType != .Any && postingData.leaseTerm != .Any && postingData.furnishing != .Any && postingData.floorLevel != .Any && postingData.beds != .Any && postingData.baths != .Any
         case .rental_room:
-            return post.propertyType != .Any && post.roomType != .Any && post.tenantType != .Any && post.occupant != .Any && post.occupant != .Any && post.leaseTerm != .Any
+            return postingData.propertyType != .Any && postingData.roomType != .Any && postingData.tenantType != .Any && postingData.occupant != .Any && postingData.occupant != .Any && postingData.leaseTerm != .Any
         case .selling:
-            return post.propertyType != .Any && post.tenure != .Any && post.floorLevel != .Any && post.baths != .Any && post.beds != .Any && post.tenure != .Any
+            return postingData.propertyType != .Any && postingData.tenure != .Any && postingData.floorLevel != .Any && postingData.baths != .Any && postingData.beds != .Any && postingData.tenure != .Any
         }
     }
 }

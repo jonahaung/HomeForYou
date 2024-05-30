@@ -8,30 +8,36 @@
 import SwiftUI
 import XUI
 import SwiftyTheme
+import FireAuthManager
+import FirebaseAuth
 
 struct PostingFlowView: View {
     
-    let post: Post
+    private let post: Post
+    @State private var postingData: MutablePost
     @State private var router = PostingFlowRouter()
     @Environment(\.dismiss) private var dismiss
     
+    init(post: Post) {
+        self.post = post
+        self.postingData = post.clone()
+    }
     var body: some View {
         NavigationStack(path: $router.path) {
-            PostForm_Address()
+            PostForm_Address($postingData._location)
                 .navigationDestination(for: PostingFlow.self) { flow in
                     switch flow {
                     case .attachments:
-                        PostForm_Attachmments()
+                        PostForm_Attachmments(post: $postingData)
                     case .details:
-                        PostForm_Details()
+                        PostForm_Details(postingData: $postingData)
                     case .description:
-                        PostForm_Description(dismiss: dismiss)
+                        PostForm_Description(dismiss: dismiss, postingData: $postingData)
                     }
                 }
         }
         .swiftyThemeStyle()
         .environment(router)
-        .environmentObject(post)
         .statusBarHidden(true)
     }
 }

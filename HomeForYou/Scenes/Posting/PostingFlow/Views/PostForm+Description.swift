@@ -12,7 +12,7 @@ import FireAuthManager
 struct PostForm_Description: View {
     
     var dismiss: DismissAction
-    @EnvironmentObject private var post: Post
+    @Binding var postingData: MutablePost
     @Injected(\.currentUser) private var currentUser
     @Environment(PostingFlowRouter.self) private var router
     
@@ -20,26 +20,26 @@ struct PostForm_Description: View {
     var body: some View {
         List {
             Section {
-                _VFormRow(title: "Title", isEmpty: post.title.isEmpty) {
-                    TextField("Please input the title", text: $post.title, axis: .vertical)
+                _VFormRow(title: "Title", isEmpty: postingData.title.isEmpty) {
+                    TextField("Please input the title", text: $postingData.title, axis: .vertical)
                         .textInputAutocapitalization(.words)
                         .disableAutocorrection(true)
                 }
 
-                _NumberTextField(value: $post.price, title: "Price", delima: "$")
+                _NumberTextField(value: $postingData.price, title: "Price", delima: "$")
             } header: {
-                Text(post.getPostCaption())
+                Text(postingData.getPostCaption())
                     .textCase(nil)
             }
 
             Section("Description") {
-                TextField("Add a short description..", text: $post.description, axis: .vertical)
+                TextField("Add a short description..", text: $postingData.description, axis: .vertical)
                     .lineLimit(5...)
             }
 
             Section {
-                _VFormRow(title: "Phone", isEmpty: post.phoneNumber.isWhitespace) {
-                    TextField("Please input your phone number", text: $post.phoneNumber)
+                _VFormRow(title: "Phone", isEmpty: postingData.phoneNumber.isWhitespace) {
+                    TextField("Please input your phone number", text: $postingData.phoneNumber)
                         .textContentType(.telephoneNumber)
                         .keyboardType(.phonePad)
                 }
@@ -50,7 +50,7 @@ struct PostForm_Description: View {
         .safeAreaInset(edge: .bottom) {
             AsyncButton(actionOptions: [.showProgressView]) {
                 guard let user = currentUser.model else { return }
-                try await PostUploader.post(post, author: user.personInfo)
+                try await PostUploader.post(&postingData, author: user.personInfo)
             } label: {
                 Text("Submit")
                     ._borderedProminentButtonStyle()
@@ -71,9 +71,9 @@ struct PostForm_Description: View {
             }
             ToolbarItemGroup(placement: .bottomBar) {
                 Button("Auto Fill") {
-                    post.title = Lorem.shortTweet
-                    post.description = Lorem.paragraphs(3)
-                    post.propertyType = PropertyType.allCases.random()!
+                    postingData.title = Lorem.shortTweet
+                    postingData.description = Lorem.paragraphs(3)
+                    postingData.propertyType = PropertyType.allCases.random()!
                 }
             }
         }
@@ -85,9 +85,9 @@ struct PostForm_Description: View {
     }
 
     private func isValid() -> Bool {
-        !post.title.isWhitespace &&
-        !post.description.isWhitespace &&
-        !post.phoneNumber.isWhitespace &&
-        post.price > 0
+        !postingData.title.isWhitespace &&
+        !postingData.description.isWhitespace &&
+        !postingData.phoneNumber.isWhitespace &&
+        postingData.price > 0
     }
 }

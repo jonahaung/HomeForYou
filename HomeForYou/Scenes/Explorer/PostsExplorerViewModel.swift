@@ -45,7 +45,7 @@ class PostsExplorerViewModel: ObservableObject {
     
     private func fetch(filters: [PostFilter]) {
         canLoadMore = false
-        let postFilter = PostFilters(filters, category: .current)
+        let postFilter = PostFiltersGroup(filters, category: .current)
         datasource.performFetch(query: postFilter.createQuery())
     }
     
@@ -64,7 +64,7 @@ class PostsExplorerViewModel: ObservableObject {
         canLoadMore = false
         print("loading more")
         posts = .loaded(value: value, isLoadingMore: true)
-        let postFilter = PostFilters.init(filters, category: .current)
+        let postFilter = PostFiltersGroup.init(filters, category: .current)
         datasource.fetchMoreIfNeeced(query: postFilter.createQuery())
     }
 }

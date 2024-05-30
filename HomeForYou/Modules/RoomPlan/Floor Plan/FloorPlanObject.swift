@@ -11,9 +11,7 @@ import RoomPlan
 class FloorPlanObject: SKNode {
 
     private let capturedObject: CapturedRoom.Object
-
-    // MARK: - Init
-
+    
     init(capturedObject: CapturedRoom.Object) {
         self.capturedObject = capturedObject
 
@@ -33,8 +31,6 @@ class FloorPlanObject: SKNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    // MARK: - Draw
 
     private func drawObject() {
         // Calculate the object's dimensions

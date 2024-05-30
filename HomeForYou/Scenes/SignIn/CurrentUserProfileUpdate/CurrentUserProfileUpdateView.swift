@@ -187,7 +187,6 @@ public struct CurrentUserProfileUpdateView: View {
                 AsyncButton {
                     viewModel.pickedImage = nil
                     try await currentUser.reload()
-                    notificationCenter.post(title: "Success", subtitle: "Profile Update", body: "Your profile has updated successfully")
                 } label: {
                     Text("Reset")
                 }
@@ -197,6 +196,7 @@ public struct CurrentUserProfileUpdateView: View {
                 AsyncButton {
                     await viewModel.updateProfile(to: currentUser)
                     try await currentUser.reload()
+                    notificationCenter.post(title: "Success", subtitle: "Profile Update", body: "Your profile has updated successfully")
                 } label: {
                     Text("Apply Update")
                 }

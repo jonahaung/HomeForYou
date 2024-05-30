@@ -24,5 +24,4 @@ extension CGPoint {
 
         return CGPoint(x: newX, y: newY)
     }
-
 }

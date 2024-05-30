@@ -12,11 +12,11 @@ import PhoneNumberKit
 
 struct PostUploader {
 
-    static func post(_ post: Post, author: PersonInfo) async throws {
+    static func post(_ post: inout MutablePost, author: PersonInfo) async throws {
         guard !post.attachments.isEmpty else {
             throw XError.attachments_isEmpty
         }
-        try sinitize(post, author)
+        try sinitize(&post, author)
         post.attachments = try await upload(attachments: post.attachments, postID: post.id, category: post.category)
         try await Repo.async_add(post, false)
     }
@@ -44,7 +44,7 @@ struct PostUploader {
         }
     }
 
-    static func sinitize(_ post: Post, _ author: PersonInfo) throws {
+    static func sinitize(_ post: inout MutablePost, _ author: PersonInfo) throws {
         var keyWords = PostKeys.allCases.map { KeyWord.keyWord(for: $0, to: post)}.flatMap {$0}
         keyWords = keyWords
             .compactMap { $0 }

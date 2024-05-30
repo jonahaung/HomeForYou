@@ -43,7 +43,7 @@ struct PostDetailsView: View {
         .task(id: post, priority: .background) {
             await updateHasSeenIfNeeded(post)
         }
-        .magicButton(.init(post.autherID == currentUser.uid ? .pencilCircleFill : .arrowshapeTurnUpLeftCircle, .bottomTrailing) {
+        .magicButton(.init(post.author.id == currentUser.uid ? .pencilCircleFill : .arrowshapeTurnUpLeftCircle, .bottomTrailing) {
             await router.presentFullScreen(SceneItem(.createPost, data: post))
         })
     }

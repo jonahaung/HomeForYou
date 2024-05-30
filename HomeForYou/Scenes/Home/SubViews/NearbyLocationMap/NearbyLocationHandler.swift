@@ -23,7 +23,7 @@ final class NearbyLocationHandler: ViewModel, ObservableObject {
     private var cancelBag = CancelBag()
     
     init() {
-        locationPublisher.locationPublisher()
+        locationPublisher.publisher()
             .removeDuplicates()
             .debounce(for: 0.2, scheduler: RunLoop.main)
             .sink { [weak self] value in

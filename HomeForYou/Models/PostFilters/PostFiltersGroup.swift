@@ -1,4 +1,4 @@
-//
+ //
 //  PostFilters.swift
 //  HomeForYou
 //
@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct PostFilters: Hashable, Codable {
+struct PostFiltersGroup: Hashable, Codable {
 
     var category = Category.current
     var propertyType = PropertyType.Any
@@ -170,19 +170,9 @@ struct PostFilters: Hashable, Codable {
         return filters.uniqued().sorted()
     }
     var isEmpty: Bool { self == .init([], category: .current) }
+    
+    
     mutating func clear() {
         self = .init([], category: self.category)
     }
-}
-
-struct PostSort: Hashable, Codable {
-
-    enum SortKey: String, Codable {
-        case createdAt, price, none
-    }
-
-    var key: SortKey
-    var isDecending: Bool
-
-    var isEmpty: Bool { key == .none }
 }

@@ -10,14 +10,9 @@ import SpriteKit
 
 class FloorPlanScene: SKScene {
 
-    // MARK: - Properties
-
     // Surfaces and objects from our scan result
     private let surfaces: [CapturedRoom.Surface]
     private let objects: [CapturedRoom.Object]
-
-    // MARK: - Init
-
     init(capturedRoom: CapturedRoom) {
         self.surfaces = capturedRoom.doors + capturedRoom.openings + capturedRoom.walls + capturedRoom.windows
         self.objects = capturedRoom.objects
@@ -48,8 +43,6 @@ class FloorPlanScene: SKScene {
         view.addGestureRecognizer(pinchGestureRecognizer)
     }
 
-    // MARK: - Draw
-
     private func drawSurfaces() {
         for surface in surfaces {
             let surfaceNode = FloorPlanSurface(capturedSurface: surface)
@@ -63,8 +56,6 @@ class FloorPlanScene: SKScene {
             addChild(objectNode)
         }
     }
-
-    // MARK: - Camera
 
     private func addCamera() {
         let cameraNode = SKCameraNode()

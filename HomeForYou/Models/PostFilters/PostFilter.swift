@@ -9,7 +9,6 @@ import Foundation
 
 struct PostFilter: Hashable, Identifiable, Codable {
     var id: String { postKey.rawValue }
-
     let postKey: PostKeys
     let values: [String]
     
@@ -35,7 +34,6 @@ extension PostFilter: Comparable {
     }
 }
 extension URLQueryItem {
-    
     init(postFilter: PostFilter) {
         self.init(name: postFilter.postKey.rawValue, value: postFilter.values.joined(separator: ","))
     }

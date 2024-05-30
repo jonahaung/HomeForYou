@@ -90,7 +90,7 @@ struct QueryBuilder {
 //        }
     }
 
-    static func createQuery(from postFilters: PostFilters) -> Query {
+    static func createQuery(from postFilters: PostFiltersGroup) -> Query {
         if postFilters.isPriceRange {
             let priceRange = postFilters.priceRange
             let key = PostKeys.price.rawValue

@@ -299,7 +299,7 @@ struct PostDetailsSections {
                     ._presentSheet {
                         Text("Sparm")
                     }
-                if post.autherID == currentUser.uid {
+                if post.author.id == currentUser.uid {
                     Text("Edit Post")
                         .presentable(.init(.createPost, data: post), .fullScreenCover)
                     Text("Delete Post Permanently")

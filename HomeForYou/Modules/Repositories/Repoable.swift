@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Repoable: Codable, Identifiable, Hashable {
+protocol Repoable: Codable, Identifiable, Hashable, Equatable {
     var id: String { get }
     var collectionPath: String { get }
 }

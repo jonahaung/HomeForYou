@@ -12,8 +12,6 @@ class FloorPlanSurface: SKNode {
 
     private let capturedSurface: CapturedRoom.Surface
 
-    // MARK: - Computed properties
-
     private var halfLength: CGFloat {
         return CGFloat(capturedSurface.dimensions.x) * scalingFactor / 2
     }
@@ -29,8 +27,6 @@ class FloorPlanSurface: SKNode {
     private var pointC: CGPoint {
         return pointB.rotateAround(point: pointA, by: 0.25 * .pi)
     }
-
-    // MARK: - Init
 
     init(capturedSurface: CapturedRoom.Surface) {
         self.capturedSurface = capturedSurface
@@ -65,8 +61,6 @@ class FloorPlanSurface: SKNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    // MARK: - Draw
 
     private func drawDoor() {
         let hideWallPath = createPath(from: pointA, to: pointB)
@@ -143,8 +137,6 @@ class FloorPlanSurface: SKNode {
         addChild(hideWallShape)
         addChild(windowShape)
     }
-
-    // MARK: - Helper functions
 
     private func createPath(from pointA: CGPoint, to pointB: CGPoint) -> CGMutablePath {
         let path = CGMutablePath()

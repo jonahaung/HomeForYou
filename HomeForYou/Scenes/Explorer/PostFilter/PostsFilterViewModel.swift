@@ -9,5 +9,5 @@ import SwiftUI
 
 final class PostsFilterViewModel: ObservableObject {
 
-    @Published var filters: PostFilters = .init([], category: .current)
+    @Published var filters: PostFiltersGroup = .init([], category: .current)
 }

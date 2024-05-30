@@ -11,7 +11,6 @@ import SFSafeSymbols
 
 enum PostKeys: String, Codable, CaseIterable, Identifiable {
     var id: String { rawValue }
-
     case category
     case id
     case autherID
@@ -54,7 +53,7 @@ enum PostKeys: String, Codable, CaseIterable, Identifiable {
     var localized: String {
         switch self {
         case .category:
-            return "Category"
+            return rawValue.capitalized
         case .id:
             return "ID"
         case .autherID:
@@ -96,9 +95,9 @@ enum PostKeys: String, Codable, CaseIterable, Identifiable {
         case .availableDate:
             return "Onwards"
         case .features:
-            return "(dos)"
+            return "(features)"
         case .restrictions:
-            return "(don't)"
+            return "(restrictions)"
         case .views:
             return "Views"
         case .favourites:
@@ -133,39 +132,39 @@ enum PostKeys: String, Codable, CaseIterable, Identifiable {
         case .occupant:
             return .person3SequenceFill
         case .area:
-            return .locationFill
+            return .locationFillViewfinder
         case .mrt:
-            return .tramFill
+            return .tram
         case .mrtDistance:
-            return .mappin
+            return .ruler
         case .address:
-            return .at
+            return .houseCircle
         case .postal:
-            return .envelopeFill
+            return .envelopeCircleFill
         case .location:
-            return .locationCircleFill
+            return .mappinAndEllipse
         case .locationInfo:
-            return .locationFill
+            return .mappinAndEllipse
         case .propertyType:
-            return .building2CropCircleFill
+            return .building
         case .roomType:
-            return .windowShadeOpen
+            return .doorFrenchOpen
         case .furnishing:
-            return .sofaFill
+            return .sofa
         case .beds:
-            return .bedDoubleCircleFill
+            return .bedDoubleFill
         case .baths:
             return .showerFill
         case .floorLevel:
-            return .stairs
+            return .figureStairs
         case .tenantType:
-            return .plusminusCircleFill
+            return .person2
         case .leaseTerm:
-            return .calendar
+            return .handRaisedFingersSpreadFill
         case .tenure:
             return .calendarBadgeClock
         case .availableDate:
-            return .clockFill
+            return .calendarCircleFill
         case .features:
             return .checkmarkCircleFill
         case .restrictions:
@@ -183,7 +182,7 @@ enum PostKeys: String, Codable, CaseIterable, Identifiable {
         case .additional:
             return ._00Circle
         case .geoHash:
-            return .mappinSlashCircleFill
+            return .atBadgeMinus
         }
     }
 }

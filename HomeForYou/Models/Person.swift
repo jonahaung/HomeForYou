@@ -10,7 +10,7 @@ import FirebaseAuth
 import XUI
 
 struct Person: Repoable, Equatable {
-
+    
     var collectionPath: String { Self.collectionID }
     static var collectionID: String { FirebaseProvider.Collection.persons }
 

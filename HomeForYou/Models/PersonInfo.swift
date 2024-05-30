@@ -8,25 +8,24 @@
 import Foundation
 import FirebaseAuth
 
-struct PersonInfo: Codable, Sendable {
-    
+struct PersonInfo: Codable, Sendable, Equatable {
     let id: String
     let name: String?
     let email: String?
     let photoURL: String?
 
+    init(id: String, name: String?, email: String?, photoURL: String?) {
+        self.id = id
+        self.name = name
+        self.email = email
+        self.photoURL = photoURL
+    }
     init(model: Person) {
-        self.id = model.id
-        self.name = model.name
-        self.email = model.email
-        self.photoURL = model.photoURL
+        self.init(id: model.id, name: model.name, email: model.email, photoURL: model.photoURL)
     }
 
     init(user: User) {
-        self.id = user.uid
-        self.name = user.displayName
-        self.email = user.phoneNumber
-        self.photoURL = user.photoURL?.absoluteString
+        self.init(id: user.uid, name: user.displayName, email: user.email, photoURL: user.photoURL?.absoluteString)
     }
 }
 

@@ -12,7 +12,7 @@ let scalingFactor: CGFloat = 200
 
 // Colors
 let floorPlanBackgroundColor = UIColor.systemBackground
-let floorPlanSurfaceColor = UIColor.tintColor
+let floorPlanSurfaceColor = UIColor.label
 
 // Line widths
 let surfaceWith: CGFloat = 22.0
