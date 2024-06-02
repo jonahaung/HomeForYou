@@ -38,7 +38,7 @@ struct DeveloperControl: View {
                 group.addTask {
                     let post = post
                     post.description = Lorem.paragraph
-                    try await Repo.async_add(post)
+                    try await Repo.shared.async_add(post)
                 }
             }
         }
@@ -46,15 +46,15 @@ struct DeveloperControl: View {
 
     private func fetch() async {
         do {
-            posts = try await Repo.async_fetch(
+            posts = try await Repo.shared.async_fetch(
                 query: Firestore.firestore().collection(Category.rental_room.rawValue)
             )
-            posts += try await Repo.async_fetch(
+            posts += try await Repo.shared.async_fetch(
                 query: Firestore.firestore().collection(Category.rental_room.rawValue)
             )
-            posts += try await Repo.async_fetch(
+            posts += try await Repo.shared.async_fetch(
                 query: Firestore.firestore().collection(Category.selling.rawValue))
-            lookings = try await Repo.async_fetch(query: Firestore.firestore().collection(Looking.collectionPath)
+            lookings = try await Repo.shared.async_fetch(query: Firestore.firestore().collection(Looking.collectionPath)
             )
         } catch {
             print(error)

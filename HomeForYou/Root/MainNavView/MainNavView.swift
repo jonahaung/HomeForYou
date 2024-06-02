@@ -25,7 +25,6 @@ struct MainNavView<Content: View>: View {
                         .toolbar(.hidden, for: .tabBar)
                 }
                 .environment(router)
-                .toolbar(.visible, for: .tabBar)
         }
     }
 }

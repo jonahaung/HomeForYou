@@ -10,7 +10,7 @@ import Combine
 
 final class AddressAutoComplete: NSObject, ObservableObject {
 
-    @Published private(set) var results: [Address] = []
+    @Published var results: [Address] = []
     @Published var searchableText = ""
 
     private lazy var localSearchCompleter: MKLocalSearchCompleter = { [weak self] in

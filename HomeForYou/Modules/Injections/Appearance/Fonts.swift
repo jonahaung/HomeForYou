@@ -46,7 +46,7 @@ internal struct Fonts: Equatable {
             caption2 = .custom(fontName, size: UIFont.preferredFont(forTextStyle: .caption2).pointSize)
             title = .custom(fontName, size: UIFont.preferredFont(forTextStyle: .title1).pointSize)
             title2 = .custom(fontName, size: UIFont.preferredFont(forTextStyle: .title2).pointSize)
-            largeTitle = .custom(fontName, size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)
+            largeTitle = .custom(MyanmarFont.nwayOo.rawValue, size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)
 
             UILabel.appearance().substituteFontName = fontName
             UITextField.appearance().substituteFontName = fontName

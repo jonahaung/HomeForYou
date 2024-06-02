@@ -30,7 +30,7 @@ struct FavouriteButton: View {
                 favourites.append(currentUser.uid)
             }
             post.favourites = favourites
-            try await Repo.async_add(post)
+            try await Repo.shared.async_add(post)
         } label: {
             SystemImage(.handThumbsup, 25)
                 .phaseAnimation([.idle, .scale(1.5)], isFavourite)

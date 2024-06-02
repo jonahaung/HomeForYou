@@ -11,23 +11,49 @@ import XUI
 
 @Observable
 final class HomeDatasource: ViewModel {
+    
     var featurePosts = [Post]()
     var latestPosts = [Post]()
     var budgetPosts = [Post]()
     var lookings = [Looking]()
     var alert: XUI._Alert?
     var loading: Bool = false
+    
+    private let repo = Repo()
 }
 extension HomeDatasource {
     
-    func performFetch(category: Category) async {
+    func performFetch(_ category: Category, delay: Bool = false) async {
         await setLoading(true)
-        featurePosts = await getFeaturePosts(category)
-        latestPosts = await getLatestPosts(category)
-        budgetPosts = await getBudgetPosts(category)
-        lookings = await getLookingForPosts(category)
-        await setLoading(false)
+        if delay {
+            try? await Task.sleep(seconds: 1)
+        }
+        let featurePosts = await getFeaturePosts(category)
+        await MainActor.run {
+            self.featurePosts = featurePosts
+        }
+        let latestPosts = await getLatestPosts(category)
+        await MainActor.run {
+            self.latestPosts = latestPosts
+        }
+        let budgetPosts = await getBudgetPosts(category)
+        await MainActor.run {
+            self.budgetPosts = budgetPosts
+        }
+        let lookings = await getLookingForPosts(category)
+        await MainActor.run {
+            self.lookings = lookings
+            setLoading(false)
+        }
     }
+    func refresh() {
+        Task {
+            await performFetch(.current, delay: true)
+        }
+    }
+}
+
+extension HomeDatasource {
     private func getFeaturePosts(_ category: Category) async -> [Post] {
         let query = collectionReference(category).limit(to: 7)
         return await getPosts(for: query)
@@ -50,7 +76,7 @@ extension HomeDatasource {
     }
     private func getPosts<Item: Repoable>(for query: Query) async -> [Item] {
         do {
-            return try await Repo.async_fetch(query: query)
+            return try await repo.async_fetch(query: query)
         } catch {
             await showAlert(.init(error: error))
             return []

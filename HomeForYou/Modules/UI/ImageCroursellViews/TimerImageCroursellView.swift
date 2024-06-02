@@ -22,7 +22,7 @@ struct TimerImageCroursellView: View {
     var body: some View {
         VStack {
             GeometryReader { geometry in
-                ScrollViewWithOffsetTracker(.horizontal, showsIndicators: false) { offset in
+                ScrollViewWithOffsetTracker(.horizontal, showsIndicators: false, namespace: Self.typeName) { offset in
                     let factor = CGFloat(attachments.count)
                     let totalWidth = geometry.size.width * factor
                     let floatValue = abs(offset.x) * factor/totalWidth

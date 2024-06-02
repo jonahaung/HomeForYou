@@ -29,13 +29,13 @@ struct HomeSectionHeaderView: View {
         HStack {
             Text(title)
             SystemImage(symbol)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.accentColor)
             Spacer()
             SystemImage(.ellipsis)
                 .foregroundStyle(.selection)
                 .routable(to: sceneItem)
         }
-        .font(.title2.bold())
+        .font(.title3.weight(.medium))
         .padding(.horizontal, 8)
         .padding(.top)
     }

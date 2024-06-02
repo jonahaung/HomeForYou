@@ -93,9 +93,9 @@ struct KeyWord: Codable, Hashable, Identifiable {
     static let all: [KeyWord] = {
         var keywords = [KeyWord]()
         let mrts = MRT.allValueStrings.map { KeyWord(.mrt, $0)}
-        let areas = Area.allCases.map { KeyWord(.area, $0.rawValue)}
-        let features = Feature.allCases.map { KeyWord(.favourites, $0.rawValue)}
-        let restrictions = Restriction.allCases.map { KeyWord(.restrictions, $0.rawValue)}
+        let areas = Area.allCases.map { KeyWord(.area, $0.rawValue) }
+        let features = Feature.allCases.map { KeyWord(.favourites, $0.rawValue) }
+        let restrictions = Restriction.allCases.map { KeyWord(.restrictions, $0.rawValue) }
         keywords = mrts + areas + features + restrictions
         return keywords.uniqued()
     }()

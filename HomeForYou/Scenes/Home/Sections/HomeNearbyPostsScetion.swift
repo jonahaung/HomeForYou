@@ -55,7 +55,5 @@ struct HomeNearbyPostsScetion: View {
         }
         
 //        .appPermissionOverlay(.currentLocation)
-        .padding(2.scaled)
-        
     }
 }

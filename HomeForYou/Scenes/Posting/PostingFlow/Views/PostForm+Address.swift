@@ -35,10 +35,9 @@ struct PostForm_Address: View {
                         .keyboardType(.numberPad)
                         .textContentType(.postalCode)
                         .focused($focused, equals: .postalCode)
-                    
                     AsyncButton {
-                        focused = nil
                         await self.viewModel.handlePostalCode(postalCode: viewModel.location.address.postal)
+                        focused = nil
                     } label: {
                         SystemImage(.magnifyingglass)
                             .imageScale(.large)
@@ -58,8 +57,8 @@ struct PostForm_Address: View {
                         .textContentType(.fullStreetAddress)
                         .focused($focused, equals: .addressText)
                     AsyncButton {
-                        focused = nil
                         await self.viewModel.handleAderessText(text: viewModel.location.address.text)
+                        focused = nil
                     } label: {
                         SystemImage(.magnifyingglass)
                             .imageScale(.large)
@@ -77,43 +76,39 @@ struct PostForm_Address: View {
                     }
                     Text("\(viewModel.location.nearestMRT.distance)min walk from \(viewModel.location.nearestMRT.mrt) MRT")
                         .italic()
-                    
-                    let location = viewModel.location.geoInfo.location
-                    Grid(alignment: .center) {
-                        GridRow {
-                            Text(location.coordinate.longitude.description)
-                            Text(location.coordinate.latitude.description)
+                    MapSnapshotView(location: viewModel.location.geoInfo.coordinate)
+                        .frame(height: 250)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        ._onAppear(after: 0.5) {
+                            focused = nil
                         }
-                    }
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    
-                    MapSnapshotView(
-                        location: GeoLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                    )
-                    .frame(height: 250)
-                    .listRowInsets(EdgeInsets())
-                    .listRowBackground(Color.clear)
                 }
             } footer: {
-                Text("Enter the full address and press the search icon")
+                if viewModel.location.isValid {
+                    Text("\(viewModel.location.geoInfo.coordinate.latitude), \(viewModel.location.geoInfo.coordinate.longitude)")
+                } else {
+                    Text("Enter the full address and press the search icon")
+                }
             }
             Section {
-                Group {
-                    AsyncButton {
-                        await viewModel.startCurrentLocation()
-                    } label: {
-                        Text("\(Image(systemSymbol: .mappinAndEllipse)) Use current location as address")
-                            ._borderedProminentLightButtonStyle()
-                    }
-                    Text("\(Image(systemSymbol: .magnifyingglass)) Search the Address")
-                        ._borderedProminentLightButtonStyle()
-                        ._presentSheet {
-                            AddressPickerView(addressText: $viewModel.location.address.text)
+                if viewModel.location.isEmpty {
+                    Group {
+                        AsyncButton {
+                            await viewModel.startCurrentLocation()
+                        } label: {
+                            Text("\(Image(systemSymbol: .mappinAndEllipse)) Use current location as address")
+                                ._borderedProminentLightButtonStyle()
                         }
+                        Text("\(Image(systemSymbol: .magnifyingglass)) Search the Address")
+                            ._borderedProminentLightButtonStyle()
+                            ._presentSheet {
+                                AddressPickerView(addressText: $viewModel.location.address.text)
+                            }
+                    }
+                    .listRowBackground(EmptyView())
+                    .listRowSeparator(.hidden)
                 }
-                .listRowBackground(EmptyView())
-                .listRowSeparator(.hidden)
             }
         }
         .animation(.interactiveSpring, value: viewModel.location)
@@ -128,6 +123,7 @@ struct PostForm_Address: View {
             ToolbarItemGroup(placement: .bottomBar) {
                 _ConfirmButton("Reset the address") {
                     viewModel.reset()
+                    focused = .postalCode
                 } label: {
                     Text("Reset")
                 }
@@ -144,7 +140,11 @@ struct PostForm_Address: View {
         }
         .onAppear {
             if viewModel.location.isEmpty {
-                focused = .postalCode
+                if location.isEmpty {
+                    focused = .postalCode
+                } else {
+                    viewModel.location = location
+                }
             }
         }
     }
@@ -154,12 +154,26 @@ private final class PostingFlowAddressViewModel: ViewModel, ObservableObject {
     
     @Published var alert: XUI._Alert?
     @Published var loading: Bool = false
-    
     @Published var location: LocationInfo = .empty
     
     private let locationPublisher = LocationPublisher()
     private let cancelBag = CancelBag()
     
+    init() {
+        $location
+            .removeDuplicates()
+            .debounce(for: 0.5, scheduler: RunLoop.main)
+            .sink { [weak self] value in
+                guard let self else { return }
+                switch true {
+                case value.address.postal.count == 6 && value.address.text.isWhitespace:
+                    await handlePostalCode(postalCode: value.address.postal)
+                default:
+                    break
+                }
+            }
+            .store(in: cancelBag)
+    }
     func startCurrentLocation() async {
         locationPublisher.stopUpdatingLocation()
         locationPublisher
@@ -180,7 +194,7 @@ private final class PostingFlowAddressViewModel: ViewModel, ObservableObject {
             .store(in: cancelBag)
         locationPublisher.startUpdatingLocation()
     }
-    func reset() {
+    @MainActor func reset() {
         location = LocationInfo.empty
     }
     
@@ -206,7 +220,6 @@ private final class PostingFlowAddressViewModel: ViewModel, ObservableObject {
     }
     @MainActor func updateLocation(_ location: LocationInfo) {
         setLoading(false)
-        self.location = .empty
         self.location = location
     }
 }

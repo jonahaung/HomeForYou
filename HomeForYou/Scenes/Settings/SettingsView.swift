@@ -9,9 +9,9 @@ import SwiftUI
 import XUI
 
 struct SettingsView: View {
-
+    
     @Injected(\.ui) private var ui
-
+    
     var body: some View {
         Form {
             SettingsCurrentUserSection()
@@ -31,7 +31,7 @@ struct SettingsView: View {
                 ListRowLabel(alignment: .leading, .computermouseFill, L10n_.Screen.Settings.Form.developer_controls)
                     .routableNav(to: SceneItem(.developerControl))
             }
-
+            
             Section {
                 Text(L10n_.Screen.Settings.Form.onboarding_tutorials)
                     .presentable(SceneItem(.onboarding), .fullScreenCover)

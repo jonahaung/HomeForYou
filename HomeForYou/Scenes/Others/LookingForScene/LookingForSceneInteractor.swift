@@ -30,7 +30,7 @@ extension LookingForSceneInteractor: LookingForSceneBusinessLogic {
         let query = Firestore.firestore().collection("looking")
         let request = LookingForScene.Request(query: query)
         do {
-            let lookings: [Looking] = try await Repo.async_fetch(query: request.query)
+            let lookings: [Looking] = try await Repo.shared.async_fetch(query: request.query)
             await MainActor.run {
                 presenter?.displayItems(.loaded(value: lookings.lazyList, isLoadingMore: false))
             }

@@ -16,6 +16,5 @@ struct WaterfallImage: View {
             aspectRatio = image.size.width / image.size.height
         }
         .aspectRatio(aspectRatio, contentMode: .fill)
-        .clipShape(RoundedRectangle(cornerRadius: 4))
     }
 }

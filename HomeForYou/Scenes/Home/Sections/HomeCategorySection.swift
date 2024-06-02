@@ -14,11 +14,7 @@ struct HomeCategorySection: View {
             CategoryPicker()
                 .pickerStyle(.segmented)
         } footer: {
-            let text = """
-Firebase In-App Messaging API has not been used in project 39338351827 before or it is disabled. Enable it by visiting com.jonahaung.homeforyou://post?id=5.930499481731119e-13&collectionPath=posts_rental_room
-Firebase In-App Messaging API has not been used in project 39338351827 before or it is disabled. Enable it by visiting com.jonahaung.homeforyou://post?id=5.930499481731119e-13&collectionPath=posts_rental_room
-"""
-            Text(text)
+            Text(Home.Category_Text)
         }
     }
 }

@@ -304,10 +304,9 @@ struct PostDetailsSections {
                         .presentable(.init(.createPost, data: post), .fullScreenCover)
                     Text("Delete Post Permanently")
                         ._comfirmationDialouge {
-                            Button(role: .destructive) {
-                                Repo.delete(post) {_ in
-                                    self.dismiss()
-                                }
+                            AsyncButton {
+                                try await Repo.shared.async_delete(post)
+                                self.dismiss()
                             } label: {
                                 Text("Continue Delete")
                             }

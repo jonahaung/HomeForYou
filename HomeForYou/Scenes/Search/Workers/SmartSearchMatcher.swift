@@ -29,7 +29,7 @@ struct SmartSearchMatcher {
         }
         return true
     }
-
+    
     private(set) var searchTokens: [String.SubSequence]
 }
 

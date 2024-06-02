@@ -18,7 +18,7 @@ struct PostUploader {
         }
         try sinitize(&post, author)
         post.attachments = try await upload(attachments: post.attachments, postID: post.id, category: post.category)
-        try await Repo.async_add(post, false)
+        try await Repo.shared.async_add(post, false)
     }
 
     private static func upload(attachments: [XAttachment], postID: String, category: Category) async throws -> [XAttachment] {

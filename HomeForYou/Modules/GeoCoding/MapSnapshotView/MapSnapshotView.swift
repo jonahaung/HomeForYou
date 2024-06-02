@@ -12,7 +12,7 @@ import SFSafeSymbols
 
 struct MapSnapshotView: View {
     
-    let location: GeoLocation
+    let location: CLLocationCoordinate2D
     var span: CLLocationDegrees = 0.01
     @Injected(\.ui) private var ui
     
@@ -47,7 +47,7 @@ struct MapSnapshotView: View {
     @MainActor
     private func generateSnapshot(width: CGFloat, height: CGFloat) async {
         let rect = CGRect(origin: .zero, size: .init(width: width, height: height))
-        let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: span, longitudeDelta: span))
+        let region = MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: span, longitudeDelta: span))
         let options = MKMapSnapshotter.Options()
         options.camera = .init(lookingAtCenter: region.center, fromDistance: 1000, pitch: 75, heading: 1)
         options.size = CGSize(width: width, height: height)
@@ -63,7 +63,7 @@ struct MapSnapshotView: View {
                 let pinImage = pinView.image
 
                 
-                var point = snapshot.point(for: location.coordinate)
+                var point = snapshot.point(for: location)
                 
                 if rect.contains(point) {
                     point.x -= pinView.bounds.width / 2

@@ -11,32 +11,30 @@ import FireAuthManager
 
 struct HomeToolbarContent: ToolbarContent {
     
-    @Environment(HomeDatasource.self) private var datasource
     @Environment(CurrentUser.self) private var currentUser
+    @EnvironmentObject private var searchViewModel: SearchDatasource
     @Injected(\.router) private var router
     
-    @ViewBuilder
     var body: some ToolbarContent {
-        Group {
-            ToolbarItemGroup(placement: .topBarTrailing) {
+        ToolbarItemGroup(placement: .topBarTrailing) {
+            AsyncButton {
+                searchViewModel.isPresented = true
+            } label: {
                 SystemImage(.magnifyingglass)
-                    ._presentFullScreen {
-                        SearchingView()
-                    }
             }
-            ToolbarItemGroup(placement: .topBarLeading) {
-                if !currentUser.isLoggedIn {
-                    AsyncButton {
-                        router.presentSheet(.init(.signIn))
-                    } label: {
-                        SystemImage(.personBadgeKeyFill)
-                    }
-                } else {
-                    AsyncButton {
-                        router.tab(to: .settings)
-                    } label: {
-                        AvatarView(urlString: currentUser.photoURL, size: 30)
-                    }
+        }
+        ToolbarItemGroup(placement: .topBarLeading) {
+            if !currentUser.isLoggedIn {
+                AsyncButton {
+                    router.presentSheet(.init(.signIn))
+                } label: {
+                    SystemImage(.personBadgeKeyFill)
+                }
+            } else {
+                AsyncButton {
+                    router.tab(to: .settings)
+                } label: {
+                    AvatarView(urlString: currentUser.photoURL, size: 30)
                 }
             }
         }

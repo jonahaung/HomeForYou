@@ -55,7 +55,7 @@ struct DeepLinkHandler {
             else {
                 throw XError.deeplink_unsupported_url
             }
-            let post = try await Repo.async_fetch(path: category.rawValue, for: id, as: Post.self)
+            let post = try await Repo.shared.async_fetch(path: category.rawValue, for: id, as: Post.self)
             return SceneItem(screenType, data: post)
         case .postCollection:
             let filters = queryItems.compactMap{ PostFilter(queryItem: $0) }

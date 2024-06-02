@@ -58,10 +58,10 @@ struct PostForm_Attachmments: View {
                         ._borderedProminentLightButtonStyle()
                         ._presentFullScreen {
                             _PhotoPicker(attachments: $attachments, multipleSelection: true)
-                                .selectionLimit(Constansts.Posting.Number_Of_Max_Attachments_Allowed)
+                                .selectionLimit(K.Posting.Number_Of_Max_Attachments_Allowed)
                                 .edgesIgnoringSafeArea(.all)
                         }
-                        ._hidable(attachments.count >= Constansts.Posting.Number_Of_Max_Attachments_Allowed)
+                        ._hidable(attachments.count >= K.Posting.Number_Of_Max_Attachments_Allowed)
                     HStack {
                         Text("Capture \(Image(systemSymbol: .rotate3d)) RoomPlan 3D")
                             ._presentFullScreen {

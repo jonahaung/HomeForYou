@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 import MapKit
 
-struct LocationInfo: Codable, Hashable, Equatable, Sendable {
+struct LocationInfo: Codable, Hashable {
 
     static let empty = LocationInfo(
         area: .Any,
@@ -31,25 +31,25 @@ struct LocationInfo: Codable, Hashable, Equatable, Sendable {
     }
 
     var isEmpty: Bool {
-        self == Self.empty
+        address.postal.isWhitespace
     }
 }
 
 extension LocationInfo {
 
-    struct Address: Codable, Hashable, Sendable, Equatable {
+    struct Address: Codable, Hashable {
         var text: String
         var postal: String
         var isValid: Bool { !text.isEmpty && postal.isPostalCode }
     }
 
-    struct NearestMRT: Codable, Hashable, Sendable, Equatable {
+    struct NearestMRT: Codable, Hashable, Sendable {
         var mrt: String
         var distance: Int
         var isValid: Bool { !mrt.isEmpty && distance != 0 }
     }
 
-    struct GeoInfo: Codable, Hashable, Sendable, Equatable {
+    struct GeoInfo: Codable, Hashable, Sendable {
         var latitude: Double
         var longitude: Double
         var geoHash: String

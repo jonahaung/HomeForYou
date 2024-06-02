@@ -53,7 +53,7 @@ struct PostDetailsView: View {
         
         if !post.views.contains(currentUser.uid) {
             post.views.append(currentUser.uid)
-            Repo.update(path: post.category.rawValue, for: post.id, in: Post.self, data: [.views: post.views])
+            try? await Repo.shared.async_update(path: post.category.rawValue, for: post.id, in: Post.self, data: [.views: post.views])
         }
     }
 }

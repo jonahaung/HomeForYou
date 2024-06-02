@@ -20,7 +20,7 @@ struct LookingForFormSubmitButton: View {
         AsyncButton {
             model.looking.authorID = currentUser.uid
             model.looking.mrts = model.mrts.map { $0.name }.sorted()
-            try await Repo.async_add(model.looking)
+            try await Repo.shared.async_add(model.looking)
         } label: {
             Text("Submit")
                 ._borderedProminentButtonStyle()

@@ -17,20 +17,20 @@ struct PostDoubleColumnCell: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             imageView()
-//            HStack(spacing: 2) {
-//                Text(utils.kmbFormatter.string(fromNumber: post.price))
-//                    .font(ui.fonts.title3.bold())
-//            }
-//            Text(post.title)
-//                .font(ui.fonts.caption2.weight(.medium))
-//                .padding(.horizontal, 4)
+            HStack(spacing: 2) {
+                Text(utils.kmbFormatter.string(fromNumber: post.price))
+                    .font(ui.fonts.title3.bold())
+            }
+            Text(post.title)
+                .font(ui.fonts.caption2.weight(.medium))
+                .padding(.horizontal, 4)
         }
         .fixedSize(horizontal: false, vertical: true)
     }
 
     private func imageView() -> some View {
         ZStack {
-            Color(uiColor: .placeholderText)
+            Color.clear
             WaterfallImage(urlString: post.attachments.first?.url)
             VStack {
                 HStack(spacing: 1) {

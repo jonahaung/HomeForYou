@@ -38,7 +38,7 @@ extension PersonDetails {
             task = Task {
                 if Task.isCancelled { return }
                 do {
-                    let item = try await Repo.async_fetch(path: Person.collectionID, for: id, as: Person.self)
+                    let item = try await Repo.shared.async_fetch(path: Person.collectionID, for: id, as: Person.self)
                     MemoryCache.cache(id, value: item)
                     if Task.isCancelled { return }
                     self.person = item

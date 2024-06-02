@@ -16,7 +16,7 @@ struct PostsExplorerView: View {
     @StateObject private var appearance = GridAppearance()
     @StateObject private var model: PostsExplorerViewModel
     @Environment(MagicButtonViewModel.self) private var magicButton
-    
+    @StateObject private var searchDatasource = SearchDatasource()
     
     init(filters: [PostFilter]) {
         _model = .init(wrappedValue: .init(filters))
@@ -24,7 +24,6 @@ struct PostsExplorerView: View {
     var body: some View {
         content
             .navigationBarTitleDisplayMode(.inline)
-            
     }
     
     @ViewBuilder var content: some View {
@@ -78,10 +77,12 @@ struct PostsExplorerView: View {
         .background(ui.colors.systemGroupedBackground)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
-                SystemImage(.magnifyingglass)
-                    ._presentFullScreen {
-                        SearchingView()
-                    }
+                AsyncButton {
+                    searchDatasource.isPresented = true
+                } label: {
+                    SystemImage(.magnifyingglass)
+                }
+                
                 SystemImage(.sliderHorizontalBelowRectangle)
                     ._presentSheet {
                         PostsFilterView($model.filters)
@@ -108,6 +109,7 @@ struct PostsExplorerView: View {
         .refreshable {
             model.posts = .loading
         }
+        .makeSearchable(searchDatasource)
     }
 }
 

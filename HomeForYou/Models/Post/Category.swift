@@ -24,13 +24,13 @@ enum Category: String, Hashable, Codable, CaseIterable, Sendable {
     }
     static var current: Category {
         get {
-            if let rawValue = UserDefaults.standard.string(forKey: Constansts.Defaults.currentCategory.rawValue) {
+            if let rawValue = UserDefaults.standard.string(forKey: K.Defaults.currentCategory.rawValue) {
                 return .init(rawValue: rawValue) ?? .rental_room
             }
             return .rental_room
         }
         set {
-            UserDefaults.standard.setValue(newValue.rawValue, forKey: Constansts.Defaults.currentCategory.rawValue)
+            UserDefaults.standard.setValue(newValue.rawValue, forKey: K.Defaults.currentCategory.rawValue)
         }
     }
 }

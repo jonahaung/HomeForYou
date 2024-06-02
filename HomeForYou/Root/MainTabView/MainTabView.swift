@@ -84,6 +84,7 @@ struct MainTabView: View {
                 }
             }
         }
+        .ignoresSafeArea(.keyboard)
     }
     
     private var homeMagicItem: MagicButtonItem {
