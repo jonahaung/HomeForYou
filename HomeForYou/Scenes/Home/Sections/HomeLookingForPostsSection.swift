@@ -13,22 +13,17 @@ struct HomeLookingForPostsSection: View {
     @Environment(HomeDatasource.self) private var datasource
     
     var body: some View {
-        InsetGroupSection(8) {
-            VStack {
+        InsetGroupSection(0) {
+            InsetGroupList {
                 ForEach(datasource.lookings) { each in
                     VStack(alignment: .leading) {
                         Text(each.title)
-                            .bold()
-                            .lineLimit(1)
+                            .font(.headline)
                         ExpandableText(text: each.description)
-                        if each != datasource.lookings.last {
-                            Divider()
-                        }
+                            .font(.callout)
                     }
                 }
             }
-            .padding(8)
-            .background(RoundedRectangle(cornerRadius: 8).fill(Color(uiColor: .secondarySystemGroupedBackground)))
         } header: {
             HomeSectionHeaderView(
                 "See What People Wants",

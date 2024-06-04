@@ -22,6 +22,7 @@ struct CategoryPicker: View {
             }
         } label: {
             Text("Post Type")
+            
         }
         .labelsHidden()
         .task(id: category, priority: .background) {

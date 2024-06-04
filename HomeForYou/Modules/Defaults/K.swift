@@ -8,9 +8,6 @@
 import Foundation
 
 enum K {
-    enum Explorer {
-        static let Posts_Fetch_Limit = 2
-    }
     struct Posting {
         static let Number_Of_Max_Attachments_Allowed = 6
     }

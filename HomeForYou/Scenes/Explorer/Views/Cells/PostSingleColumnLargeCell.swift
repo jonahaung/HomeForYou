@@ -11,25 +11,26 @@ import SFSafeSymbols
 
 struct PostSingleColumnLargeCell: View {
     
-    @EnvironmentObject private var post: Post
+    let data: PostCellDisplayData
+//    @EnvironmentObject private var post: Post
     @Injected(\.ui) private var ui
     @Injected(\.utils) private var utils
     @Injected(\.router) private var router
     
     var body: some View {
-        InsetGroupSection(0) {
+        InsetGroupSection(4) {
             VStack(alignment: .leading, spacing: 0) {
                 imageCarousellView()
                 content
                     .padding(.horizontal, 5)
             }
             .padding(.bottom, 8)
-            .background(Color(uiColor: .secondarySystemGroupedBackground))
+            .background(Color.secondarySystemGroupedBackground)
         } footer: {
             HStack {
-                Text("\(utils.timeAgoFormatter.string(from: post.createdAt)) ago")
+                Text(data.createdAt)
                 Spacer()
-                Text(post.author.name ?? post.author.email ?? "")
+                Text(data.post.author.name.str)
             }
         }
     }
@@ -37,26 +38,23 @@ struct PostSingleColumnLargeCell: View {
     private var content: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
-                Text("$\(utils.kmbFormatter.string(fromNumber: post.price))")
+                Text(data.price)
                     .font(.system(.title3, weight: .bold))
                 Spacer()
                 HStack {
-                    Text("\(Image(systemName: SFSymbol.buildingFill.rawValue))\(post.propertyType.title)")
-                    
-                    Text("\(Image(systemName: SFSymbol.windowAwningClosed.rawValue))\(post._roomType.title)")
-                    
-                    Text("\(Image(systemName: SFSymbol.bedDoubleFill.rawValue))\(post.beds.title)")
-                    
-                    Text("\(Image(systemName: SFSymbol.showerFill.rawValue))\(post.baths.title)")
+                    ForEach(data.primaryTags, id: \.0) {
+                        Text("\(Image(systemSymbol: $0.0.symbol))\($0.1.title)")
+                    }
                 }
                 .font(ui.fonts.footnote)
                 .foregroundStyle(.secondary)
             }
-            Text(post.title)
-                .font(ui.fonts.subheadline.weight(.medium))
+            Text(data.title)
+
             HStack {
-                Text("\(Image(systemName: SFSymbol.mappin.rawValue))\(post.area.title) ")
-                Text("\(Image(systemName: SFSymbol.tram.rawValue))\(post.mrt) (\(post.mrtDistance) mins)")
+                ForEach(data.secondaryTags, id: \.0) {
+                    Text("\(Image(systemSymbol: $0.0.symbol))\($0.1.title)")
+                }
             }
             .font(ui.fonts.footnote)
             .foregroundStyle(.secondary)
@@ -64,9 +62,9 @@ struct PostSingleColumnLargeCell: View {
     }
     private func imageCarousellView () -> some View {
         ZStack {
-            ImageCarousellView(attachments: post.attachments) { _ in
+            ImageCarousellView(attachments: data.post.attachments) { _ in
                 DispatchQueue.main.async {
-                    router.push(to: SceneItem(.postDetails, data: post))
+                    router.push(to: SceneItem(.postDetails, data: data.post))
                 }
             }
             VStack {
@@ -76,6 +74,7 @@ struct PostSingleColumnLargeCell: View {
                     FavouriteButton()
                         .font(.title3)
                         .tint(.white)
+                        .environmentObject(data.post)
                 }
             }
         }

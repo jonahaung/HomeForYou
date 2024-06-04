@@ -59,7 +59,7 @@ extension SceneItem {
                 let filters: [PostFilter] = data as? [PostFilter] ?? []
                 PostsExplorerView(filters: filters)
             case .mrtMap:
-                MRTMapView()
+                MRTMap()
             case .roomCapture:
                 RoomCaptureScanView()
             }

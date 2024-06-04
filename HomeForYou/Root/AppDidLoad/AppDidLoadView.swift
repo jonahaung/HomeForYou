@@ -20,12 +20,11 @@ struct AppDidLoadView<Content: View>: View {
     init(_ content: @escaping @autoclosure () -> Content) {
         self.content = content
     }
-    
     var body: some View {
         if appReloader.showSplashScreen {
             SplashScreenView()
                 .swiftyThemeStyle()
-                ._onAppear(after: 0.4) {
+                ._onAppear(after: 0.2) {
                     appReloader.showSplashScreen = false
                 }
         } else {

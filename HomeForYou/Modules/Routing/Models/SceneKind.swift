@@ -38,7 +38,7 @@ enum SceneKind: RawRepresentable {
         case .postCollection:
             return PostsExplorerView.typeName
         case .mrtMap:
-            return MRTMapView.typeName
+            return MRTMap.typeName
         case .roomCapture:
             return RoomCaptureScanView.typeName
         }
@@ -65,7 +65,7 @@ enum SceneKind: RawRepresentable {
             self = .eula
         case PostDetailsView.typeName:
             self = .postDetails
-        case MRTMapView.typeName:
+        case MRTMap.typeName:
             self = .mrtMap
         case RoomCaptureScanView.typeName:
             self = .roomCapture

@@ -9,7 +9,6 @@ import SwiftUI
 import XUI
 
 struct HomeLogoStretchSection: View {
-    
     var body: some View {
         VStack {
             Spacer()

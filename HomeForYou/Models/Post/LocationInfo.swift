@@ -16,8 +16,8 @@ struct LocationInfo: Codable, Hashable {
         nearestMRT: .init(mrt: "", distance: 0),
         address: .init(text: "", postal: ""),
         geoInfo: .init(
-            latitude: 1.3124740687274035,
-            longitude: 103.8963501183422,
+            latitude: 1.290270,
+            longitude: 103.851959,
             geoHash: ""
         )
     )

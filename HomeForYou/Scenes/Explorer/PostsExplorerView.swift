@@ -7,132 +7,92 @@
 
 import SwiftUI
 import XUI
-import NukeUI
+import SFSafeSymbols
 
 struct PostsExplorerView: View {
     
-    @Injected(\.router) private var router
-    @Injected(\.ui) private var ui
-    @StateObject private var appearance = GridAppearance()
-    @StateObject private var model: PostsExplorerViewModel
-    @Environment(MagicButtonViewModel.self) private var magicButton
+    @StateObject private var gridAppearance = GridAppearance()
+    @StateObject private var viewModel: PostExplorerViewModel
     @StateObject private var searchDatasource = SearchDatasource()
     
+    @Injected(\.ui) private var ui
+    @Environment(\.editMode) private var editMode
+    
     init(filters: [PostFilter]) {
-        _model = .init(wrappedValue: .init(filters))
+        _viewModel = .init(wrappedValue: .init(filters))
     }
     var body: some View {
-        content
-            .navigationBarTitleDisplayMode(.inline)
-    }
-    
-    @ViewBuilder var content: some View {
-        switch model.posts {
-        case .loading:
-            loadingView
-        case let .loaded(posts, canLoadMore):
-            loadedView(posts, canLoadMore)
-        case let .failed(error):
-            failedView(error)
-        }
-    }
-    private var loadingView: some View {
-        LoadingIndicator()
-            ._onAppear(after: 0.2) {
-                model.fetchPosts()
-            }
-    }
-    private func failedView(_ error: Error) -> some View {
-        ErrorView(error: error, retryAction: {
-            model.fetchPosts()
-        })
-    }
-    
-    @ViewBuilder private func loadedView(_ posts: LazyList<Post>, _ isLoadingMore: Bool) -> some View {
-        ScrollView(.vertical, showsIndicators: true) {
-            VStack {
-                headerBar
-                WaterfallVList(columns: appearance.gridStyle == .TwoCol ? 2 : 1, spacing: appearance.gridStyle == .TwoCol ? 3 : 0) {
-                    switch appearance.gridStyle {
+        LodableScrollView(.vertical, showsIndicators: false, namespace: Self.typeName, content: {
+            VStack(alignment: .leading, spacing: 0) {
+                if !viewModel.filters.isEmpty {
+                    filteredTagsGroup
+                }
+                if !viewModel.loading && viewModel.posts.isEmpty {
+                    InsetGroupList {
+                        ContentUnavailableView.search
+                    }
+                }
+                WaterfallVList(columns: gridAppearance.gridStyle == .TwoCol ? 2 : 1, spacing: gridAppearance.gridStyle == .TwoCol ? 3 : 0) {
+                    switch gridAppearance.gridStyle {
                     case .Large:
-                        ForEach(posts) { post in
-                            PostSingleColumnLargeCell()
-                                .environmentObject(post)
-                        }
-                    case .List:
-                        ForEach(posts) { post in
-                            PostSingleColumnSmallCell()
-                                .environmentObject(post)
+                        ForEach(viewModel.displayDatas) { data in
+                            PostSingleColumnLargeCell(data: data)
+                               
                         }
                     case .TwoCol:
-                        ForEach(posts) { post in
+                        ForEach(viewModel.posts) { post in
                             PostDoubleColumnCell()
                                 .environmentObject(post)
                         }
-                    }
-                }
-            }
-            .safeAreaPadding(.horizontal, 2)
-        }
-        .background(ui.colors.systemGroupedBackground)
-        .toolbar {
-            ToolbarItemGroup(placement: .topBarTrailing) {
-                AsyncButton {
-                    searchDatasource.isPresented = true
-                } label: {
-                    SystemImage(.magnifyingglass)
-                }
-                
-                SystemImage(.sliderHorizontalBelowRectangle)
-                    ._presentSheet {
-                        PostsFilterView($model.filters)
-                    }
-            }
-            ToolbarItemGroup(placement: .bottomBar) {
-                SystemImage(.mappinCircleFill)
-                    ._presentSheet {
-                        if let posts = model.posts.value {
-                            LocationMap(posts.map{ $0.locationMapItem })
-                                .embeddedInNavigationView()
+                    case .List:
+                        ForEach(viewModel.posts) { post in
+                            PostSingleColumnSmallCell()
+                                .environmentObject(post)
                         }
                     }
-                Spacer()
-                gridStylePicker()
+                }
             }
+            .animation(.interactiveSpring, value: viewModel.posts)
+            .padding(.bottom, 70)
+        }, onLoadMore: {
+            guard await viewModel.loading == false else { return }
+            await viewModel.performFetchMore()
+        })
+        .refreshable {
+            guard !viewModel.loading else { return }
+            await viewModel.refreshable()
+        }
+        .overlay(alignment: .bottom) {
+            VStack {
+                if viewModel.loading {
+                    LoadingIndicator()
+                        .padding()
+                }
+                if editMode?.wrappedValue == .active {
+                    PostExplorerGridStylePicker()
+                        .padding(.horizontal)
+                }
+                PostExplorerBottomToolbar()
+            }
+        }
+        .navigationTitle("@explore")
+        .toolbar {
+            PostExplorerTopToolbar()
         }
         .magicButton(.backButton)
-        .shouldLoadMore(bottomDistance: .absolute(0.0)) {
-            if !isLoadingMore {
-                model.fetchMoreIfNeeced()
-            }
-        }
-        .refreshable {
-            model.posts = .loading
-        }
         .makeSearchable(searchDatasource)
+        .background(Color.systemGroupedBackground)
+        .environmentObject(viewModel)
+        .environmentObject(gridAppearance)
+        .environmentObject(searchDatasource)
     }
 }
-
 private extension PostsExplorerView {
-    
-    private var headerBar: some View {
-        FilterTagsView(filters: $model.filters)
+    private var filteredTagsGroup: some View {
+        FilterTagsView(filters: $viewModel.filters)
             .padding(.leading)
             .padding(.vertical, 2)
             ._flexible(.horizontal)
-            .equatable(by: model.filters)
-    }
-    
-    private func gridStylePicker() -> some View {
-        Picker("Grid Style", selection: $appearance.gridStyle) {
-            ForEach(GridStyle.allCases) { each in
-                Label(each.title, systemImage: each.iconName)
-                    .tag(each)
-                    .imageScale(.small)
-            }
-        }
-        .onChange(of: appearance.gridStyle) { _, _ in
-            model.refreshable()
-        }
+            .equatable(by: viewModel.filters)
     }
 }

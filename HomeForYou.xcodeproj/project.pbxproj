@@ -13,9 +13,14 @@
 		4703D5E72C0B9B6C0067145A /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4703D5E62C0B9B6C0067145A /* Search.swift */; };
 		470E7A312C0338DA00063345 /* XUI in Frameworks */ = {isa = PBXBuildFile; productRef = 470E7A302C0338DA00063345 /* XUI */; };
 		470E7A392C0372CE00063345 /* Mock+Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470E7A382C0372CE00063345 /* Mock+Post.swift */; };
+		4724C27E2C0C6ECB0097D0DD /* PostExplorer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724C27D2C0C6ECB0097D0DD /* PostExplorer.swift */; };
+		4724C2802C0C748E0097D0DD /* PostExplorerDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724C27F2C0C748E0097D0DD /* PostExplorerDatasource.swift */; };
+		4724C2832C0CC41D0097D0DD /* PostExplorerTopToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724C2822C0CC41D0097D0DD /* PostExplorerTopToolbar.swift */; };
+		4724C2852C0CC4A80097D0DD /* PostExplorerGridStylePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724C2842C0CC4A80097D0DD /* PostExplorerGridStylePicker.swift */; };
 		472A8D032C0A3E890083DBF8 /* MRTSearchingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A8D022C0A3E890083DBF8 /* MRTSearchingWorker.swift */; };
 		472A8D052C0A3E940083DBF8 /* AreaSearchingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A8D042C0A3E940083DBF8 /* AreaSearchingWorker.swift */; };
 		473DA4302C08E7940069D358 /* HomeLogoStretchSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473DA42D2C08E59D0069D358 /* HomeLogoStretchSection.swift */; };
+		47409EC22C0CF70A00CB311D /* PostExplorerBottomToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47409EC12C0CF70A00CB311D /* PostExplorerBottomToolbar.swift */; };
 		476041B42C04F15B002724DB /* SettingsCurrentUserSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476041B32C04F15B002724DB /* SettingsCurrentUserSection.swift */; };
 		4765D0D12C04772800C4F020 /* MasterpieceSpringRev.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47B715322C01CD0400A9932A /* MasterpieceSpringRev.ttf */; };
 		4765D0D22C04772B00C4F020 /* MyanmarSansPro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47B715332C01CD0400A9932A /* MyanmarSansPro.ttf */; };
@@ -23,6 +28,8 @@
 		4765D1192C04825A00C4F020 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 4765D1182C04825A00C4F020 /* URLImage */; };
 		476B39DC2C0597ED00F99D44 /* Postable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476B39DB2C0597ED00F99D44 /* Postable.swift */; };
 		476B39DE2C05A21C00F99D44 /* MutablePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476B39DD2C05A21C00F99D44 /* MutablePost.swift */; };
+		479F72582C0D5F2B00F4452E /* OCR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479F72572C0D5F2B00F4452E /* OCR.swift */; };
+		479F725E2C0DC0C100F4452E /* PostCellDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479F725D2C0DC0C100F4452E /* PostCellDisplayData.swift */; };
 		47B7147A2C01CC4900A9932A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47B714792C01CC4900A9932A /* Preview Assets.xcassets */; };
 		47B714842C01CC4900A9932A /* HomeForYouTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714832C01CC4900A9932A /* HomeForYouTests.swift */; };
 		47B7148E2C01CC4900A9932A /* HomeForYouUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B7148D2C01CC4900A9932A /* HomeForYouUITests.swift */; };
@@ -62,22 +69,19 @@
 		47B716042C01CD0400A9932A /* Post++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714C32C01CD0400A9932A /* Post++.swift */; };
 		47B716052C01CD0400A9932A /* PostDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714C42C01CD0400A9932A /* PostDetailsView.swift */; };
 		47B716062C01CD0400A9932A /* PriceRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714C72C01CD0400A9932A /* PriceRange.swift */; };
-		47B716072C01CD0400A9932A /* _Picker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714C92C01CD0400A9932A /* _Picker.swift */; };
 		47B716082C01CD0400A9932A /* FilterTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714CA2C01CD0400A9932A /* FilterTagsView.swift */; };
 		47B716092C01CD0400A9932A /* PostsFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714CB2C01CD0400A9932A /* PostsFilterView.swift */; };
 		47B7160A2C01CD0400A9932A /* PostsFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714CC2C01CD0400A9932A /* PostsFilterViewModel.swift */; };
 		47B7160B2C01CD0400A9932A /* PostTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714CD2C01CD0400A9932A /* PostTag.swift */; };
 		47B7160C2C01CD0400A9932A /* PriceRangePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714CE2C01CD0400A9932A /* PriceRangePicker.swift */; };
-		47B7160D2C01CD0400A9932A /* GeneralPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714D02C01CD0400A9932A /* GeneralPostCell.swift */; };
 		47B7160E2C01CD0400A9932A /* PostDoubleColumnCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714D12C01CD0400A9932A /* PostDoubleColumnCell.swift */; };
 		47B7160F2C01CD0400A9932A /* PostHCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714D22C01CD0400A9932A /* PostHCell.swift */; };
 		47B716102C01CD0400A9932A /* PostSingleColumnLargeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714D32C01CD0400A9932A /* PostSingleColumnLargeCell.swift */; };
 		47B716112C01CD0400A9932A /* PostSingleColumnSmallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714D42C01CD0400A9932A /* PostSingleColumnSmallCell.swift */; };
 		47B716122C01CD0400A9932A /* PostCellImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714D62C01CD0400A9932A /* PostCellImageView.swift */; };
 		47B716132C01CD0400A9932A /* GridAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714D82C01CD0400A9932A /* GridAppearance.swift */; };
-		47B716142C01CD0400A9932A /* PostsDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714D92C01CD0400A9932A /* PostsDatasource.swift */; };
 		47B716152C01CD0400A9932A /* PostsExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714DA2C01CD0400A9932A /* PostsExplorerView.swift */; };
-		47B716162C01CD0400A9932A /* PostsExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714DB2C01CD0400A9932A /* PostsExplorerViewModel.swift */; };
+		47B716162C01CD0400A9932A /* PostExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714DB2C01CD0400A9932A /* PostExplorerViewModel.swift */; };
 		47B716172C01CD0400A9932A /* QueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714DC2C01CD0400A9932A /* QueryBuilder.swift */; };
 		47B716182C01CD0400A9932A /* HomeBudgetPostsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714DE2C01CD0400A9932A /* HomeBudgetPostsSection.swift */; };
 		47B716192C01CD0400A9932A /* HomeCarousellSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714DF2C01CD0400A9932A /* HomeCarousellSection.swift */; };
@@ -165,7 +169,7 @@
 		47B716742C01CD0400A9932A /* AddressAutoComplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B715632C01CD0400A9932A /* AddressAutoComplete.swift */; };
 		47B716752C01CD0400A9932A /* LocationMapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B715652C01CD0400A9932A /* LocationMapItem.swift */; };
 		47B716762C01CD0400A9932A /* LocationMapItem++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B715662C01CD0400A9932A /* LocationMapItem++.swift */; };
-		47B716772C01CD0400A9932A /* MRTMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B715682C01CD0400A9932A /* MRTMapView.swift */; };
+		47B716772C01CD0400A9932A /* OCRImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B715682C01CD0400A9932A /* OCRImageView.swift */; };
 		47B716782C01CD0400A9932A /* LocationMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B7156A2C01CD0400A9932A /* LocationMap.swift */; };
 		47B716792C01CD0400A9932A /* LocationPreviewLookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B7156B2C01CD0400A9932A /* LocationPreviewLookAroundView.swift */; };
 		47B7167A2C01CD0400A9932A /* MapSnapshotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B7156D2C01CD0400A9932A /* MapSnapshotView.swift */; };
@@ -285,13 +289,20 @@
 		4703D5E42C0B9A3F0067145A /* SearchSuggestionsScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsScope.swift; sourceTree = "<group>"; };
 		4703D5E62C0B9B6C0067145A /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		470E7A382C0372CE00063345 /* Mock+Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mock+Post.swift"; sourceTree = "<group>"; };
+		4724C27D2C0C6ECB0097D0DD /* PostExplorer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostExplorer.swift; sourceTree = "<group>"; };
+		4724C27F2C0C748E0097D0DD /* PostExplorerDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostExplorerDatasource.swift; sourceTree = "<group>"; };
+		4724C2822C0CC41D0097D0DD /* PostExplorerTopToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostExplorerTopToolbar.swift; sourceTree = "<group>"; };
+		4724C2842C0CC4A80097D0DD /* PostExplorerGridStylePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostExplorerGridStylePicker.swift; sourceTree = "<group>"; };
 		472A8D022C0A3E890083DBF8 /* MRTSearchingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRTSearchingWorker.swift; sourceTree = "<group>"; };
 		472A8D042C0A3E940083DBF8 /* AreaSearchingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaSearchingWorker.swift; sourceTree = "<group>"; };
 		473DA42D2C08E59D0069D358 /* HomeLogoStretchSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeLogoStretchSection.swift; sourceTree = "<group>"; };
+		47409EC12C0CF70A00CB311D /* PostExplorerBottomToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostExplorerBottomToolbar.swift; sourceTree = "<group>"; };
 		476041B32C04F15B002724DB /* SettingsCurrentUserSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCurrentUserSection.swift; sourceTree = "<group>"; };
 		4765D0D02C0476B400C4F020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		476B39DB2C0597ED00F99D44 /* Postable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Postable.swift; sourceTree = "<group>"; };
 		476B39DD2C05A21C00F99D44 /* MutablePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutablePost.swift; sourceTree = "<group>"; };
+		479F72572C0D5F2B00F4452E /* OCR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCR.swift; sourceTree = "<group>"; };
+		479F725D2C0DC0C100F4452E /* PostCellDisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellDisplayData.swift; sourceTree = "<group>"; };
 		47B7146F2C01CC4800A9932A /* HomeForYou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeForYou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47B714792C01CC4900A9932A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		47B7147F2C01CC4900A9932A /* HomeForYouTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HomeForYouTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -334,22 +345,19 @@
 		47B714C32C01CD0400A9932A /* Post++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Post++.swift"; sourceTree = "<group>"; };
 		47B714C42C01CD0400A9932A /* PostDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailsView.swift; sourceTree = "<group>"; };
 		47B714C72C01CD0400A9932A /* PriceRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceRange.swift; sourceTree = "<group>"; };
-		47B714C92C01CD0400A9932A /* _Picker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Picker.swift; sourceTree = "<group>"; };
 		47B714CA2C01CD0400A9932A /* FilterTagsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagsView.swift; sourceTree = "<group>"; };
 		47B714CB2C01CD0400A9932A /* PostsFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsFilterView.swift; sourceTree = "<group>"; };
 		47B714CC2C01CD0400A9932A /* PostsFilterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsFilterViewModel.swift; sourceTree = "<group>"; };
 		47B714CD2C01CD0400A9932A /* PostTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTag.swift; sourceTree = "<group>"; };
 		47B714CE2C01CD0400A9932A /* PriceRangePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceRangePicker.swift; sourceTree = "<group>"; };
-		47B714D02C01CD0400A9932A /* GeneralPostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPostCell.swift; sourceTree = "<group>"; };
 		47B714D12C01CD0400A9932A /* PostDoubleColumnCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDoubleColumnCell.swift; sourceTree = "<group>"; };
 		47B714D22C01CD0400A9932A /* PostHCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostHCell.swift; sourceTree = "<group>"; };
 		47B714D32C01CD0400A9932A /* PostSingleColumnLargeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostSingleColumnLargeCell.swift; sourceTree = "<group>"; };
 		47B714D42C01CD0400A9932A /* PostSingleColumnSmallCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostSingleColumnSmallCell.swift; sourceTree = "<group>"; };
 		47B714D62C01CD0400A9932A /* PostCellImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCellImageView.swift; sourceTree = "<group>"; };
 		47B714D82C01CD0400A9932A /* GridAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridAppearance.swift; sourceTree = "<group>"; };
-		47B714D92C01CD0400A9932A /* PostsDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsDatasource.swift; sourceTree = "<group>"; };
 		47B714DA2C01CD0400A9932A /* PostsExplorerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsExplorerView.swift; sourceTree = "<group>"; };
-		47B714DB2C01CD0400A9932A /* PostsExplorerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsExplorerViewModel.swift; sourceTree = "<group>"; };
+		47B714DB2C01CD0400A9932A /* PostExplorerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostExplorerViewModel.swift; sourceTree = "<group>"; };
 		47B714DC2C01CD0400A9932A /* QueryBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryBuilder.swift; sourceTree = "<group>"; };
 		47B714DE2C01CD0400A9932A /* HomeBudgetPostsSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeBudgetPostsSection.swift; sourceTree = "<group>"; };
 		47B714DF2C01CD0400A9932A /* HomeCarousellSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCarousellSection.swift; sourceTree = "<group>"; };
@@ -439,7 +447,7 @@
 		47B715632C01CD0400A9932A /* AddressAutoComplete.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressAutoComplete.swift; sourceTree = "<group>"; };
 		47B715652C01CD0400A9932A /* LocationMapItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapItem.swift; sourceTree = "<group>"; };
 		47B715662C01CD0400A9932A /* LocationMapItem++.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocationMapItem++.swift"; sourceTree = "<group>"; };
-		47B715682C01CD0400A9932A /* MRTMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRTMapView.swift; sourceTree = "<group>"; };
+		47B715682C01CD0400A9932A /* OCRImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCRImageView.swift; sourceTree = "<group>"; };
 		47B7156A2C01CD0400A9932A /* LocationMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMap.swift; sourceTree = "<group>"; };
 		47B7156B2C01CD0400A9932A /* LocationPreviewLookAroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPreviewLookAroundView.swift; sourceTree = "<group>"; };
 		47B7156D2C01CD0400A9932A /* MapSnapshotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSnapshotView.swift; sourceTree = "<group>"; };
@@ -595,6 +603,35 @@
 				476041B32C04F15B002724DB /* SettingsCurrentUserSection.swift */,
 			);
 			path = Sections;
+			sourceTree = "<group>";
+		};
+		479F72562C0D5EC800F4452E /* OCR */ = {
+			isa = PBXGroup;
+			children = (
+				479F72572C0D5F2B00F4452E /* OCR.swift */,
+				47B715682C01CD0400A9932A /* OCRImageView.swift */,
+			);
+			path = OCR;
+			sourceTree = "<group>";
+		};
+		479F725B2C0DB7E400F4452E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4724C27D2C0C6ECB0097D0DD /* PostExplorer.swift */,
+				47B714D82C01CD0400A9932A /* GridAppearance.swift */,
+				479F725D2C0DC0C100F4452E /* PostCellDisplayData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		479F725C2C0DB7F500F4452E /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				4724C27F2C0C748E0097D0DD /* PostExplorerDatasource.swift */,
+				47B714DB2C01CD0400A9932A /* PostExplorerViewModel.swift */,
+				47B714DC2C01CD0400A9932A /* QueryBuilder.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		47B714662C01CC4800A9932A = {
@@ -774,7 +811,6 @@
 			isa = PBXGroup;
 			children = (
 				47B714C82C01CD0400A9932A /* PriceRange */,
-				47B714C92C01CD0400A9932A /* _Picker.swift */,
 				47B714CA2C01CD0400A9932A /* FilterTagsView.swift */,
 				47B714CB2C01CD0400A9932A /* PostsFilterView.swift */,
 				47B714CC2C01CD0400A9932A /* PostsFilterViewModel.swift */,
@@ -787,7 +823,6 @@
 		47B714D52C01CD0400A9932A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				47B714D02C01CD0400A9932A /* GeneralPostCell.swift */,
 				47B714D12C01CD0400A9932A /* PostDoubleColumnCell.swift */,
 				47B714D22C01CD0400A9932A /* PostHCell.swift */,
 				47B714D32C01CD0400A9932A /* PostSingleColumnLargeCell.swift */,
@@ -799,6 +834,9 @@
 		47B714D72C01CD0400A9932A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4724C2822C0CC41D0097D0DD /* PostExplorerTopToolbar.swift */,
+				47409EC12C0CF70A00CB311D /* PostExplorerBottomToolbar.swift */,
+				4724C2842C0CC4A80097D0DD /* PostExplorerGridStylePicker.swift */,
 				47B714D52C01CD0400A9932A /* Cells */,
 				47B714D62C01CD0400A9932A /* PostCellImageView.swift */,
 			);
@@ -808,13 +846,11 @@
 		47B714DD2C01CD0400A9932A /* Explorer */ = {
 			isa = PBXGroup;
 			children = (
+				47B714DA2C01CD0400A9932A /* PostsExplorerView.swift */,
 				47B714CF2C01CD0400A9932A /* PostFilter */,
 				47B714D72C01CD0400A9932A /* Views */,
-				47B714D82C01CD0400A9932A /* GridAppearance.swift */,
-				47B714D92C01CD0400A9932A /* PostsDatasource.swift */,
-				47B714DA2C01CD0400A9932A /* PostsExplorerView.swift */,
-				47B714DB2C01CD0400A9932A /* PostsExplorerViewModel.swift */,
-				47B714DC2C01CD0400A9932A /* QueryBuilder.swift */,
+				479F725B2C0DB7E400F4452E /* Models */,
+				479F725C2C0DB7F500F4452E /* Utils */,
 			);
 			path = Explorer;
 			sourceTree = "<group>";
@@ -1214,7 +1250,6 @@
 		47B715692C01CD0400A9932A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				47B715682C01CD0400A9932A /* MRTMapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1502,6 +1537,7 @@
 		47B715E32C01CD0400A9932A /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				479F72562C0D5EC800F4452E /* OCR */,
 				470E7A372C0372B000063345 /* Mock */,
 				47B715502C01CD0400A9932A /* Actions */,
 				47B715552C01CD0400A9932A /* DeepLinks */,
@@ -1707,7 +1743,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47B7160D2C01CD0400A9932A /* GeneralPostCell.swift in Sources */,
 				47B716392C01CD0400A9932A /* PostingFlowView.swift in Sources */,
 				47B716512C01CD0400A9932A /* CurrentUserProfileUpdateViewModel.swift in Sources */,
 				47B715E42C01CD0400A9932A /* Looking.swift in Sources */,
@@ -1741,6 +1776,7 @@
 				47B716642C01CD0400A9932A /* AppDelegateAdaptor.swift in Sources */,
 				47B7162F2C01CD0400A9932A /* SplashScreenView.swift in Sources */,
 				47B716502C01CD0400A9932A /* CurrentUserProfileUpdateView.swift in Sources */,
+				4724C2802C0C748E0097D0DD /* PostExplorerDatasource.swift in Sources */,
 				47B716222C01CD0400A9932A /* HomeSectionHeaderView.swift in Sources */,
 				47B7164A2C01CD0400A9932A /* ServiceCell.swift in Sources */,
 				47B715E52C01CD0400A9932A /* MRT.swift in Sources */,
@@ -1768,8 +1804,9 @@
 				47B716B72C01CD0400A9932A /* FloorPlanSurface.swift in Sources */,
 				47B716D12C01CD0400A9932A /* PersonCell.swift in Sources */,
 				47B716602C01CD0400A9932A /* MagicButtonState.swift in Sources */,
+				479F725E2C0DC0C100F4452E /* PostCellDisplayData.swift in Sources */,
 				47B7167C2C01CD0400A9932A /* MRTListCell.swift in Sources */,
-				47B716162C01CD0400A9932A /* PostsExplorerViewModel.swift in Sources */,
+				47B716162C01CD0400A9932A /* PostExplorerViewModel.swift in Sources */,
 				47B716382C01CD0400A9932A /* PostingFlowRouter.swift in Sources */,
 				47B7167B2C01CD0400A9932A /* MRT+Extensions.swift in Sources */,
 				47B7162A2C01CD0400A9932A /* LookingForSceneInteractor.swift in Sources */,
@@ -1823,6 +1860,7 @@
 				47B716BE2C01CD0400A9932A /* TabItem.swift in Sources */,
 				472A8D052C0A3E940083DBF8 /* AreaSearchingWorker.swift in Sources */,
 				47B716152C01CD0400A9932A /* PostsExplorerView.swift in Sources */,
+				479F72582C0D5F2B00F4452E /* OCR.swift in Sources */,
 				47B716452C01CD0400A9932A /* SearchStorage.swift in Sources */,
 				47B715FD2C01CD0400A9932A /* RoomType.swift in Sources */,
 				47B716AB2C01CD0400A9932A /* LottieView.swift in Sources */,
@@ -1843,7 +1881,7 @@
 				47B716BF2C01CD0400A9932A /* ViewDisplayable.swift in Sources */,
 				47B7164B2C01CD0400A9932A /* ServicesSearchResults.swift in Sources */,
 				47B716C42C01CD0400A9932A /* AvatarView.swift in Sources */,
-				47B716772C01CD0400A9932A /* MRTMapView.swift in Sources */,
+				47B716772C01CD0400A9932A /* OCRImageView.swift in Sources */,
 				47B716982C01CD0400A9932A /* LanguagePickerView.swift in Sources */,
 				47B7167D2C01CD0400A9932A /* MRTListPickerBar.swift in Sources */,
 				47B715FE2C01CD0400A9932A /* StringViewRepresentable.swift in Sources */,
@@ -1855,6 +1893,7 @@
 				47B716402C01CD0400A9932A /* SearchResultsView.swift in Sources */,
 				47B716532C01CD0400A9932A /* SignInView.swift in Sources */,
 				47B716BD2C01CD0400A9932A /* SceneKind.swift in Sources */,
+				4724C27E2C0C6ECB0097D0DD /* PostExplorer.swift in Sources */,
 				47B716042C01CD0400A9932A /* Post++.swift in Sources */,
 				47B716762C01CD0400A9932A /* LocationMapItem++.swift in Sources */,
 				47B7161C2C01CD0400A9932A /* HomeLatestPostsSection.swift in Sources */,
@@ -1876,16 +1915,16 @@
 				47B7162C2C01CD0400A9932A /* LookingForScenePresenter.swift in Sources */,
 				47B715EE2C01CD0400A9932A /* Area.swift in Sources */,
 				47B716412C01CD0400A9932A /* AttributedStringMaker.swift in Sources */,
+				4724C2832C0CC41D0097D0DD /* PostExplorerTopToolbar.swift in Sources */,
 				47B716B02C01CD0400A9932A /* Repo.swift in Sources */,
+				4724C2852C0CC4A80097D0DD /* PostExplorerGridStylePicker.swift in Sources */,
 				47B7164D2C01CD0400A9932A /* DeveloperControl.swift in Sources */,
 				47B716122C01CD0400A9932A /* PostCellImageView.swift in Sources */,
 				47B715F92C01CD0400A9932A /* PersonInfo.swift in Sources */,
-				47B716142C01CD0400A9932A /* PostsDatasource.swift in Sources */,
 				47B715ED2C01CD0400A9932A /* PersonDetails.swift in Sources */,
 				47B716112C01CD0400A9932A /* PostSingleColumnSmallCell.swift in Sources */,
 				47B716202C01CD0400A9932A /* NearbyLocationHandler.swift in Sources */,
 				47B716C62C01CD0400A9932A /* ImageCarousellView.swift in Sources */,
-				47B716072C01CD0400A9932A /* _Picker.swift in Sources */,
 				47B7166F2C01CD0400A9932A /* FirestoreDecoder.swift in Sources */,
 				47B7163E2C01CD0400A9932A /* SliderRangePicker.swift in Sources */,
 				47B716262C01CD0400A9932A /* MyItemsView.swift in Sources */,
@@ -1894,6 +1933,7 @@
 				47B716652C01CD0400A9932A /* HomeForYouApp.swift in Sources */,
 				47B716AA2C01CD0400A9932A /* AnimationsView.swift in Sources */,
 				47B716682C01CD0400A9932A /* DeepLinkButton.swift in Sources */,
+				47409EC22C0CF70A00CB311D /* PostExplorerBottomToolbar.swift in Sources */,
 				47B716722C01CD0400A9932A /* FirebaseProvider.swift in Sources */,
 				47B715FF2C01CD0400A9932A /* TenantType.swift in Sources */,
 				47B7165F2C01CD0400A9932A /* MagicButton+ViewModifier.swift in Sources */,

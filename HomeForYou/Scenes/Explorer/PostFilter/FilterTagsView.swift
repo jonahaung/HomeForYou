@@ -23,14 +23,14 @@ struct FilterTagsView: View {
                             guard let selection else { return false }
                             return selection == each
                         }()
-                        PostTag(key: postFilter.postKey, value: each, isSelected: isSelected, onTap: {
+                        PostTag(key: postFilter.postKey, value: each, isSelected: isSelected) {
                             self.selection = isSelected ? nil : each
-                        })
+                        }
                         .overlay(alignment: .topTrailing) {
                             AsyncButton {
-                                filters.forEach { filer in
+                                filters.wrappedValue.forEach { filer in
                                     postFilter.values.forEach { each in
-                                        if each == self.selection, let i = filters.wrappedValue.firstIndex(where: { $0 == postFilter }) {
+                                        if each == self.selection, let i = filters.firstIndex(where: { $0.wrappedValue == postFilter }) {
                                             filters.wrappedValue.remove(at: i)
                                         }
                                     }
@@ -43,6 +43,7 @@ struct FilterTagsView: View {
                             .offset(x: 7, y: -7)
                             .buttonStyle(.plain)
                             ._hidable(!isSelected)
+                            .phaseAnimation([.scale(0.8), .idle, .scale(1.2)])
                         }
                     }
                 }

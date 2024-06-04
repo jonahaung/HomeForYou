@@ -49,11 +49,11 @@ struct HomeNearbyPostsScetion: View {
                     Label(location.address.text, systemSymbol: .mappinAndEllipse)
                         .font(.system(size: 14.scaled, weight: .semibold).italic())
                 }
-//                NearbyLocationMap(items: nearbyLocationHandler.nearbyPosts, currentLocation: $nearbyLocationHandler.currentLocation)
-//                    .aspectRatio(1.5, contentMode: .fit)
+                //                NearbyLocationMap(items: nearbyLocationHandler.nearbyPosts, currentLocation: $nearbyLocationHandler.currentLocation)
+                //                    .aspectRatio(1.5, contentMode: .fit)
             }
         }
         
-//        .appPermissionOverlay(.currentLocation)
+        //        .appPermissionOverlay(.currentLocation)
     }
 }

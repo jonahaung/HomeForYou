@@ -17,7 +17,7 @@ struct PostTag: View {
     @Injected(\.ui) private var ui
 
     var body: some View {
-        _Tag(color: ui.colors.separater) {
+        _Tag(color: ui.colors.opaqueSeparator) {
             HStack(alignment: .center, spacing: 1) {
                 SystemImage(key.symbol)
                     .symbolRenderingMode(.hierarchical)

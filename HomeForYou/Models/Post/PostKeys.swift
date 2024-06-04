@@ -9,7 +9,7 @@ import Foundation
 import XUI
 import SFSafeSymbols
 
-enum PostKeys: String, Codable, CaseIterable, Identifiable {
+enum PostKeys: String, Codable, CaseIterable, Identifiable, Hashable {
     var id: String { rawValue }
     case category
     case id
@@ -47,9 +47,9 @@ enum PostKeys: String, Codable, CaseIterable, Identifiable {
     case favourites
     case additional
     case geoHash
-
+    
     static let keywordKeys = [PostKeys.area, .mrt, .features, restrictions]
-
+    
     var localized: String {
         switch self {
         case .category:

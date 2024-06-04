@@ -31,8 +31,9 @@ extension NSMutableParagraphStyle {
     
     static let wordWrappingLineBreak: NSMutableParagraphStyle = {
         $0.lineBreakMode = .byWordWrapping
-        $0.alignment = .natural
-        $0.lineBreakStrategy = .hangulWordPriority
+        $0.alignment = .left
+        $0.lineSpacing = 0
+        $0.lineHeightMultiple = 0
         return $0
     }(NSMutableParagraphStyle())
 }

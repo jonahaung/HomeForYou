@@ -30,7 +30,7 @@ struct SearchResultsView: View {
                             Label("Set location on map", systemSymbol: .mappinAndEllipse)
                         }
                         AsyncButton {
-                            
+                            router.presentFullScreen(.init(.mrtMap))
                         } label: {
                             Label("Select from MRT map", systemSymbol: .mappinSquare)
                         }

@@ -12,10 +12,10 @@ import XUI
 
 struct QueryBuilder {
 
-    static func configure(_ each: PostFilter, reference: inout Query) {
-        let postKey = each.postKey
+    static func configure(_ filter: PostFilter, reference: inout Query) {
+        let postKey = filter.postKey
         let key = postKey.rawValue
-        let values = each.values
+        let values = filter.values
     
         switch postKey {
         case .price:

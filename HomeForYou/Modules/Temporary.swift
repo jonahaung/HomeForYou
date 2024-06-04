@@ -9,12 +9,11 @@ import SwiftUI
 
 public extension Color {
     static let systemGroupedBackground = Color(uiColor: .systemGroupedBackground)
+    static let secondarySystemGroupedBackground = Color(uiColor: .secondarySystemGroupedBackground)
 }
-
 extension AttributedString: Identifiable {
     public var id: AttributedString { self }
 }
-
 public extension AttributedString {
     var string: String {
         NSAttributedString(self).string

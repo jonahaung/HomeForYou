@@ -21,12 +21,6 @@ struct HomeBudgetPostsSection: View {
                     
                 }
             }
-//            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 0) {
-//                ForEach(datasource.budgetPosts) { each in
-//                    PostDoubleColumnCell()
-//                        .environmentObject(each)
-//                }
-//            }
         } header: {
             HomeSectionHeaderView(
                 "Budget Listings",
