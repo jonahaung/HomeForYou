@@ -32,8 +32,9 @@ extension SceneItem {
         Group {
             switch kind {
             case .signIn:
-                @Injected(\.currentUser) var currentUser
-                AuthFlowView(currentUser: currentUser)
+                SignInView()
+//                @Injected(\.currentUser) var currentUser
+//                AuthFlowView(currentUser: currentUser)
             case .developerControl:
                 DeveloperControl()
             case .appThemeSettings:
@@ -59,7 +60,7 @@ extension SceneItem {
                 let filters: [PostFilter] = data as? [PostFilter] ?? []
                 PostsExplorerView(filters: filters)
             case .mrtMap:
-                MRTMap()
+                MRTPickerView()
             case .roomCapture:
                 RoomCaptureScanView()
             }

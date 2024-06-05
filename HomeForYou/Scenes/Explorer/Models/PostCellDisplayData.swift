@@ -12,7 +12,6 @@ struct PostCellDisplayData: Identifiable {
     typealias Tag = (PostKeys, String)
     
     var id: String { post.id }
-    
     let title: AttributedString
     let price: String
     let createdAt: String
@@ -20,6 +19,7 @@ struct PostCellDisplayData: Identifiable {
     var secondaryTags = [Tag]()
     
     let post: Post
+    
     init(_ post: Post) {
         self.post = post
         @Injected(\.utils) var utils
@@ -43,5 +43,14 @@ struct PostCellDisplayData: Identifiable {
             (.area, post.area.title),
             (.mrt, post.mrt)
         ]
+    }
+}
+extension PostCellDisplayData: Hashable {
+    static func == (lhs: PostCellDisplayData, rhs: PostCellDisplayData) -> Bool {
+        lhs.id == rhs.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(post)
     }
 }
