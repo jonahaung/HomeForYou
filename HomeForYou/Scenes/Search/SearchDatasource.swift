@@ -26,8 +26,6 @@ final class SearchDatasource: ObservableObject {
     private let areaSearchingWorker = AreaSearchingWorker()
     
     private let resultsFactoryWorker = SearchResultsFactoryWorker()
-    
-    @Injected(\.router) private var router
     private let cancelBag = CancelBag()
     
     init() {
@@ -66,16 +64,6 @@ final class SearchDatasource: ObservableObject {
 }
 
 extension SearchDatasource {
-    @MainActor func onSubmitSearch() {
-        isPresented = false
-        canPresentOnAppear = true
-        router.push(to: SceneItem(
-            .postCollection, data: [PostFilter(
-                .keywords,
-                self.tokens.map{ $0.keyValueString }
-            )])
-        )
-    }
     private func didChangeSearchText(_ text: String) {
         guard !text.isWhitespace else {
             if tokens.isEmpty {

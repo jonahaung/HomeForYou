@@ -13,14 +13,14 @@ import SwiftUI
 enum Service: String, CaseIterable, XPickable {
     var id: String { rawValue }
     
-    case addressFinder, roomCapture, mrtMap, post, appearanceSeetings, myItems, settings, myFavourites, seenPosts, myListigs,
+    case planningAreaMap, roomCapture, mrtMap, post, appearanceSeetings, myItems, settings, myFavourites, seenPosts, myListigs,
          searchHistory, search, nearMe, rental, selling, looking
     
     var title: String { rawValue.camelCaseToWords() }
     
     var icon: SFSymbol {
         switch self {
-        case .addressFinder:
+        case .planningAreaMap:
             return .mapFill
         case .roomCapture:
             return .cameraMeteringMatrix
@@ -62,6 +62,8 @@ extension Service {
             return .mrtMap
         case .roomCapture:
             return .roomCapture
+        case .planningAreaMap:
+            return .planningAreaMap
         default:
             return .eula
         }
@@ -77,15 +79,15 @@ enum ServicesGroup: String, CaseIterable, XPickable, Identifiable, Hashable {
     var services: [Service] {
         switch self {
         case .posting:
-            return [.addressFinder, .roomCapture, .nearMe, .post, .settings]
+            return [.planningAreaMap, .roomCapture, .nearMe, .post, .settings]
         case .currentUser:
             return [.settings]
         case .tools:
-            return [.mrtMap, .addressFinder, .roomCapture, .nearMe, .post]
+            return [.mrtMap, .planningAreaMap, .roomCapture, .nearMe, .post]
         case .explorer:
             return [.roomCapture, .nearMe, .post]
         case .settings:
-            return [.addressFinder, .roomCapture, .nearMe, .post, .settings]
+            return [.planningAreaMap, .roomCapture, .nearMe, .post, .settings]
         }
     }
     var tag: Int {

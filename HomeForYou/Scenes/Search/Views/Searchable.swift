@@ -10,6 +10,7 @@ import XUI
 
 private struct SearchableViewModifier: ViewModifier {
     @StateObject var datasource: SearchDatasource
+    @Environment(\.onSearchAction) private var onSearchAction
     func body(content: Content) -> some View {
         content
             .onAppear {
@@ -45,7 +46,14 @@ private struct SearchableViewModifier: ViewModifier {
                 }
             }
             .onSubmit(of: .search) {
-                datasource.onSubmitSearch()
+                let filter = PostFilter(
+                    .keywords,
+                    datasource.tokens.map{ $0.keyValueString }
+                )
+                datasource.canPresentOnAppear = true
+                Task {
+                    await onSearchAction?(.filter([filter]))
+                }
             }
             .disableAutocorrection(true)
             .textInputAutocapitalization(.words)

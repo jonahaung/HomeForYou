@@ -13,6 +13,8 @@ struct HomeView: View {
     @State private var datasource = HomeDatasource()
     @StateObject private var nearbyLocationHandler = NearbyLocationHandler()
     @StateObject private var searchViewModel = SearchDatasource()
+    @Injected(\.router) private var router
+    
     
     var body: some View {
         StretchyHeaderScrollView(
@@ -55,6 +57,20 @@ struct HomeView: View {
         .onUpdateCategory {
             await datasource.refresh()
             await nearbyLocationHandler.onUpdateCategory($0)
+        }
+        .onSearchSubmit { item in
+            switch item {
+            case .areaMap:
+                await router.push(to: .init(.planningAreaMap))
+            case .mrtMap:
+                await router.presentSheet(.init(.mrtMap))
+            case .exploreAllPost:
+                await router.push(to: .init(.postCollection, data: [] as [PostFilter]))
+            case .filter(let filters):
+                await router.push(to: .init(.postCollection, data: filters))
+            case .currentLocationMap:
+                break
+            }
         }
     }
     

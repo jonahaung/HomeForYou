@@ -85,6 +85,9 @@ struct PostsExplorerView: View {
         .environmentObject(viewModel)
         .environmentObject(gridAppearance)
         .environmentObject(searchDatasource)
+        .onSearchSubmit { item in
+            print(item)
+        }
     }
 }
 private extension PostsExplorerView {

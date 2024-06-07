@@ -14,7 +14,7 @@ import SecureStorage
 struct AppState {
     
     var utils = Utils()
-    let currentUser: CurrentUser
+    var currentUser: CurrentUser
     var ui = UI()
     var router = Router()
     
@@ -57,10 +57,10 @@ extension InjectedValues {
     var currentUser: CurrentUser {
         get { store.value.currentUser }
         set {
-//            store.value.currentUser = newValue
-//            store.bulkUpdate { state in
-//                state.currentUser = newValue
-//            }
+            store.value.currentUser = newValue
+            store.bulkUpdate { state in
+                state.currentUser = newValue
+            }
         }
     }
     var router: Router {

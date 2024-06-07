@@ -7,8 +7,8 @@
 
 import SwiftUI
 import XUI
-import FireAuthManager
 import SwiftyTheme
+import FireAuthManager
 
 struct SceneItem: ViewDisplayable {
     
@@ -29,41 +29,40 @@ struct SceneItem: ViewDisplayable {
 extension SceneItem {
     @ViewBuilder
     var viewToDisplay: some View {
-        Group {
-            switch kind {
-            case .signIn:
-                SignInView()
-//                @Injected(\.currentUser) var currentUser
-//                AuthFlowView(currentUser: currentUser)
-            case .developerControl:
-                DeveloperControl()
-            case .appThemeSettings:
-                SwiftyThemeSettingsView()
-            case .lookingForList:
-                LookingForSceneView()
-            case .createPost:
-                if let post = data as? Post {
-                    PostingFlowView(post: post)
-                }
-            case .createPostLooking:
-                LookingForFormView(.current)
-            case .onboarding:
-                OnboardingView(items: OnboardingItem.preview)
-            case .eula:
-                EULAView(text: Lorem.paragraphs(9))
-            case .postDetails:
-                if let post = data as? Post {
-                    PostDetailsView()
-                        .environmentObject(post)
-                }
-            case .postCollection:
-                let filters: [PostFilter] = data as? [PostFilter] ?? []
-                PostsExplorerView(filters: filters)
-            case .mrtMap:
-                MRTPickerView()
-            case .roomCapture:
-                RoomCaptureScanView()
+        switch kind {
+        case .signIn:
+            @Injected(\.currentUser) var currentUser
+            AuthFlowView(currentUser: currentUser)
+        case .developerControl:
+            DeveloperControl()
+        case .appThemeSettings:
+            SwiftyThemeSettingsView()
+        case .lookingForList:
+            LookingForSceneView()
+        case .createPost:
+            if let post = data as? Post {
+                PostingFlowView(post: post)
             }
+        case .createPostLooking:
+            LookingForFormView(.current)
+        case .onboarding:
+            OnboardingView(items: OnboardingItem.preview)
+        case .eula:
+            EULAView(text: Lorem.paragraphs(9))
+        case .postDetails:
+            if let post = data as? Post {
+                PostDetailsView()
+                    .environmentObject(post)
+            }
+        case .postCollection:
+            let filters: [PostFilter] = data as? [PostFilter] ?? []
+            PostsExplorerView(filters: filters)
+        case .mrtMap:
+            MRTMapView()
+        case .roomCapture:
+            RoomCaptureScanView()
+        case .planningAreaMap:
+            PlanningAreaMapView()
         }
     }
 }

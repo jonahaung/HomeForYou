@@ -33,7 +33,11 @@ struct MRTPickerView: View {
             Section {
                 ForEach(currentItems) { mrt in
                     MRTListCell(mrt: mrt, isSelected: .init(get: {
-                        multiSelection.contains(mrt.id)
+                        if allowMultiple {
+                            multiSelection.contains(mrt.id)
+                        } else {
+                            mrt == selected
+                        }
                     }, set: { _ in
                         toggleSelect(mrt)
                     }))
@@ -109,13 +113,8 @@ struct MRTPickerView: View {
     private func leadingItem() -> some View {
         HStack {
             SystemImage(.map)
-                ._presentSheet {
-                    LocationMap(currentItems.map{ $0.locationMapItem })
-                        .mapStyle(.standard(elevation: .realistic, emphasis: .muted, pointsOfInterest: .excludingAll))
-                        .overlay(alignment: .topLeading) {
-                            _DismissButton()
-                                .padding()
-                        }
+                ._presentFullScreen {
+                    MRTMapView()
                 }
             
             _ConfirmButton("Clear All") {
@@ -134,31 +133,39 @@ struct MRTPickerView: View {
         } label: {
             Text("Done")
         }
+        .disabled(allowMultiple ? selections.isEmpty : selected == nil)
     }
     
     private func selectedItems() -> [MRT] {
-        var items = [MRT]()
-        multiSelection.forEach { each in
-            if let mrt = MRT.allValues.first(where: { item in
-                item.id == each
-            }) {
-                items.append(mrt)
+        if allowMultiple {
+            var items = [MRT]()
+            multiSelection.forEach { each in
+                if let mrt = MRT.allValues.first(where: { item in
+                    item.id == each
+                }) {
+                    items.append(mrt)
+                }
             }
+            return items
+        } else {
+            if let selected {
+                return [selected]
+            }
+            return []
         }
-        return items
     }
     
     private func toggleSelect(_ newValue: MRT) {
-        if multiSelection.contains(newValue.id) {
-            multiSelection.remove(newValue.id)
-        } else {
-            multiSelection.insert(newValue.id)
-        }
-        if !allowMultiple {
-            selections = selectedItems()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                dismiss()
+        if allowMultiple {
+            if multiSelection.contains(newValue.id) {
+                multiSelection.remove(newValue.id)
+            } else {
+                multiSelection.insert(newValue.id)
             }
+        } else {
+            selected = newValue
+            
         }
+        
     }
 }

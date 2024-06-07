@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import XUI
 
 struct ServicesView: View {
     
@@ -22,5 +23,16 @@ struct ServicesView: View {
             }
         }
         .searchable(text: $searchText)
+        .navigationBarItems(trailing: trailingItem)
+    }
+
+   
+
+    private var trailingItem: some View {
+        SystemImage(.bellBadgeFill)
+            .symbolRenderingMode(.multicolor)
+            ._presentFullScreen {
+                PlanningAreaMapView()
+            }
     }
 }

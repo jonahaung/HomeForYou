@@ -13,12 +13,15 @@
 		4703D5E72C0B9B6C0067145A /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4703D5E62C0B9B6C0067145A /* Search.swift */; };
 		470E7A312C0338DA00063345 /* XUI in Frameworks */ = {isa = PBXBuildFile; productRef = 470E7A302C0338DA00063345 /* XUI */; };
 		470E7A392C0372CE00063345 /* Mock+Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470E7A382C0372CE00063345 /* Mock+Post.swift */; };
+		471AC8C52C12A1A8006E848A /* SG.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 471AC8C42C12A1A8006E848A /* SG.xcassets */; };
+		471AC8C72C12B0D2006E848A /* PlanningAreaMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 471AC8C62C12B0D2006E848A /* PlanningAreaMapView.swift */; };
 		4724C27E2C0C6ECB0097D0DD /* PostExplorer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724C27D2C0C6ECB0097D0DD /* PostExplorer.swift */; };
 		4724C2802C0C748E0097D0DD /* PostExplorerDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724C27F2C0C748E0097D0DD /* PostExplorerDatasource.swift */; };
 		4724C2832C0CC41D0097D0DD /* PostExplorerTopToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724C2822C0CC41D0097D0DD /* PostExplorerTopToolbar.swift */; };
 		4724C2852C0CC4A80097D0DD /* PostExplorerGridStylePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4724C2842C0CC4A80097D0DD /* PostExplorerGridStylePicker.swift */; };
 		472A8D032C0A3E890083DBF8 /* MRTSearchingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A8D022C0A3E890083DBF8 /* MRTSearchingWorker.swift */; };
 		472A8D052C0A3E940083DBF8 /* AreaSearchingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A8D042C0A3E940083DBF8 /* AreaSearchingWorker.swift */; };
+		472B26962C137EDF005DB74F /* SearchAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472B26952C137EDF005DB74F /* SearchAction.swift */; };
 		473DA4302C08E7940069D358 /* HomeLogoStretchSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473DA42D2C08E59D0069D358 /* HomeLogoStretchSection.swift */; };
 		47409EC22C0CF70A00CB311D /* PostExplorerBottomToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47409EC12C0CF70A00CB311D /* PostExplorerBottomToolbar.swift */; };
 		476041B42C04F15B002724DB /* SettingsCurrentUserSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476041B32C04F15B002724DB /* SettingsCurrentUserSection.swift */; };
@@ -28,6 +31,10 @@
 		4765D1192C04825A00C4F020 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 4765D1182C04825A00C4F020 /* URLImage */; };
 		476B39DC2C0597ED00F99D44 /* Postable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476B39DB2C0597ED00F99D44 /* Postable.swift */; };
 		476B39DE2C05A21C00F99D44 /* MutablePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476B39DD2C05A21C00F99D44 /* MutablePost.swift */; };
+		477F52912C12E686003AC6ED /* PolygonRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477F52902C12E686003AC6ED /* PolygonRegion.swift */; };
+		477F52942C12EEA4003AC6ED /* PlanningArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477F52932C12EEA4003AC6ED /* PlanningArea.swift */; };
+		477F52962C12EF28003AC6ED /* PlanningAreaParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477F52952C12EF28003AC6ED /* PlanningAreaParser.swift */; };
+		4796BF182C11D199006F11A1 /* FireAuthManager in Frameworks */ = {isa = PBXBuildFile; productRef = 4796BF172C11D199006F11A1 /* FireAuthManager */; };
 		479F725E2C0DC0C100F4452E /* PostCellDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479F725D2C0DC0C100F4452E /* PostCellDisplayData.swift */; };
 		47B7147A2C01CC4900A9932A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47B714792C01CC4900A9932A /* Preview Assets.xcassets */; };
 		47B714842C01CC4900A9932A /* HomeForYouTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714832C01CC4900A9932A /* HomeForYouTests.swift */; };
@@ -256,12 +263,13 @@
 		47B716E52C01CDEA00A9932A /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716E42C01CDEA00A9932A /* FirebaseStorageCombine-Community */; };
 		47B716EB2C01CE4400A9932A /* MediaPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716EA2C01CE4400A9932A /* MediaPicker */; };
 		47B716EE2C01CE7C00A9932A /* SwiftyTheme in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716ED2C01CE7C00A9932A /* SwiftyTheme */; };
+		47BF10CF2C1245E100889DB8 /* FireAuthManager in Frameworks */ = {isa = PBXBuildFile; productRef = 47BF10CE2C1245E100889DB8 /* FireAuthManager */; };
+		47BF10D12C12483500889DB8 /* MRTMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BF10D02C12483500889DB8 /* MRTMapView.swift */; };
 		47C67E282C04375700C498F8 /* LocationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C67E272C04375700C498F8 /* LocationPublisher.swift */; };
 		47DCF5E22C03B0F700D41AFD /* SecureStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5E12C03B0F700D41AFD /* SecureStorage */; };
 		47DCF5E52C03B10F00D41AFD /* XUI in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5E42C03B10F00D41AFD /* XUI */; };
 		47DCF5E92C03B18D00D41AFD /* FireAuthManager in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5E82C03B18D00D41AFD /* FireAuthManager */; };
 		47DCF5ED2C03B2D000D41AFD /* SwiftyTheme in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5EC2C03B2D000D41AFD /* SwiftyTheme */; };
-		47DCF5F02C03B2EC00D41AFD /* FireAuthManager in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5EF2C03B2EC00D41AFD /* FireAuthManager */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -287,18 +295,24 @@
 		4703D5E42C0B9A3F0067145A /* SearchSuggestionsScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsScope.swift; sourceTree = "<group>"; };
 		4703D5E62C0B9B6C0067145A /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		470E7A382C0372CE00063345 /* Mock+Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mock+Post.swift"; sourceTree = "<group>"; };
+		471AC8C42C12A1A8006E848A /* SG.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SG.xcassets; sourceTree = "<group>"; };
+		471AC8C62C12B0D2006E848A /* PlanningAreaMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningAreaMapView.swift; sourceTree = "<group>"; };
 		4724C27D2C0C6ECB0097D0DD /* PostExplorer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostExplorer.swift; sourceTree = "<group>"; };
 		4724C27F2C0C748E0097D0DD /* PostExplorerDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostExplorerDatasource.swift; sourceTree = "<group>"; };
 		4724C2822C0CC41D0097D0DD /* PostExplorerTopToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostExplorerTopToolbar.swift; sourceTree = "<group>"; };
 		4724C2842C0CC4A80097D0DD /* PostExplorerGridStylePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostExplorerGridStylePicker.swift; sourceTree = "<group>"; };
 		472A8D022C0A3E890083DBF8 /* MRTSearchingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRTSearchingWorker.swift; sourceTree = "<group>"; };
 		472A8D042C0A3E940083DBF8 /* AreaSearchingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaSearchingWorker.swift; sourceTree = "<group>"; };
+		472B26952C137EDF005DB74F /* SearchAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAction.swift; sourceTree = "<group>"; };
 		473DA42D2C08E59D0069D358 /* HomeLogoStretchSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeLogoStretchSection.swift; sourceTree = "<group>"; };
 		47409EC12C0CF70A00CB311D /* PostExplorerBottomToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostExplorerBottomToolbar.swift; sourceTree = "<group>"; };
 		476041B32C04F15B002724DB /* SettingsCurrentUserSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCurrentUserSection.swift; sourceTree = "<group>"; };
 		4765D0D02C0476B400C4F020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		476B39DB2C0597ED00F99D44 /* Postable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Postable.swift; sourceTree = "<group>"; };
 		476B39DD2C05A21C00F99D44 /* MutablePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutablePost.swift; sourceTree = "<group>"; };
+		477F52902C12E686003AC6ED /* PolygonRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonRegion.swift; sourceTree = "<group>"; };
+		477F52932C12EEA4003AC6ED /* PlanningArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningArea.swift; sourceTree = "<group>"; };
+		477F52952C12EF28003AC6ED /* PlanningAreaParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningAreaParser.swift; sourceTree = "<group>"; };
 		479F725D2C0DC0C100F4452E /* PostCellDisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellDisplayData.swift; sourceTree = "<group>"; };
 		47B7146F2C01CC4800A9932A /* HomeForYou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeForYou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47B714792C01CC4900A9932A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -523,6 +537,7 @@
 		47B715DF2C01CD0400A9932A /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		47B715E02C01CD0400A9932A /* ThemedNavView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemedNavView.swift; sourceTree = "<group>"; };
 		47B715E12C01CD0400A9932A /* WaterfallImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallImage.swift; sourceTree = "<group>"; };
+		47BF10D02C12483500889DB8 /* MRTMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRTMapView.swift; sourceTree = "<group>"; };
 		47C67E272C04375700C498F8 /* LocationPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPublisher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -531,19 +546,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47BF10CF2C1245E100889DB8 /* FireAuthManager in Frameworks */,
 				470E7A312C0338DA00063345 /* XUI in Frameworks */,
 				47B716D72C01CD6600A9932A /* L10n-swift in Frameworks */,
 				47B716E52C01CDEA00A9932A /* FirebaseStorageCombine-Community in Frameworks */,
 				47DCF5E52C03B10F00D41AFD /* XUI in Frameworks */,
 				47B716EB2C01CE4400A9932A /* MediaPicker in Frameworks */,
 				47B716DA2C01CD8400A9932A /* Lottie in Frameworks */,
-				47DCF5F02C03B2EC00D41AFD /* FireAuthManager in Frameworks */,
 				47B716E12C01CDEA00A9932A /* FirebaseMessaging in Frameworks */,
 				47B716EE2C01CE7C00A9932A /* SwiftyTheme in Frameworks */,
 				47B716DD2C01CDEA00A9932A /* FirebaseFirestore in Frameworks */,
 				47DCF5E92C03B18D00D41AFD /* FireAuthManager in Frameworks */,
 				47DCF5E22C03B0F700D41AFD /* SecureStorage in Frameworks */,
 				47B716DF2C01CDEA00A9932A /* FirebaseFirestoreSwift in Frameworks */,
+				4796BF182C11D199006F11A1 /* FireAuthManager in Frameworks */,
 				47DCF5ED2C03B2D000D41AFD /* SwiftyTheme in Frameworks */,
 				4765D1162C04822600C4F020 /* URLImage in Frameworks */,
 				47B716E32C01CDEA00A9932A /* FirebaseStorage in Frameworks */,
@@ -593,12 +609,31 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
+		472B26942C137ECE005DB74F /* Environments */ = {
+			isa = PBXGroup;
+			children = (
+				472B26952C137EDF005DB74F /* SearchAction.swift */,
+			);
+			path = Environments;
+			sourceTree = "<group>";
+		};
 		476041B22C04F13F002724DB /* Sections */ = {
 			isa = PBXGroup;
 			children = (
 				476041B32C04F15B002724DB /* SettingsCurrentUserSection.swift */,
 			);
 			path = Sections;
+			sourceTree = "<group>";
+		};
+		477F52922C12EE94003AC6ED /* PlanningArea */ = {
+			isa = PBXGroup;
+			children = (
+				471AC8C62C12B0D2006E848A /* PlanningAreaMapView.swift */,
+				477F52932C12EEA4003AC6ED /* PlanningArea.swift */,
+				477F52902C12E686003AC6ED /* PolygonRegion.swift */,
+				477F52952C12EF28003AC6ED /* PlanningAreaParser.swift */,
+			);
+			path = PlanningArea;
 			sourceTree = "<group>";
 		};
 		479F725B2C0DB7E400F4452E /* Models */ = {
@@ -1024,6 +1059,7 @@
 		47B715202C01CD0400A9932A /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				472B26942C137ECE005DB74F /* Environments */,
 				4703D5E62C0B9B6C0067145A /* Search.swift */,
 				47B7151F2C01CD0400A9932A /* SearchDatasource.swift */,
 				47B715162C01CD0400A9932A /* Views */,
@@ -1113,6 +1149,7 @@
 				47B715342C01CD0400A9932A /* Fonts */,
 				47B7153B2C01CD0400A9932A /* Localization */,
 				47B7153C2C01CD0400A9932A /* Assets.xcassets */,
+				471AC8C42C12A1A8006E848A /* SG.xcassets */,
 				47B7153D2C01CD0400A9932A /* GoogleService-Info.plist */,
 				47B7153E2C01CD0400A9932A /* rail_list_data.json */,
 			);
@@ -1283,6 +1320,8 @@
 				47B715762C01CD0400A9932A /* GeoCoder.swift */,
 				47B715772C01CD0400A9932A /* Geohash.swift */,
 				47C67E272C04375700C498F8 /* LocationPublisher.swift */,
+				47BF10D02C12483500889DB8 /* MRTMapView.swift */,
+				477F52922C12EE94003AC6ED /* PlanningArea */,
 			);
 			path = GeoCoding;
 			sourceTree = "<group>";
@@ -1575,9 +1614,10 @@
 				47DCF5E42C03B10F00D41AFD /* XUI */,
 				47DCF5E82C03B18D00D41AFD /* FireAuthManager */,
 				47DCF5EC2C03B2D000D41AFD /* SwiftyTheme */,
-				47DCF5EF2C03B2EC00D41AFD /* FireAuthManager */,
 				4765D1152C04822600C4F020 /* URLImage */,
 				4765D1182C04825A00C4F020 /* URLImage */,
+				4796BF172C11D199006F11A1 /* FireAuthManager */,
+				47BF10CE2C1245E100889DB8 /* FireAuthManager */,
 			);
 			productName = HomeForYou;
 			productReference = 47B7146F2C01CC4800A9932A /* HomeForYou.app */;
@@ -1660,8 +1700,8 @@
 				47DCF5E32C03B10F00D41AFD /* XCLocalSwiftPackageReference "../Packages/XUI" */,
 				47DCF5EA2C03B2AC00D41AFD /* XCLocalSwiftPackageReference "../Packages/MediaPicker" */,
 				47DCF5EB2C03B2D000D41AFD /* XCLocalSwiftPackageReference "../Packages/SwiiftyTheme/SwiftyTheme" */,
-				47DCF5EE2C03B2EC00D41AFD /* XCLocalSwiftPackageReference "../Packages/FireAuthManager" */,
 				4765D1172C04825A00C4F020 /* XCLocalSwiftPackageReference "../Packages/URLImage/URLImage" */,
+				47BF10CD2C1245E000889DB8 /* XCLocalSwiftPackageReference "../Packages/FireAuthManager" */,
 			);
 			productRefGroup = 47B714702C01CC4800A9932A /* Products */;
 			projectDirPath = "";
@@ -1684,6 +1724,7 @@
 				47B7169A2C01CD0400A9932A /* building_sharp.json in Resources */,
 				47B7169C2C01CD0400A9932A /* building3.json in Resources */,
 				47B716A82C01CD0400A9932A /* singaporemap.json in Resources */,
+				471AC8C52C12A1A8006E848A /* SG.xcassets in Resources */,
 				47B7169B2C01CD0400A9932A /* building2.json in Resources */,
 				47B7165A2C01CD0400A9932A /* GoogleService-Info.plist in Resources */,
 				47B716A32C01CD0400A9932A /* house_countryside.json in Resources */,
@@ -1816,6 +1857,7 @@
 				47B716782C01CD0400A9932A /* LocationMap.swift in Sources */,
 				47B715E82C01CD0400A9932A /* LocationInfo.swift in Sources */,
 				47B7165E2C01CD0400A9932A /* MagicButton.swift in Sources */,
+				47BF10D12C12483500889DB8 /* MRTMapView.swift in Sources */,
 				47B716242C01CD0400A9932A /* HomeDatasource.swift in Sources */,
 				47B716212C01CD0400A9932A /* NearbyLocationMap.swift in Sources */,
 				47B716B12C01CD0400A9932A /* Repoable.swift in Sources */,
@@ -1833,6 +1875,7 @@
 				47B716732C01CD0400A9932A /* SnapshotExtension.swift in Sources */,
 				47B716282C01CD0400A9932A /* ErrorView.swift in Sources */,
 				47B715E72C01CD0400A9932A /* Category.swift in Sources */,
+				472B26962C137EDF005DB74F /* SearchAction.swift in Sources */,
 				47B716632C01CD0400A9932A /* MainTabView.swift in Sources */,
 				47B715FC2C01CD0400A9932A /* Restriction.swift in Sources */,
 				47B716952C01CD0400A9932A /* AppState.swift in Sources */,
@@ -1866,6 +1909,7 @@
 				47B716BF2C01CD0400A9932A /* ViewDisplayable.swift in Sources */,
 				47B7164B2C01CD0400A9932A /* ServicesSearchResults.swift in Sources */,
 				47B716C42C01CD0400A9932A /* AvatarView.swift in Sources */,
+				477F52962C12EF28003AC6ED /* PlanningAreaParser.swift in Sources */,
 				47B716982C01CD0400A9932A /* LanguagePickerView.swift in Sources */,
 				47B7167D2C01CD0400A9932A /* MRTListPickerBar.swift in Sources */,
 				47B715FE2C01CD0400A9932A /* StringViewRepresentable.swift in Sources */,
@@ -1882,6 +1926,7 @@
 				47B716762C01CD0400A9932A /* LocationMapItem++.swift in Sources */,
 				47B7161C2C01CD0400A9932A /* HomeLatestPostsSection.swift in Sources */,
 				476041B42C04F15B002724DB /* SettingsCurrentUserSection.swift in Sources */,
+				471AC8C72C12B0D2006E848A /* PlanningAreaMapView.swift in Sources */,
 				47B716692C01CD0400A9932A /* DeepLinkHandler.swift in Sources */,
 				47B716012C01CD0400A9932A /* PostDetailsSections.AttachmentSection.swift in Sources */,
 				47B716192C01CD0400A9932A /* HomeCarousellSection.swift in Sources */,
@@ -1905,7 +1950,9 @@
 				47B7164D2C01CD0400A9932A /* DeveloperControl.swift in Sources */,
 				47B716122C01CD0400A9932A /* PostCellImageView.swift in Sources */,
 				47B715F92C01CD0400A9932A /* PersonInfo.swift in Sources */,
+				477F52912C12E686003AC6ED /* PolygonRegion.swift in Sources */,
 				47B715ED2C01CD0400A9932A /* PersonDetails.swift in Sources */,
+				477F52942C12EEA4003AC6ED /* PlanningArea.swift in Sources */,
 				47B716112C01CD0400A9932A /* PostSingleColumnSmallCell.swift in Sources */,
 				47B716202C01CD0400A9932A /* NearbyLocationHandler.swift in Sources */,
 				47B716C62C01CD0400A9932A /* ImageCarousellView.swift in Sources */,
@@ -2310,6 +2357,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../Packages/URLImage/URLImage;
 		};
+		47BF10CD2C1245E000889DB8 /* XCLocalSwiftPackageReference "../Packages/FireAuthManager" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Packages/FireAuthManager;
+		};
 		47DCF5E02C03B0F700D41AFD /* XCLocalSwiftPackageReference "../Packages/SecureStorage" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../Packages/SecureStorage;
@@ -2325,10 +2376,6 @@
 		47DCF5EB2C03B2D000D41AFD /* XCLocalSwiftPackageReference "../Packages/SwiiftyTheme/SwiftyTheme" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../Packages/SwiiftyTheme/SwiftyTheme;
-		};
-		47DCF5EE2C03B2EC00D41AFD /* XCLocalSwiftPackageReference "../Packages/FireAuthManager" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../Packages/FireAuthManager;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -2371,6 +2418,10 @@
 		4765D1182C04825A00C4F020 /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = URLImage;
+		};
+		4796BF172C11D199006F11A1 /* FireAuthManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FireAuthManager;
 		};
 		47B716D62C01CD6600A9932A /* L10n-swift */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -2415,6 +2466,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftyTheme;
 		};
+		47BF10CE2C1245E100889DB8 /* FireAuthManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FireAuthManager;
+		};
 		47DCF5E12C03B0F700D41AFD /* SecureStorage */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SecureStorage;
@@ -2430,10 +2485,6 @@
 		47DCF5EC2C03B2D000D41AFD /* SwiftyTheme */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftyTheme;
-		};
-		47DCF5EF2C03B2EC00D41AFD /* FireAuthManager */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FireAuthManager;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
