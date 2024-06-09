@@ -94,8 +94,7 @@ extension SearchDatasource {
             }
         }
     }
-    @MainActor
-    func onChangeSearchScope(_ scope: Search.Scope) {
+    @MainActor func onChangeSearchScope(_ scope: Search.Scope) {
         tokens.removeAll()
         let keywords = SearchStorage.keywords
         switch scope {
@@ -110,8 +109,7 @@ extension SearchDatasource {
         }
         didChangeSearchText(searchText)
     }
-    @MainActor
-    func onSelectSearchResult(_ text: String) {
+    @MainActor func onSelectSearchResult(_ text: String) {
         switch searchScope {
         case .Address:
             Task {

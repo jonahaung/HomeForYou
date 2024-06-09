@@ -9,7 +9,6 @@ import SwiftUI
 enum MRTLine: String, Codable, Identifiable, CaseIterable, Hashable {
     
     var id: String { rawValue }
-    case grey = "#808080"
     case yellow = "#FFA500"
     case red = "#ff0000"
     case blue = "#0067B2"
@@ -21,8 +20,6 @@ enum MRTLine: String, Codable, Identifiable, CaseIterable, Hashable {
     
     var name: String {
         switch self {
-        case .grey:
-            return "LRT"
         case .yellow:
             return "Circle"
         case .red:
@@ -43,8 +40,10 @@ enum MRTLine: String, Codable, Identifiable, CaseIterable, Hashable {
             mrt.symbol.contains { item in
                 item.color == self.rawValue
             }
+        }).removeDuplicates(by: { one, two in
+            one.name == two.name
         }).sorted { lhs, rhs in
-            lhs.mainSymbol(for: self.rawValue).code.parseToInt() < rhs.mainSymbol(for: self.rawValue).code.parseToInt()
+            lhs.mainSymbol(for: self.rawValue).code.parseToInt() > rhs.mainSymbol(for: self.rawValue).code.parseToInt()
         }
     }
 }

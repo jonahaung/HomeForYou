@@ -9,6 +9,6 @@ import SwiftUI
 
 @Observable
 final class MagicButtonViewModel {
-    var item: MagicButtonItem = .init(.clock, .bottom)
+    var item: MagicButtonItem = .hidden
     var tabBarVisibility: Visibility = .automatic
 }

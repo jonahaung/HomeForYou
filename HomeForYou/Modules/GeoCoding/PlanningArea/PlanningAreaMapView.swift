@@ -8,64 +8,47 @@
 import SwiftUI
 import MapKit
 import XUI
+import SFSafeSymbols
 
 struct PlanningAreaMapView: View {
     
+    var onSelect: @Sendable (PlanningArea) async -> Void
+    @State var selection: PlanningArea? = .init(name: "", geometry: .polygon(.init(verticies: [])))
     @State private var position: MapCameraPosition = .automatic
-    private let planningAreas = PlanningArea.items
-    @State var selection: PlanningArea? = .init(name: "", geometry: .polygon([]))
+    @State private var planningAreas = [PlanningArea]()
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         MapReader { proxy in
-            Map(position: $position) {
+            Map(position: $position, interactionModes: [.zoom, .pan]) {
                 ForEach(planningAreas) { area in
-                    Annotation(coordinate: area.geometry.centerCoordinates.first ?? .init()) {
-                    } label: {
-                        Text(area.name)
-                    }
                     let isSelected = selection == area
                     switch area.geometry {
-                    case .polygon(let coordinates):
-                        if isSelected {
-                            MapPolygon(coordinates: coordinates)
-                                .foregroundStyle(Color.random(seed: area.name))
-                        } else {
-                            MapPolyline(coordinates: coordinates)
-                                .stroke(Color.primary, lineWidth: 1)
+                    case .polygon(let region):
+                        MapPolyline(coordinates: region.verticies)
+                            .stroke(isSelected ? Color.accentColor : Color.secondary, lineWidth: isSelected ? 2 : 1)
+                    case .multiPolygon(let regions):
+                        ForEach(regions, id: \.id) { region in
+                            MapPolyline(coordinates: region.verticies)
+                                .stroke(isSelected ? Color.accentColor : Color.secondary, lineWidth: isSelected ? 2 : 1)
                         }
-                    case .multiPolygon(let poligons):
-                        ForEach(poligons, id: \.self) { coordinates in
-                            if isSelected {
-                                MapPolygon(coordinates: coordinates)
-                                    .foregroundStyle(Color.random(seed: area.name))
-                            } else {
-                                MapPolyline(coordinates: coordinates)
-                                    .stroke(Color.primary, lineWidth: 1)
-                            }
+                    }
+                    Annotation(coordinate: area.geometry.centerCoordinates.first ?? .init()) {
+                        if isSelected {
+                            Text(area.name)
+                                .fontWeight(.bold)
+                        }
+                    } label: {
+                        if !isSelected {
+                            Text(area.name)
                         }
                     }
                 }
             }
-            .mapControls {
-                MapCompass()
-                MapScaleView()
-                MapUserLocationButton()
-            }
-            .mapStyle(.standard(elevation: .automatic, emphasis: .muted, pointsOfInterest: .excludingAll, showsTraffic: false))
-            .mapCameraKeyframeAnimator(trigger: selection, keyframes: { camera in
-                KeyframeTrack(\MapCamera.centerCoordinate) {
-                    LinearKeyframe(selection?.geometry.centerCoordinates.last ?? camera.centerCoordinate, duration: 1)
-                }
-                KeyframeTrack(\MapCamera.distance) {
-                    LinearKeyframe(100000, duration: 0.5)
-                    LinearKeyframe(selection == nil ? 200000 : 60000, duration: 1)
-                }
-            })
             .onTapGesture { position in
                 if let coordinate =  proxy.convert(position, from: .local) {
                     _Haptics.play(.rigid)
-                    guard let area = planningAreas.first(where: { $0.geometry.isContain(coordinate)}) else {
+                    guard let area = PlanningArea(coordinate) else {
                         selection = nil
                         return
                     }
@@ -74,27 +57,47 @@ struct PlanningAreaMapView: View {
                     selection = nil
                 }
             }
-            .statusBar(hidden: true)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        selection = nil
-                    } label: {
-                        Text("Clear")
-                    }
-                }
-                ToolbarItemGroup(placement: .bottomBar) {
-                    Button {
+        }
+        .mapStyle(.standard(elevation: .flat, emphasis: .muted, pointsOfInterest: .excludingAll, showsTraffic: false))
+        .mapControls {
+            MapCompass()
+            MapScaleView()
+            MapUserLocationButton()
+        }
+        .mapCameraKeyframeAnimator(trigger: selection, keyframes: { camera in
+            KeyframeTrack(\MapCamera.centerCoordinate) {
+                LinearKeyframe(selection?.geometry.centerCoordinates.middle ?? PlanningArea(.Bishan)?.geometry.centerCoordinates.middle ?? .init(), duration: 1.2)
+            }
+            KeyframeTrack(\MapCamera.distance) {
+                LinearKeyframe(100000, duration: 0.5)
+                LinearKeyframe(selection == nil ? 181000 : 60000, duration: 0.7)
+            }
+        })
+        .mapControlVisibility(selection == nil ? .visible : .hidden)
+        .safeAreaInset(edge: .bottom) {
+            HStack {
+                _DismissButton(isProtected: selection != nil, title: "Close")
+                Spacer()
+                if let selection {
+                    AsyncButton {
+                        await onSelect(selection)
+                        try await Task.sleep(seconds: 1)
                         dismiss()
                     } label: {
-                        Text(selection == nil ? "Cancel" : "Done")
+                        Text("Apply")
                     }
                 }
             }
-            ._onAppear(after: 1) {
-                selection = nil
-            }
+            .padding()
         }
+        .statusBar(hidden: true)
+        .interactiveDismissDisabled(selection != nil)
+        ._onAppear(after: 1) {
+            selection = nil
+        }
+        .task {
+            planningAreas = PlanningArea.items
+        }
+        .equatable(by: selection)
     }
 }

@@ -13,20 +13,21 @@ struct MagicButton: View {
     @Environment(MagicButtonViewModel.self) private var viewModel
     
     var body: some View {
-        AsyncButton {
-            _Haptics.play(.soft)
-            await viewModel.item.action?()
-        } label: {
-            SystemImage(viewModel.item.symbol, viewModel.item.size)
-                .symbolRenderingMode(.multicolor)
+        if let symbol = viewModel.item.symbol {
+            AsyncButton {
+                _Haptics.play(.soft)
+                await viewModel.item.action?()
+            } label: {
+                SystemImage(symbol, viewModel.item.size)
+                    .symbolRenderingMode(.multicolor)
+            }
+            .fontWeight(.light)
+            .foregroundStyle(Color.accentColor.gradient)
+            .contentTransition(.symbolEffect)
+            .offset(y: viewModel.item.alignment == .bottom ? -30 : 0)
+            .animation(.smooth, value: viewModel.item.alignment)
+            .phaseAnimation([.scale(0.9), .scale(1.1)])
+            .padding(.horizontal)
         }
-        .fontWeight(.light)
-        .foregroundStyle(Color.accentColor.gradient)
-        .contentTransition(.symbolEffect)
-        .offset(y: viewModel.item.alignment == .bottom ? -30 : -45)
-        .animation(.bouncy, value: viewModel.item.alignment)
-        .zIndex(5)
-        .phaseAnimation([.scale(0.9), .scale(1.1)])
-        .padding(.horizontal)
     }
 }

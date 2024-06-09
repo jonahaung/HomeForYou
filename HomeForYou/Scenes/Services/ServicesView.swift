@@ -25,14 +25,14 @@ struct ServicesView: View {
         .searchable(text: $searchText)
         .navigationBarItems(trailing: trailingItem)
     }
-
-   
-
+    
     private var trailingItem: some View {
         SystemImage(.bellBadgeFill)
             .symbolRenderingMode(.multicolor)
-            ._presentFullScreen {
-                PlanningAreaMapView()
+            ._presentSheet {
+                LocationPickerMap { item in
+                    print(item)
+                }
             }
     }
 }

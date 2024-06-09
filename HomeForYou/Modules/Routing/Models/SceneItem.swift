@@ -57,12 +57,14 @@ extension SceneItem {
         case .postCollection:
             let filters: [PostFilter] = data as? [PostFilter] ?? []
             PostsExplorerView(filters: filters)
-        case .mrtMap:
-            MRTMapView()
+        case .mrtMap(let onSelect):
+            MRTMapView(onSelect: onSelect)
         case .roomCapture:
             RoomCaptureScanView()
-        case .planningAreaMap:
-            PlanningAreaMapView()
+        case .planningAreaMap(let onSelect):
+            PlanningAreaMapView(onSelect: onSelect)
+        case .locationPickerMap(let onSelect):
+            LocationPickerMap(onSelect: onSelect)
         }
     }
 }

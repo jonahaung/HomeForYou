@@ -39,7 +39,7 @@ struct HomeView: View {
                 .background(Color.systemGroupedBackground)
             }
             .animation(
-                .interactiveSpring, 
+                .interactiveSpring,
                 value: datasource.loading
             )
         } header: {
@@ -61,15 +61,27 @@ struct HomeView: View {
         .onSearchSubmit { item in
             switch item {
             case .areaMap:
-                await router.push(to: .init(.planningAreaMap))
+                await router.presentSheet(.init(.planningAreaMap({ area in
+                    let item = SceneItem(.postCollection, data: [PostFilter(.area, [area.area.rawValue])])
+                    await router.push(to: item)
+                })))
+                
             case .mrtMap:
-                await router.presentSheet(.init(.mrtMap))
+                await router.presentSheet(.init(
+                    .mrtMap({ mrt in
+                        let item = SceneItem(.postCollection, data: [PostFilter(.mrt, [mrt.name])])
+                        await router.push(to: item)
+                    })
+                ))
             case .exploreAllPost:
                 await router.push(to: .init(.postCollection, data: [] as [PostFilter]))
             case .filter(let filters):
                 await router.push(to: .init(.postCollection, data: filters))
-            case .currentLocationMap:
-                break
+            case .locationPickerMap:
+                await router.presentFullScreen(.init(.locationPickerMap({ locaion in
+                    let item = SceneItem(.postCollection, data: [PostFilter(.keywords, [KeyWord(.postal, locaion.address.postal).keyValueString])])
+                    await router.push(to: item)
+                })))
             }
         }
     }

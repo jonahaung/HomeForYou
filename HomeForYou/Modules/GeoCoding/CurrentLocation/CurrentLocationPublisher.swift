@@ -10,7 +10,7 @@ import MapKit
 import XUI
 import Combine
 
-class LocationPublisher: NSObject {
+class CurrentLocationPublisher: NSObject {
     
     private let locationSubject = PassthroughSubject<CLLocation, Never>()
     private let authorizationSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
@@ -20,7 +20,7 @@ class LocationPublisher: NSObject {
         return $0
     }(CLLocationManager())
 }
-extension LocationPublisher {
+extension CurrentLocationPublisher {
     func startRequestingWhenInUseAuthorization() {
         manager.delegate = self
         if manager.authorizationStatus == .notDetermined {
@@ -60,7 +60,7 @@ extension LocationPublisher {
         manager.stopUpdatingLocation()
     }
 }
-extension LocationPublisher {
+extension CurrentLocationPublisher {
     func publisher() -> AnyPublisher<CLLocation, Never> {
         locationSubject
             .eraseToAnyPublisher()
@@ -71,7 +71,7 @@ extension LocationPublisher {
             .eraseToAnyPublisher()
     }
 }
-extension LocationPublisher: CLLocationManagerDelegate {
+extension CurrentLocationPublisher: CLLocationManagerDelegate {
     func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let last = locations.last {
             locationSubject.send(last)

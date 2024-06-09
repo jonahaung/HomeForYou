@@ -13,26 +13,21 @@ protocol LocationMapPresentable: Hashable, Identifiable {
     var subtitle: String { get }
     var coordinate: CLLocationCoordinate2D { get }
 }
+extension LocationMapPresentable {
+    var id: String { title + subtitle }
+}
+extension LocationMapPresentable {
+    static func centerCoordinate(for items: [any LocationMapPresentable]) -> CLLocationCoordinate2D {
+        let region = PolygonRegion(verticies: items.compactMap{ $0.coordinate })
+        return region.center
+    }
+}
 
 struct LocationMapItem: LocationMapPresentable {
-    var id = UUID()
     var title: String
     var subtitle: String
     var coordinate: CLLocationCoordinate2D
     var color: Color?
-    
-    static func centerCoordinate(for items: [Self]) -> CLLocationCoordinate2D {
-        guard items.count > 0 else {
-            return CLLocationCoordinate2D(latitude: 1.3124740687274035, longitude: 103.8963501183422)
-        }
-        let lat = items.map{ $0.coordinate.latitude }.reduce(Double.zero) { result, element in
-            result + element
-        }
-        let long = items.map{ $0.coordinate.longitude }.reduce(Double.zero) { result, element in
-            result + element
-        }
-        return .init(latitude: lat/items.count.double, longitude: long/items.count.double)
-    }
 }
 
 extension CLLocationCoordinate2D: Hashable {

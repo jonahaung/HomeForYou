@@ -6,20 +6,20 @@
 //
 
 import SwiftUI
+import XUI
 
 private struct MagicButtonStateModifier: ViewModifier {
     
     @Environment(MagicButtonViewModel.self) private var viewModel
     let item: MagicButtonItem
-
+    
     func body(content: Content) -> some View {
         content
-            .onAppear {
+            ._onAppear(after: 0.5) {
                 viewModel.item = item
             }
     }
 }
-
 extension View {
     func magicButton(_ item: MagicButtonItem) -> some View {
         modifier(MagicButtonStateModifier(item: item))

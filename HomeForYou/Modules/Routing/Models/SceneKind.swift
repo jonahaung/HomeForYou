@@ -12,8 +12,10 @@ import SwiftyTheme
 
 enum SceneKind: RawRepresentable {
     
-    case signIn, developerControl, appThemeSettings, lookingForList, createPostLooking, onboarding, eula,
-         mrtMap, roomCapture, createPost, postDetails, postCollection, planningAreaMap
+    case signIn, developerControl, appThemeSettings, lookingForList, createPostLooking, onboarding, eula, roomCapture, createPost, postDetails, postCollection
+    case mrtMap(_ onSelect: @Sendable (MRT) async -> Void)
+    case planningAreaMap(_ onSelect: @Sendable (PlanningArea) async -> Void)
+    case locationPickerMap(_ onSelect: @Sendable (LocationInfo) async -> Void)
     
     var rawValue: String {
         switch self {
@@ -43,6 +45,8 @@ enum SceneKind: RawRepresentable {
             return RoomCaptureScanView.typeName
         case .planningAreaMap:
             return PlanningAreaMapView.typeName
+        case .locationPickerMap:
+            return LocationPickerMap.typeName
         }
     }
     init?(rawValue: String) {
@@ -68,11 +72,13 @@ enum SceneKind: RawRepresentable {
         case PostDetailsView.typeName:
             self = .postDetails
         case MRTMapView.typeName:
-            self = .mrtMap
+            self = .mrtMap{ _ in}
         case RoomCaptureScanView.typeName:
             self = .roomCapture
         case PlanningAreaMapView.typeName:
-            self = .planningAreaMap
+            self = .planningAreaMap{ _ in}
+        case LocationPickerMap.typeName:
+            self = .locationPickerMap{ _ in}
         default:
             return nil
         }

@@ -8,18 +8,16 @@
 import SwiftUI
 import MapKit
 import XUI
-import SFSafeSymbols
 
-struct LocationMap: View {
+struct LocationMap<Item: LocationMapPresentable>: View {
     
-    private var items: [LocationMapItem]
-    @State var selected: LocationMapItem?
+    private var items: [Item]
+    @State var selected: Item?
     @State private var position: MapCameraPosition
-    @State private var trigger = false
     @State private var lookAroundScene: MKLookAroundScene?
     
-    init(_ items: [LocationMapItem]) {
-        position = .camera(.init(centerCoordinate: LocationMapItem.centerCoordinate(for: items), distance: 10_000))
+    init(_ items: [Item]) {
+        position = .item(.init(placemark: .init(coordinate: items.middle?.coordinate ?? .init())))
         self.items = items
     }
     var body: some View {
@@ -30,22 +28,13 @@ struct LocationMap: View {
             }
         }
         .mapControls {
-            MapUserLocationButton()
             MapCompass()
             MapScaleView()
         }
-        .mapCameraKeyframeAnimator(trigger: trigger) { camera in
-            KeyframeTrack(\MapCamera.distance) {
-                LinearKeyframe(2000, duration: 2)
-            }
-        }
-        ._onAppear(after: 3) {
-            trigger = true
-        }
-        .onChange(of: selected, { oldValue, newValue in
-            if let newValue {
+        .onChange(of: selected, initial: false, { _,_  in
+            if let selected {
                 Task {
-                    let request = MKLookAroundSceneRequest(coordinate: newValue.coordinate)
+                    let request = MKLookAroundSceneRequest(coordinate: selected.coordinate)
                     do {
                         let lookAroundScene = try await request.scene
                         await MainActor.run {
@@ -63,7 +52,6 @@ struct LocationMap: View {
         }
     }
 }
-
 extension MKLookAroundScene: Identifiable {
     public var id: String { self.description }
 }

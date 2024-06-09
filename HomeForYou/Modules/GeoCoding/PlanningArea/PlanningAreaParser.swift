@@ -25,22 +25,21 @@ internal class PlanningAreaParser {
         guard let features = json["features"] as? [JsonDictionary] else {
             return []
         }
-        return features.compactMap(self.parseCountry)
+        return features.compactMap(self.parse)
     }
     
-    private func parseCountry(country: JsonDictionary) -> PlanningArea? {
+    private func parse(dic: JsonDictionary) -> PlanningArea? {
         guard
-            let properties = country["properties"] as? JsonDictionary,
+            let properties = dic["properties"] as? JsonDictionary,
             let countryName = properties["name"] as? String,
-            let geometryDict = country["geometry"] as? JsonDictionary,
+            let geometryDict = dic["geometry"] as? JsonDictionary,
             let geoType = geometryDict["type"] as? String else {
             return nil
         }
-        
         if geoType == "Polygon" {
-            return PlanningArea(name: countryName, geometry: .polygon(self.parsePolygon(json: geometryDict)))
+            return PlanningArea(name: countryName, geometry: .polygon(.init(verticies: parsePolygon(json: geometryDict))))
         } else if geoType == "MultiPolygon" {
-            return PlanningArea(name: countryName, geometry: .multiPolygon(self.parseMultiPolygon(json: geometryDict)))
+            return PlanningArea(name: countryName, geometry: .multiPolygon(parseMultiPolygon(json: geometryDict).map{ .init(verticies: $0)}))
         } else {
             return nil
         }
@@ -57,7 +56,6 @@ internal class PlanningAreaParser {
         guard let coordinates = json["coordinates"] as? [[[[Double]]]] else {
             return []
         }
-        
         return coordinates.map(self.parsePoints)
     }
     

@@ -156,7 +156,7 @@ private final class PostingFlowAddressViewModel: ViewModel, ObservableObject {
     @Published var loading: Bool = false
     @Published var location: LocationInfo = .empty
     
-    private let locationPublisher = LocationPublisher()
+    private let locationPublisher = CurrentLocationPublisher()
     private let cancelBag = CancelBag()
     
     init() {

@@ -19,7 +19,7 @@ final class NearbyLocationHandler: ViewModel, ObservableObject {
     var location: LocationInfo?
     @Published var nearbyPosts = [Post]()
     private let repo = Repo()
-    private let locationPublisher = LocationPublisher()
+    private let locationPublisher = CurrentLocationPublisher()
     private var cancelBag = CancelBag()
     
     init() {

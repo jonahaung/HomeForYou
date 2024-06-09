@@ -59,11 +59,11 @@ extension Service {
     var screenType: SceneKind {
         switch self {
         case .mrtMap:
-            return .mrtMap
+            return .mrtMap({_ in })
         case .roomCapture:
             return .roomCapture
         case .planningAreaMap:
-            return .planningAreaMap
+            return .planningAreaMap({_ in })
         default:
             return .eula
         }

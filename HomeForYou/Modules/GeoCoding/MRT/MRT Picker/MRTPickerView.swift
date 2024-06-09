@@ -114,7 +114,7 @@ struct MRTPickerView: View {
         HStack {
             SystemImage(.map)
                 ._presentFullScreen {
-                    MRTMapView()
+                    MRTMapView(onSelect: { _ in })
                 }
             
             _ConfirmButton("Clear All") {

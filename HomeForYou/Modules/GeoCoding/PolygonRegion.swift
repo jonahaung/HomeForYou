@@ -8,7 +8,8 @@
 import Foundation
 import CoreLocation
 
-struct PolygonRegion {
+struct PolygonRegion: Identifiable {
+    var id: CLLocationCoordinate2D { center }
     
     let verticies: [CLLocationCoordinate2D]
     private var maxLat: CLLocationDegrees!
@@ -57,26 +58,21 @@ struct PolygonRegion {
             if intersectionType(testRay,edge) == .intersecting {
                 intersections += 1
             }
-            
         }
-        
         if intersections % 2 == 0 {
             return false
         }
-        
         return true
     }
     
     
     private func isInsideBoundingBox(_ testPoint: CLLocationCoordinate2D) -> Bool {
-        
         return !( testPoint.latitude < minLat || testPoint.latitude > maxLat || testPoint.longitude < minLon || testPoint.longitude > maxLon )
     }
     
     // See https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon/218081?s=1|193.4130#218081
     
     private func intersectionType(_ ray1: Ray, _ ray2: Ray) -> IntersectionType {
-        
         var d1,d2: Double
         var a1,a2,b1,b2,c1,c2: Double
         
@@ -154,5 +150,4 @@ struct PolygonRegion {
         case nonIntersecting
         case coLinear
     }
-    
 }

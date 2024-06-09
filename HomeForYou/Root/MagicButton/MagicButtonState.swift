@@ -9,24 +9,18 @@ import Foundation
 import SFSafeSymbols
 import SwiftUI
 
-struct MagicButtonItem: Hashable, Identifiable {
+struct MagicButtonItem {
     
-    let symbol: SFSymbol
+    let symbol: SFSymbol?
     let action: (@Sendable () async -> Void)?
     let alignment: Alignment
+    let size: CGFloat
     
-    init(_ symbol: SFSymbol, _ alignment: Alignment, _ action: (@Sendable () async -> Void)? = nil) {
+    init(_ symbol: SFSymbol?, _ alignment: Alignment, _ size: CGFloat = 34.scaled, _ action: (@Sendable () async -> Void)? = nil) {
         self.symbol = symbol
         self.action = action
         self.alignment = alignment
-    }
-    
-    var id: SFSymbol { symbol }
-    static func == (lhs: MagicButtonItem, rhs: MagicButtonItem) -> Bool {
-        lhs.symbol == rhs.symbol
-    }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        self.size = size
     }
     
     static let backButton: MagicButtonItem = {
@@ -37,12 +31,22 @@ struct MagicButtonItem: Hashable, Identifiable {
     }()
     
     static let explorer: MagicButtonItem = {
-        .init(.magnifyingglassCircleFill, .bottom) {
+        .init(.magnifyingglassCircleFill, .bottom, 54.scaled) {
             @Injected(\.router) var router
             await router.push(to: SceneItem(.postCollection, data: [] as [PostFilter]))
         }
     }()
-    var size: CGFloat {
-        alignment == .bottom ? 54 : 34
+    static let hidden: MagicButtonItem = {
+        .init(nil, .bottom, 0)
+    }()
+}
+
+extension MagicButtonItem: Hashable, Identifiable {
+    var id: String { symbol?.rawValue ?? "" }
+    static func == (lhs: MagicButtonItem, rhs: MagicButtonItem) -> Bool {
+        lhs.id == rhs.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }

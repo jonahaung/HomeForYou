@@ -8,24 +8,51 @@
 import Foundation
 import CoreLocation
 
-struct PlanningArea: Hashable, Identifiable {
+struct PlanningArea: Sendable {
+    static let items: [PlanningArea] = {
+        return PlanningAreaParser.load()
+    }()
     
-    static func == (lhs: PlanningArea, rhs: PlanningArea) -> Bool {
-        lhs.id == rhs.id
-    }
-    var id: String { name + geometry.id }
     let name: String
     let geometry: XGeometry
-    func hash(into hasher: inout Hasher) {
-        name.hash(into: &hasher)
+    
+    init(name: String, geometry: XGeometry) {
+        self.name = name
+        self.geometry = geometry
+    }
+    
+    init?(_ coordinate: CLLocationCoordinate2D) {
+        if let item = Self.items.first(where: { $0.geometry.isContain(coordinate) }) {
+            self = item
+        } else {
+            return nil
+        }
+    }
+    
+    init?(_ area: Area) {
+        let name = area.rawValue.replace("_", with: " ").uppercased()
+        if let found = Self.items.first(where: { $0.name == name }) {
+            self = found
+        } else {
+            return nil
+        }
+    }
+    var area: Area {
+        let rawValue = name.replace(" ", with: "_").capitalized
+        return .init(rawValue: rawValue)!
     }
     enum XGeometry: Identifiable {
-        case polygon([CLLocationCoordinate2D])
-        case multiPolygon([[CLLocationCoordinate2D]])
-        var id: String {
+        
+        case polygon(PolygonRegion)
+        case multiPolygon([PolygonRegion])
+        
+        var id: AnyHashable {
             switch self {
             case .polygon(let array):
-                return "\(array.count)"
+                if array.verticies.isEmpty {
+                    return ""
+                }
+                return array.id
             case .multiPolygon(let array):
                 return "\(array.count)"
             }
@@ -33,64 +60,34 @@ struct PlanningArea: Hashable, Identifiable {
         var centerCoordinates: [CLLocationCoordinate2D] {
             var items = [CLLocationCoordinate2D]()
             switch self {
-            case .polygon(let coordinates):
-                let lattitude = coordinates.map({ $0.latitude }).reduce(Double.zero) { partialResult, next in
-                    partialResult + next
-                }
-                let longitude = coordinates.map{ $0.longitude }.reduce(Double.zero) { partialResult, next in
-                    partialResult + next
-                }
-                let divider = Double(coordinates.count)
-                let coordinate = CLLocationCoordinate2D(latitude: lattitude/divider, longitude: longitude/divider)
-                items.append(coordinate)
-            case .multiPolygon(let array):
-                array.forEach { coordinates in
-                    let latitude = coordinates.map({ $0.latitude }).reduce(Double.zero) { partialResult, next in
-                        partialResult + next
-                    }
-                    let longitude = coordinates.map{ $0.longitude }.reduce(Double.zero) { partialResult, next in
-                        partialResult + next
-                    }
-                    let divider = Double(coordinates.count)
-                    let coordinate = CLLocationCoordinate2D(latitude: latitude/divider, longitude: longitude/divider)
-                    items.append(coordinate)
+            case .polygon(let region):
+                items.append(region.center)
+            case .multiPolygon(let regions):
+                regions.forEach { region in
+                    items.append(region.center)
                 }
             }
             return items
         }
         
-        var regions: [PolygonRegion] {
-            switch self {
-            case .polygon(let array):
-                return [.init(verticies: array)]
-            case .multiPolygon(let array):
-                return array.map{ PolygonRegion(verticies: $0 )}
-            }
-        }
-        
         func isContain(_ coordinate: CLLocationCoordinate2D) -> Bool {
             switch self {
-            case .polygon(let array):
-                let points = array.map{ CGPoint.init(x: $0.latitude, y: $0.longitude) }
-                let point = CGPoint(x: coordinate.latitude, y: coordinate.longitude)
-                return point.isInsidePolygon(polygon: points)
-            case .multiPolygon(let array):
-                var isContains = false
-                array.forEach { each in
-                    let points = each.map{ CGPoint.init(x: $0.latitude, y: $0.longitude) }
-                    let point = CGPoint(x: coordinate.latitude, y: coordinate.longitude)
-                    if !isContains {
-                        isContains = point.isInsidePolygon(polygon: points)
-                    }
-                }
-                return isContains
+            case .polygon(let region):
+                return region.isPointInside(coordinate)
+            case .multiPolygon(let regions):
+                return regions.contains(where: { $0.isPointInside(coordinate)})
             }
         }
     }
-    
-    static let items: [PlanningArea] = {
-        return PlanningAreaParser.load()
-    }()
+}
+extension PlanningArea: Hashable, Identifiable {
+    var id: AnyHashable { name }
+    static func == (lhs: PlanningArea, rhs: PlanningArea) -> Bool {
+        lhs.id == rhs.id && lhs.name == rhs.name
+    }
+    func hash(into hasher: inout Hasher) {
+        name.hash(into: &hasher)
+    }
 }
 extension CGPoint {
     func isInsidePolygon(polygon: [CGPoint]) -> Bool {
