@@ -53,7 +53,6 @@ final class Post: Postable, ObservableObject {
     var favourites = [String]() { willSet { updateUI() }}
     
     var additional: [String: String]?
-    
     init(category: Category, authorInfo: PersonInfo) {
         self.id = Post.createID()
         self.category = category
@@ -61,9 +60,9 @@ final class Post: Postable, ObservableObject {
     }
     
     static func == (lhs: Post, rhs: Post) -> Bool {
-        lhs.toDictionary() ==  rhs.toDictionary()
+        lhs.id ==  rhs.id
     }
-    private func updateUI() {
+    func updateUI() {
         if Thread.isMainThread {
             objectWillChange.send()
         }

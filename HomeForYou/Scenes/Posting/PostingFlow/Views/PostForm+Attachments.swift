@@ -9,9 +9,9 @@ import SwiftUI
 import XUI
 import AVKit
 
-struct PostForm_Attachmments: View {
+struct PostForm_Attachmments<T: Postable>: View {
     
-    @Binding var post: MutablePost
+    @Binding var post: T
     @State private var attachments = [XAttachment]()
     @State private var selections = [XAttachment]()
     @State private var tapped: XAttachment?

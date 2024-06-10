@@ -8,7 +8,7 @@
 import SwiftUI
 import XUI
 
-enum Category: String, Hashable, Codable, CaseIterable, Sendable {
+enum Category: String, Hashable, Codable, CaseIterable, Equatable, Sendable {
     var id: String { rawValue }
     case selling, rental_flat, rental_room
     

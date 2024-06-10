@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseAuth
 
-struct PersonInfo: Codable, Sendable, Equatable {
+struct PersonInfo: Codable, Sendable, Equatable, Hashable, Identifiable {
     let id: String
     let name: String?
     let email: String?

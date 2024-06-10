@@ -9,14 +9,11 @@ import SwiftUI
 import XUI
 import FireAuthManager
 
-struct PostForm_Description: View {
+struct PostForm_Description<T: Postable>: View {
     
-    var dismiss: DismissAction
-    @Binding var postingData: MutablePost
-    @Injected(\.currentUser) private var currentUser
-    @Environment(PostingFlowRouter.self) private var router
-    
-    @MainActor
+    @Binding var postingData: T
+    @Environment(\.onTakePostingAction) private var onTakePostingAction
+
     var body: some View {
         List {
             Section {
@@ -49,13 +46,10 @@ struct PostForm_Description: View {
         .scrollDismissesKeyboard(.immediately)
         .safeAreaInset(edge: .bottom) {
             AsyncButton(actionOptions: [.showProgressView]) {
-                guard let user = currentUser.model else { return }
-                try await PostUploader.post(&postingData, author: user.personInfo)
+                await onTakePostingAction?(postingData.views.count > 0 ? .update(postingData) : .upload(postingData))
             } label: {
                 Text("Submit")
                     ._borderedProminentButtonStyle()
-            } onFinish: {
-                finish()
             }
             .padding()
             ._hidable(isValid() == false)
@@ -64,7 +58,7 @@ struct PostForm_Description: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 _ConfirmButton("close the current form") {
-                    dismiss()
+                    await onTakePostingAction?(.cancel)
                 } label: {
                     Text("Close")
                 }
@@ -78,12 +72,6 @@ struct PostForm_Description: View {
             }
         }
     }
-
-    @MainActor
-    private func finish() {
-        dismiss()
-    }
-
     private func isValid() -> Bool {
         !postingData.title.isWhitespace &&
         !postingData.description.isWhitespace &&

@@ -32,7 +32,7 @@ enum SceneKind: RawRepresentable {
         case .lookingForList:
             return LookingForSceneView.typeName
         case .createPost:
-            return PostingFlowView.typeName
+            return PostingFlowView<Post>.typeName
         case .createPostLooking:
             return LookingForFormView.typeName
         case .postDetails:
@@ -61,7 +61,7 @@ enum SceneKind: RawRepresentable {
             self = .appThemeSettings
         case LookingForSceneView.typeName:
             self = .lookingForList
-        case PostingFlowView.typeName:
+        case PostingFlowView<Post>.typeName:
             self = .createPost
         case LookingForFormView.typeName:
             self = .createPostLooking

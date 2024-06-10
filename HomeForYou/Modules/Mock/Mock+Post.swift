@@ -14,7 +14,7 @@ extension Post {
         var posts = [Post]()
         (1...i).forEach { i in
             let post = Post(category: .rental_room, author: .init())
-            post.id = UUID().uuidString
+            post.id = Post.createID()
             post.title = Lorem.title
             post.price = 1000
             post.attachments = [XAttachment.init(url: DemoImages.demoPhotosURLs.random()!.absoluteString, type: .photo)]

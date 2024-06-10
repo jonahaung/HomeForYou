@@ -14,9 +14,12 @@ struct MapKeyFrameAnimation: Hashable, Equatable {
     var distance: Double?
     var pitch: Double?
     
-    init(_ coordinate: CLLocationCoordinate2D? = nil, distance: Double? = nil, pitch: Double? = nil) {
+    init(_ coordinate: CLLocationCoordinate2D? = .singapore, distance: Double? = 80000, pitch: Double? = nil) {
         self.coordinate = coordinate
         self.distance = distance
         self.pitch = pitch
     }
+}
+extension CLLocationCoordinate2D {
+    static let singapore: CLLocationCoordinate2D = .init(latitude: 1.3521, longitude: 103.8198)
 }

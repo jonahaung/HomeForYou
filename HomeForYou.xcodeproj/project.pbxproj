@@ -269,6 +269,7 @@
 		47BF10CF2C1245E100889DB8 /* FireAuthManager in Frameworks */ = {isa = PBXBuildFile; productRef = 47BF10CE2C1245E100889DB8 /* FireAuthManager */; };
 		47BF10D12C12483500889DB8 /* MRTMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BF10D02C12483500889DB8 /* MRTMapView.swift */; };
 		47C67E282C04375700C498F8 /* CurrentLocationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C67E272C04375700C498F8 /* CurrentLocationPublisher.swift */; };
+		47DA408A2C17A92000B385B9 /* PostingAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA40892C17A92000B385B9 /* PostingAction.swift */; };
 		47DCF5E22C03B0F700D41AFD /* SecureStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5E12C03B0F700D41AFD /* SecureStorage */; };
 		47DCF5E52C03B10F00D41AFD /* XUI in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5E42C03B10F00D41AFD /* XUI */; };
 		47DCF5E92C03B18D00D41AFD /* FireAuthManager in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5E82C03B18D00D41AFD /* FireAuthManager */; };
@@ -545,6 +546,7 @@
 		47B715E12C01CD0400A9932A /* WaterfallImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallImage.swift; sourceTree = "<group>"; };
 		47BF10D02C12483500889DB8 /* MRTMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRTMapView.swift; sourceTree = "<group>"; };
 		47C67E272C04375700C498F8 /* CurrentLocationPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationPublisher.swift; sourceTree = "<group>"; };
+		47DA40892C17A92000B385B9 /* PostingAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingAction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1231,6 +1233,7 @@
 		47B715502C01CD0400A9932A /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				47DA40882C17A90900B385B9 /* Posting */,
 				470E7A342C0346A800063345 /* Category */,
 			);
 			path = Actions;
@@ -1608,6 +1611,14 @@
 			path = Modules;
 			sourceTree = "<group>";
 		};
+		47DA40882C17A90900B385B9 /* Posting */ = {
+			isa = PBXGroup;
+			children = (
+				47DA40892C17A92000B385B9 /* PostingAction.swift */,
+			);
+			path = Posting;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1861,6 +1872,7 @@
 				47B716162C01CD0400A9932A /* PostExplorerViewModel.swift in Sources */,
 				47B716382C01CD0400A9932A /* PostingFlowRouter.swift in Sources */,
 				47B7167B2C01CD0400A9932A /* MRT+Extensions.swift in Sources */,
+				47DA408A2C17A92000B385B9 /* PostingAction.swift in Sources */,
 				47B7162A2C01CD0400A9932A /* LookingForSceneInteractor.swift in Sources */,
 				47B716C82C01CD0400A9932A /* SelectableTag.swift in Sources */,
 				47B716C12C01CD0400A9932A /* Router.swift in Sources */,

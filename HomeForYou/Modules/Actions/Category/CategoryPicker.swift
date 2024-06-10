@@ -10,7 +10,7 @@ import XUI
 
 struct CategoryPicker: View {
     
-    @AppStorage("category") private var category: Category = .rental_room
+    @AppStorage(K.Defaults.currentCategory.rawValue) private var category: Category = .rental_room
     @State private var currentCategory: Category?
     @Environment(\.onUpdateCategory) private var updateCategory
     

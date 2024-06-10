@@ -8,10 +8,11 @@
 import SwiftUI
 import XUI
 
-struct PostForm_Details: View {
+struct PostForm_Details<T: Postable>: View {
     
-    @Binding var postingData: MutablePost
+    @Binding var postingData: T
     @Environment(PostingFlowRouter.self) private var router
+    
     @MainActor
     var body: some View {
         Form {

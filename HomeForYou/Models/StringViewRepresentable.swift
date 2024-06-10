@@ -8,7 +8,7 @@
 import Foundation
 import XUI
 
-protocol StringViewRepresentable: RawRepresentable, Codable, Identifiable, CaseIterable, XPickable {
+protocol StringViewRepresentable: Codable, Hashable, RawRepresentable, Identifiable, Equatable, CaseIterable, XPickable {
     var id: RawValue { get }
 }
 

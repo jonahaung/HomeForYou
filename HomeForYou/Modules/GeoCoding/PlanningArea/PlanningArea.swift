@@ -65,8 +65,7 @@ struct PlanningArea: Sendable {
             case .polygon(let region):
                 return region.isPointInside(coordinate)
             case .multiPolygon(let regions):
-                let region = PolygonRegion(verticies: regions.flatMap{ $0.verticies })
-                return region.isPointInside(coordinate)
+                return regions.first(where: { $0.isPointInside(coordinate) }) != nil
             }
         }
     }

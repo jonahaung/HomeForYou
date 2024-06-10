@@ -46,6 +46,7 @@ struct PlanningAreaMapView: View {
                     }
                 }
             }
+            .equatable(by: selection)
             .onTapGesture { position in
                 if let coordinate =  proxy.convert(position, from: .local) {
                     if let area = PlanningArea(coordinate) {

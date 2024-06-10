@@ -68,7 +68,7 @@ struct MRTPickerView: View {
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle(currentMode == .Selections ? "Selected Items" : lineType.name, displayMode: .large)
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
         .safeAreaInset(edge: .bottom) {
             HStack(alignment: .bottom, spacing: 0) {
                 Spacer()
@@ -113,11 +113,10 @@ struct MRTPickerView: View {
         HStack {
             SystemImage(.mappinAndEllipse)
                 ._presentFullScreen {
-                    MRTMapView(selection: selected, selectedLine: lineType) { mrt in
+                    MRTMapView(selection: selected, selectedService: .init(lineType)) { mrt in
                         toggleSelect(mrt)
                     }
                 }
-            
             _ConfirmButton("Clear All") {
                 multiSelection.removeAll()
             } label: {

@@ -8,15 +8,15 @@
 import Foundation
 import CoreLocation
 
-struct PolygonRegion: Identifiable {
+struct PolygonRegion: Hashable, Identifiable {
     
     var id: CLLocationCoordinate2D { center }
     
     let verticies: [CLLocationCoordinate2D]
-    private var maxLat: CLLocationDegrees!
-    private var maxLon: CLLocationDegrees!
-    private var minLat: CLLocationDegrees!
-    private var minLon: CLLocationDegrees!
+    var maxLat: CLLocationDegrees!
+    var maxLon: CLLocationDegrees!
+    var minLat: CLLocationDegrees!
+    var minLon: CLLocationDegrees!
     private var epsilon: CLLocationDegrees
     
     var center: CLLocationCoordinate2D { CLLocationCoordinate2D(latitude: minLat+(maxLat-minLat)/2, longitude: minLon+(maxLon-minLon)/2) }

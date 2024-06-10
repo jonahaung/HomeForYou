@@ -11,14 +11,15 @@ import SwiftyTheme
 import FireAuthManager
 import FirebaseAuth
 
-struct PostingFlowView: View {
+struct PostingFlowView<T: Postable>: View {
     
-    private let post: Post
+    @State private var post: T
     @State private var postingData: MutablePost
     @State private var router = PostingFlowRouter()
+    @Injected(\.currentUser) private var currentUser
     @Environment(\.dismiss) private var dismiss
     
-    init(post: Post) {
+    init(post: T) {
         self.post = post
         self.postingData = post.clone()
     }
@@ -32,12 +33,46 @@ struct PostingFlowView: View {
                     case .details:
                         PostForm_Details(postingData: $postingData)
                     case .description:
-                        PostForm_Description(dismiss: dismiss, postingData: $postingData)
+                        PostForm_Description(postingData: $postingData)
                     }
                 }
         }
         .swiftyThemeStyle()
         .environment(router)
         .statusBarHidden(true)
+        .onTakePostingAction { action in
+            switch action {
+            case .cancel:
+                dismiss()
+            case .upload(let post):
+                if let model = currentUser.model {
+                    var mutablePost = post
+                    do {
+                        try await PostUploader.post(&mutablePost, author: PersonInfo(model: model))
+                        self.post.copy(from: mutablePost)
+                        await MainActor.run {
+                            self.post.updateUI()
+                            dismiss()
+                        }
+                    } catch {
+                        Log(error)
+                    }
+                }
+            case .update(let post):
+                if let model = currentUser.model {
+                    var mutablePost = post
+                    do {
+                        try await PostUploader.post(&mutablePost, author: PersonInfo(model: model))
+                        self.post.copy(from: mutablePost)
+                        await MainActor.run {
+                            self.post.updateUI()
+                            dismiss()
+                        }
+                    } catch {
+                        Log(error)
+                    }
+                }
+            }
+        }
     }
 }

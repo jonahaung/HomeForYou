@@ -17,8 +17,9 @@ struct PostForm_Address: View {
     @FocusState private var focused: FocusedField?
     @Injected(\.ui) private  var ui
     @Environment(PostingFlowRouter.self) private var router
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.keyboardShowing) private var keyboardShowing
+    
+    @Environment(\.onTakePostingAction) private var onTakePostingAction
     
     @StateObject private var viewModel = PostingFlowAddressViewModel()
     @Binding private var location: LocationInfo
@@ -118,7 +119,11 @@ struct PostForm_Address: View {
         .navigationTitle("@address")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                _DismissButton(isProtected: viewModel.location.isValid, title: "Close")
+                AsyncButton {
+                    await onTakePostingAction?(.cancel)
+                } label: {
+                    Text("Cancel")
+                }
             }
             ToolbarItemGroup(placement: .bottomBar) {
                 _ConfirmButton("Reset the address") {

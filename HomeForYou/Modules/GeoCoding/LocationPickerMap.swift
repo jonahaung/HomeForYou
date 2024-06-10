@@ -64,8 +64,9 @@ struct LocationPickerMap: View {
                             animation.distance = 8000
                             animation.pitch = 0
                         } label: {
-                            SystemImage(.trashFill, 34)
+                            SystemImage(.trashFill)
                                 .symbolRenderingMode(.multicolor)
+                                ._overlayLightButtonStyle()
                         }
                     } else {
                         _DismissButton(isProtected: coordinate != nil, title: "Close")
@@ -78,6 +79,7 @@ struct LocationPickerMap: View {
                             dismiss()
                         } label: {
                             Text("Apply")
+                                ._borderedProminentLightButtonStyle()
                         }
                     }
                 }
@@ -87,7 +89,7 @@ struct LocationPickerMap: View {
         .statusBar(hidden: true)
         .interactiveDismissDisabled(coordinate != nil)
         ._onAppear(after: 1) {
-            animation.distance = 5000
+            animation = .init(nil, distance: 5000)
         }
         .onChange(of: selection) {
             if let selection {

@@ -60,4 +60,7 @@ struct MutablePost: Postable {
         self.autherID = authorInfo.id
         self.author = authorInfo
     }
+    func updateUI() {
+        
+    }
 }

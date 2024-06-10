@@ -56,7 +56,10 @@ protocol Postable: Repoable {
     
     init()
     init(category: Category, authorInfo: PersonInfo)
+    
+    func updateUI()
 }
+
 extension Postable {
     init() {
         self.init(category: .current, author: .init())
@@ -80,7 +83,7 @@ extension Postable {
     }
 }
 extension Postable {
-    mutating func copy(from item: any Postable) {
+    mutating func copy<T: Postable>(from item: T) {
         id = item.id
         category = item.category
         author = item.author
