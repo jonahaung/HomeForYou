@@ -34,7 +34,7 @@ public struct CurrentUserProfileUpdateView: View {
                                         image
                                             .resizable()
                                             .clipShape(Circle())
-                                    case .failure(let error):
+                                    case .failure:
                                         Image(systemSymbol: .photoCircleFill)
                                             .resizable()
                                             .scaledToFit()
@@ -43,13 +43,13 @@ public struct CurrentUserProfileUpdateView: View {
                                         fatalError()
                                     }
                                 }
-                            case .loading(let progress):
+                            case .loading:
                                 ProgressView()
                             case .success(let content):
                                 Image(uiImage: content)
                                     .resizable()
                                     .clipShape(Circle())
-                            case .failure(let error):
+                            case .failure:
                                 SystemImage(.exclamationmarkCircleFill)
                             }
                         }

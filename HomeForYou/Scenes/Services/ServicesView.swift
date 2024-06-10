@@ -31,7 +31,7 @@ struct ServicesView: View {
             .symbolRenderingMode(.multicolor)
             ._presentSheet {
                 LocationPickerMap { item in
-                    print(item)
+                    Log(item)
                 }
             }
     }

@@ -125,7 +125,7 @@ struct MRTMapView: View {
                         } label: {
                             SystemImage(.trashFill)
                                 .symbolRenderingMode(.multicolor)
-                                .padding(.horizontal)
+                                ._overlayLightButtonStyle()
                         }
                     }
                     if let selectedLine {

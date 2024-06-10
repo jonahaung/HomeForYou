@@ -57,7 +57,7 @@ struct DeveloperControl: View {
             lookings = try await Repo.shared.async_fetch(query: Firestore.firestore().collection(Looking.collectionPath)
             )
         } catch {
-            print(error)
+            Log(error)
         }
     }
 }

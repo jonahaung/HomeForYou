@@ -77,7 +77,7 @@ struct MapSnapshotView: View {
                 snapshotImage = image
             }
         } catch {
-            print(error)
+            Log(error)
         }
     }
 }

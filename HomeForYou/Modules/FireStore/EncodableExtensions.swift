@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-
+import XUI
 enum EncodableExtensionError: Error {
     case encodingError
 }
@@ -35,7 +35,7 @@ extension Encodable {
             let encoded = try toFirestoreData()
             return encoded as NSDictionary
         } catch {
-            print(error)
+            Log(error)
             return nil
         }
     }

@@ -7,20 +7,21 @@
 import Foundation
 import MapKit
 import Combine
+import XUI
 
 final class AddressAutoComplete: NSObject, ObservableObject {
-
+    
     @Published var results: [Address] = []
     @Published var searchableText = ""
-
+    
     private lazy var localSearchCompleter: MKLocalSearchCompleter = { [weak self] in
         $0.pointOfInterestFilter = .excludingAll
         $0.delegate = self
         return $0
     }(MKLocalSearchCompleter())
-
+    
     private var cancellables = Set<AnyCancellable>()
-
+    
     override init() {
         super.init()
         $searchableText
@@ -36,7 +37,7 @@ final class AddressAutoComplete: NSObject, ObservableObject {
             }
             .store(in: &cancellables)
     }
-
+    
     private func searchAddress(_ searchableText: String) {
         localSearchCompleter.cancel()
         localSearchCompleter.queryFragment = searchableText
@@ -48,7 +49,7 @@ extension AddressAutoComplete: MKLocalSearchCompleterDelegate {
         results = completer.results.filter { $0.subtitle.lowercased().contains("singapore")}.map { Address($0) }
     }
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        print(error)
+        Log(error)
     }
 }
 
@@ -57,7 +58,7 @@ struct Address: Identifiable {
     let title: String
     let subtitle: String
     let postalCode: String
-
+    
     var fullAddress: String {
         var string = title
         if !subtitle.isEmpty {
@@ -75,7 +76,7 @@ extension Address {
     init(_ completion: MKLocalSearchCompletion) {
         title = completion.title
         subtitle = completion.subtitle
-        print(completion.description)
+        Log(completion.description)
         let components = subtitle.components(separatedBy: ",").map { $0.trimmed }
         var code = ""
         for each in components {

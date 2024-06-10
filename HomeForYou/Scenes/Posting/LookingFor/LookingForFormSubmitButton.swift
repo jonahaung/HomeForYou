@@ -27,7 +27,7 @@ struct LookingForFormSubmitButton: View {
         } onFinish: {
             finish()
         } onError: {
-            print($0.localizedDescription)
+            Log($0.localizedDescription)
         }
     }
 

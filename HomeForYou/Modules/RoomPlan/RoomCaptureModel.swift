@@ -7,6 +7,7 @@
 
 import Foundation
 import RoomPlan
+import XUI
 
 class RoomCaptureModel: RoomCaptureSessionDelegate {
     static let shared = RoomCaptureModel()
@@ -14,9 +15,9 @@ class RoomCaptureModel: RoomCaptureSessionDelegate {
     private let captureSessionConfig: RoomCaptureSession.Configuration
     private let roomBuilder: RoomBuilder
     var finalRoom: CapturedRoom?
-
+    
     func encode(with coder: NSCoder) {}
-
+    
     required init?(coder: NSCoder) {
         fatalError("Error when initializing RoomCaptureModel")
     }
@@ -26,11 +27,11 @@ class RoomCaptureModel: RoomCaptureSessionDelegate {
         roomBuilder = RoomBuilder(options: [.beautifyObjects])
         roomCaptureView.captureSession.delegate = self
     }
-
+    
     func startSession() {
         roomCaptureView.captureSession.run(configuration: captureSessionConfig)
     }
-
+    
     func stopSession() {
         roomCaptureView.captureSession.stop()
     }
@@ -40,7 +41,7 @@ class RoomCaptureModel: RoomCaptureSessionDelegate {
         error: Error?
     ) {
         if let error {
-            print("Error ending capture session; \(error)")
+            Log("Error ending capture session; \(error)")
         }
         Task {
             finalRoom = try? await roomBuilder.capturedRoom(from: data)

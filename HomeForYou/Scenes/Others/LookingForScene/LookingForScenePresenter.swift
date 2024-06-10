@@ -19,7 +19,7 @@ final class LookingForScenePresenter {
     var view: LookingForSceneDisplayLogic?
 
     deinit {
-        print("\(LookingForScene.self) Presenter Deinit")
+        Log("\(LookingForScene.self) Presenter Deinit")
     }
 }
 

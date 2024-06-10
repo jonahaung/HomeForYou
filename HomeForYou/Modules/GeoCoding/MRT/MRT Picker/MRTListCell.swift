@@ -41,7 +41,7 @@ struct MRTListCell: View {
                         Text($0.code)
                             .padding(.horizontal, 7)
                             .padding(.vertical, 1)
-                            .background($0.swiftColor ?? .accentColor, in: Capsule())
+                            .background($0.swiftColor, in: Capsule())
                     }
                 }
                 .foregroundStyle(Color.white)

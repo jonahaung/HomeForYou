@@ -19,7 +19,7 @@ final class LookingForSceneInteractor: @unchecked Sendable {
     var presenter: LookingForScenePresentationLogic?
 
     deinit {
-        print("\(LookingForScene.self) Interactor Deinit")
+        Log("\(LookingForScene.self) Interactor Deinit")
     }
 }
 

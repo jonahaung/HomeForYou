@@ -21,7 +21,7 @@ final class LookingForSceneDataStore: ObservableObject {
     @Published var items: Loadable<LazyList<Looking>> = .loading
 
     deinit {
-        print("\(LookingForScene.self) DataStore Deinit")
+        Log("\(LookingForScene.self) DataStore Deinit")
     }
 }
 

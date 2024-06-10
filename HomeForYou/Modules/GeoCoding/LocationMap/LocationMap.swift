@@ -41,7 +41,7 @@ struct LocationMap<Item: LocationMapPresentable>: View {
                             self.lookAroundScene = lookAroundScene
                         }
                     } catch {
-                        print(error)
+                        Log(error)
                     }
                 }
             }

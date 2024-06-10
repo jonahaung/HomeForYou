@@ -86,7 +86,7 @@ struct PostsExplorerView: View {
         .environmentObject(gridAppearance)
         .environmentObject(searchDatasource)
         .onSearchSubmit { item in
-            print(item)
+            Log(item)
         }
     }
 }

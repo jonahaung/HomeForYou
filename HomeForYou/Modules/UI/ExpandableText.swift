@@ -126,7 +126,6 @@ public struct ExpandableText: View {
                                         .onAppear {
                                             if fullSize > geo.size.height {
                                                 self.truncated = true
-                                                print(geo.size.height)
                                             }
                                         }
                                 }

@@ -30,7 +30,7 @@ class AppDelegateAdaptor: NSObject, UIApplicationDelegate {
         }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let hexString = deviceToken.hexString
+        _ = deviceToken.hexString
         Auth.auth().setAPNSToken(deviceToken, type: .sandbox)
         Messaging.messaging().apnsToken = deviceToken
     }
@@ -53,7 +53,7 @@ class AppDelegateAdaptor: NSObject, UIApplicationDelegate {
 extension AppDelegateAdaptor: UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        let userInfo = notification.request.content.userInfo
+        _ = notification.request.content.userInfo
         completionHandler([.banner, .badge, .list])
         //        if let msgPayload = Msg.Payload.msgPayload(from: userInfo) {
         //            Audio.playMessageIncoming()
@@ -71,7 +71,7 @@ extension AppDelegateAdaptor: UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
+        _ = response.notification.request.content.userInfo
         completionHandler()
         //        if let msgPayload = Msg.Payload.msgPayload(from: userInfo) {
         //            if let currentConId {
