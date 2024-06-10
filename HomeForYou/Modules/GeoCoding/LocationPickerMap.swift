@@ -43,13 +43,13 @@ struct LocationPickerMap: View {
         }
         .mapCameraKeyframeAnimator(trigger: animation, keyframes: { camera in
             KeyframeTrack(\MapCamera.centerCoordinate) {
-                LinearKeyframe(animation.coordinate ?? camera.centerCoordinate, duration: 1)
+                LinearKeyframe(animation.coordinate ?? camera.centerCoordinate, duration: animation.coordinate == nil ? 0 : 1)
             }
             KeyframeTrack(\MapCamera.distance) {
-                LinearKeyframe(animation.distance, duration: 1)
+                LinearKeyframe(animation.distance ?? camera.distance, duration: animation.distance == nil ? 0 : 1)
             }
             KeyframeTrack(\MapCamera.pitch) {
-                LinearKeyframe(animation.pitch, duration: 3)
+                LinearKeyframe(animation.pitch ?? camera.pitch, duration: animation.pitch == nil ? 0 : 3)
             }
         })
         .safeAreaInset(edge: .bottom) {

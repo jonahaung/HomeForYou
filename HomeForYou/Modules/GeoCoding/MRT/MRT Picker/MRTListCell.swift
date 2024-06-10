@@ -13,6 +13,7 @@ struct MRTListCell: View {
     let mrt: MRT
     @Binding var isSelected: Bool
     @Injected(\.ui) private var ui
+    
     var body: some View {
         HStack {
             SystemImage(isSelected ? .checkmark : .circle)
@@ -44,7 +45,7 @@ struct MRTListCell: View {
                             .background($0.swiftColor, in: Capsule())
                     }
                 }
-                .foregroundStyle(Color.white)
+                .foregroundStyle(Color.systemGroupedBackground)
                 .font(.caption2)
             }
         }

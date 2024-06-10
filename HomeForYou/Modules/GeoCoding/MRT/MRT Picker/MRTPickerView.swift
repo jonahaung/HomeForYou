@@ -15,7 +15,7 @@ struct MRTPickerView: View {
     @State private var selected: MRT?
     
     @State private var multiSelection = Set<Int>()
-    @AppStorage("MRT Line Type") private var lineType: MRTLine = .blue
+    @AppStorage("MRT Line Type") private var lineType: MRTLine = .DT
     @State private var allItems = [MRT]()
     @State private var searchText = ""
     @Environment(\.dismiss) private var dismiss
@@ -76,15 +76,14 @@ struct MRTPickerView: View {
                     Button {
                         self.lineType = item
                     } label: {
-                        SystemImage(.circle, item == self.lineType ? 60 : 30)
-                            .symbolVariant(.fill)
+                        SystemImage(.circleFill, item == self.lineType ? 60 : 30)
                             .foregroundColor(item.color)
                     }
                 }
                 Spacer()
             }
             ._hidable(!searchText.isWhitespace || currentMode == .Selections)
-            .animation(.interactiveSpring(), value: lineType)
+            .animation(.interactiveSpring, value: lineType)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -112,9 +111,11 @@ struct MRTPickerView: View {
     
     private func leadingItem() -> some View {
         HStack {
-            SystemImage(.map)
+            SystemImage(.mappinAndEllipse)
                 ._presentFullScreen {
-                    MRTMapView(onSelect: { _ in })
+                    MRTMapView(selection: selected, selectedLine: lineType) { mrt in
+                        toggleSelect(mrt)
+                    }
                 }
             
             _ConfirmButton("Clear All") {
@@ -166,6 +167,5 @@ struct MRTPickerView: View {
             selected = newValue
             
         }
-        
     }
 }

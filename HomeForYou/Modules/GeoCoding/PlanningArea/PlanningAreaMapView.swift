@@ -16,11 +16,12 @@ struct PlanningAreaMapView: View {
     @State var selection: PlanningArea? = .init(name: "", geometry: .polygon(.init(verticies: [])))
     @State private var position: MapCameraPosition = .automatic
     @State private var planningAreas = [PlanningArea]()
+    @State private var animation: MapKeyFrameAnimation = .init()
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         MapReader { proxy in
-            Map(position: $position, interactionModes: [.zoom, .pan]) {
+            Map(position: $position) {
                 ForEach(planningAreas) { area in
                     let isSelected = selection == area
                     switch area.geometry {
@@ -33,7 +34,7 @@ struct PlanningAreaMapView: View {
                                 .stroke(isSelected ? Color.accentColor : Color.secondary, lineWidth: isSelected ? 2 : 1)
                         }
                     }
-                    Annotation(coordinate: area.geometry.centerCoordinates.first ?? .init()) {
+                    Annotation(coordinate: area.geometry.centerCoordinate) {
                         if isSelected {
                             Text(area.name)
                                 .fontWeight(.bold)
@@ -47,15 +48,16 @@ struct PlanningAreaMapView: View {
             }
             .onTapGesture { position in
                 if let coordinate =  proxy.convert(position, from: .local) {
-                    _Haptics.play(.rigid)
-                    guard let area = PlanningArea(coordinate) else {
+                    if let area = PlanningArea(coordinate) {
+                        _Haptics.play(.rigid)
+                        selection = area == selection ? nil : area
+                    } else {
                         selection = nil
-                        return
                     }
-                    selection = area == selection ? nil : area
                 } else {
                     selection = nil
                 }
+                
             }
         }
         .mapStyle(.standard(elevation: .flat, emphasis: .muted, pointsOfInterest: .excludingAll, showsTraffic: false))
@@ -64,19 +66,20 @@ struct PlanningAreaMapView: View {
             MapScaleView()
             MapUserLocationButton()
         }
-        .mapCameraKeyframeAnimator(trigger: selection, keyframes: { camera in
+        .mapCameraKeyframeAnimator(trigger: animation, keyframes: { camera in
             KeyframeTrack(\MapCamera.centerCoordinate) {
-                LinearKeyframe(selection?.geometry.centerCoordinates.middle ?? PlanningArea(.Bishan)?.geometry.centerCoordinates.middle ?? .init(), duration: 1.2)
+                LinearKeyframe(animation.coordinate ?? camera.centerCoordinate, duration: animation.coordinate == nil ? 0 : 1)
             }
             KeyframeTrack(\MapCamera.distance) {
-                LinearKeyframe(100000, duration: 0.5)
-                LinearKeyframe(selection == nil ? 181000 : 60000, duration: 0.7)
+                LinearKeyframe(100000, duration: animation.distance == nil ? 0 : 0.5)
+                LinearKeyframe(animation.distance ?? camera.distance, duration: animation.distance == nil ? 0 : 1)
             }
         })
         .mapControlVisibility(selection == nil ? .visible : .hidden)
         .safeAreaInset(edge: .bottom) {
             HStack {
                 _DismissButton(isProtected: selection != nil, title: "Close")
+                    ._overlayLightButtonStyle()
                 Spacer()
                 if let selection {
                     AsyncButton {
@@ -85,19 +88,23 @@ struct PlanningAreaMapView: View {
                         dismiss()
                     } label: {
                         Text("Apply")
+                            ._borderedProminentLightButtonStyle()
                     }
                 }
             }
             .padding()
         }
         .statusBar(hidden: true)
-        .interactiveDismissDisabled(selection != nil)
+        .task {
+            planningAreas = PlanningArea.allValues
+        }
         ._onAppear(after: 1) {
             selection = nil
         }
-        .task {
-            planningAreas = PlanningArea.items
+        .onChange(of: selection) { oldValue, newValue in
+            DispatchQueue.delay {
+                animation = .init(newValue?.geometry.centerCoordinate, distance: selection == nil ? 181000 : 60000)
+            }
         }
-        .equatable(by: selection)
     }
 }

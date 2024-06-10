@@ -26,3 +26,23 @@ public extension Array {
         return self[middleIndex]
     }
 }
+public extension TimeInterval {
+    var minutes: Int { Int(rounded()/60) }
+    var seconds: Int { Int(rounded()) }
+    var milliseconds: Int { Int(self * 1_000) }
+}
+public extension CGPoint {
+    func isInsidePolygon(polygon: [CGPoint]) -> Bool {
+        var pJ = polygon.last!
+        var contains = false
+        for pI in polygon {
+            if ( ((pI.y >= self.y) != (pJ.y >= self.y)) &&
+                 (self.x <= (pJ.x - pI.x) * (self.y - pI.y) / (pJ.y - pI.y) + pI.x) ){
+                contains = !contains
+            }
+            pJ=pI
+        }
+        return contains
+    }
+}
+public typealias StringAny = [String: Any]

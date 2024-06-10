@@ -9,6 +9,7 @@ import Foundation
 import CoreLocation
 
 struct PolygonRegion: Identifiable {
+    
     var id: CLLocationCoordinate2D { center }
     
     let verticies: [CLLocationCoordinate2D]
@@ -18,27 +19,19 @@ struct PolygonRegion: Identifiable {
     private var minLon: CLLocationDegrees!
     private var epsilon: CLLocationDegrees
     
-    var center: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: minLat+(maxLat-minLat)/2, longitude: minLon+(maxLon-minLon)/2)
-    }
-    
-    var latSpan: CLLocationDegrees {
-        return abs(maxLat-minLat)
-    }
-    
-    var lonSpan: CLLocationDegrees {
-        return abs(maxLon-minLon)
-    }
+    var center: CLLocationCoordinate2D { CLLocationCoordinate2D(latitude: minLat+(maxLat-minLat)/2, longitude: minLon+(maxLon-minLon)/2) }
+    var latSpan: CLLocationDegrees { abs(maxLat-minLat) }
+    var lonSpan: CLLocationDegrees { abs(maxLon-minLon) }
     
     init(verticies: [CLLocationCoordinate2D], epsilon: CLLocationDegrees = 0.01) {
         self.verticies = verticies
         self.epsilon = epsilon
         
         for point in self.verticies {
-            maxLat = maxLat != nil ? max(maxLat, point.latitude):point.latitude
-            maxLon = maxLon != nil ? max(maxLon, point.longitude):point.longitude
-            minLat = minLat != nil ? min(minLat, point.latitude):point.latitude
-            minLon = minLon != nil ? min(minLon, point.longitude):point.longitude
+            maxLat = maxLat != nil ? max(maxLat, point.latitude) : point.latitude
+            maxLon = maxLon != nil ? max(maxLon, point.longitude)  :point.longitude
+            minLat = minLat != nil ? min(minLat, point.latitude) : point.latitude
+            minLon = minLon != nil ? min(minLon, point.longitude) : point.longitude
         }
     }
     
@@ -48,11 +41,8 @@ struct PolygonRegion: Identifiable {
         }
         
         var intersections = 0
-        
         let outsidePoint = CLLocationCoordinate2D(latitude: self.minLat - epsilon, longitude: testPoint.longitude)
-        
         let testRay = Ray(point1: outsidePoint, point2: testPoint)
-        
         for index in 0..<verticies.count {
             let edge = Ray(point1: verticies[index], point2: verticies[(index+1)%verticies.count])
             if intersectionType(testRay,edge) == .intersecting {
@@ -135,7 +125,6 @@ struct PolygonRegion: Identifiable {
         if (a1 * b2) - (a2 * b1) == 0.0 {
             return .coLinear
         }
-        
         // If they are not collinear, they must intersect in exactly one point.
         return .intersecting
     }

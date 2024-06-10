@@ -61,13 +61,13 @@ struct HomeView: View {
         .onSearchSubmit { item in
             switch item {
             case .areaMap:
-                await router.presentSheet(.init(.planningAreaMap({ area in
+                await router.presentFullScreen(.init(.planningAreaMap({ area in
                     let item = SceneItem(.postCollection, data: [PostFilter(.area, [area.area.rawValue])])
                     await router.push(to: item)
                 })))
                 
             case .mrtMap:
-                await router.presentSheet(.init(
+                await router.presentFullScreen(.init(
                     .mrtMap({ mrt in
                         let item = SceneItem(.postCollection, data: [PostFilter(.mrt, [mrt.name])])
                         await router.push(to: item)

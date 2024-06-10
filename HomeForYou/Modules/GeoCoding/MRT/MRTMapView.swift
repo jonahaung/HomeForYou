@@ -13,11 +13,12 @@ struct MRTMapView: View {
     
     typealias Line = (MRTLine, [MRT])
     
+    @State var selection: MRT?
+    @State var selectedLine: MRTLine?
     var onSelect: @Sendable (MRT) async -> Void
+    
     @Environment(\.dismiss) private var dismiss
     @State private var position: MapCameraPosition = .automatic
-    @State private var selection: MRT?
-    @State private var selectedLine: MRTLine?
     @State private var searchText = ""
     @State private var animation: MapKeyFrameAnimation = .init()
     @FocusState private var isSearching: Bool
@@ -35,56 +36,64 @@ struct MRTMapView: View {
             if isSearching {
                 if searchText.isWhitespace {
                     ForEach(data, id: \.0) { (line, mrts) in
-                        MapPolyline(coordinates: mrts.map{ $0.coordinate }, contourStyle: .straight)
-                            .stroke(line.color, lineWidth: 3)
+                        MapPolyline(coordinates: mrts.map{ $0.coordinate }, contourStyle: .geodesic)
+                            .stroke(line.color.gradient, lineWidth: 3)
                     }
                 } else {
                     ForEach(data, id: \.0) { (line, mrts) in
-                        let filtered = mrts.filter{ $0.name.contains(searchText, caseSensitive: false) }
-                        ForEach(filtered) { each in
-                            let symbols = each.symbol
-                            if symbols.count == 1 {
-                                let symbol = each.mainSymbol(for: line.rawValue)
-                                Marker(each.name, monogram: Text("\(symbol.code)"), coordinate: each.coordinate)
-                                    .tint(symbol.swiftColor)
-                                    .tag(each)
-                            } else {
-                                ForEach(symbols) { symbol in
-                                    if symbols.first == symbol {
-                                        Marker(each.name, monogram: Text("\(symbol.code)"), coordinate: each.coordinate)
-                                            .tint(symbol.swiftColor)
-                                            .tag(each)
-                                    } else {
-                                        Marker(each.name, monogram: Text("\(symbol.code)"), coordinate: each.coordinate)
-                                            .tint(symbol.swiftColor)
+                        ForEach(mrts.filter{ $0.name.contains(searchText, caseSensitive: false) }) { mrt in
+                            if let mainSymbol = mrt.mainSymbol(for: line) {
+                                ForEach(mrt.symbol) { symbol in
+                                    if symbol.code != mainSymbol.code {
+                                        Annotation.init(symbol.code, coordinate: mrt.coordinate) {
+                                            SystemImage(.circlebadgeFill)
+                                                .foregroundStyle(symbol.swiftColor.gradient)
+                                        }
                                     }
                                 }
+                                Marker(mrt.name, monogram: Text("\(mainSymbol.code)"), coordinate: mrt.coordinate)
+                                    .tint(mainSymbol.swiftColor.gradient)
+                                    .tag(mrt)
                             }
                         }
                     }
                 }
             } else {
-                if let selectedLine {
-                    let results = data.first(where: { $0.0 == selectedLine })?.1 ?? []
+                if let line = selectedLine, let results = data.first(where: { $0.0 == selectedLine })?.1 {
+                    MapPolyline(coordinates: results.map{ $0.coordinate }, contourStyle: .geodesic)
+                        .stroke(line.color, lineWidth: 2)
                     
-                    MapPolyline(coordinates: results.map{ $0.coordinate }, contourStyle: .straight)
-                        .stroke(selectedLine.color.gradient, lineWidth: 2)
-                    
-                    ForEach(results) { each in
-                        let symbol = each.mainSymbol(for: selectedLine.rawValue)
-                        Marker(each.name, monogram: Text("\(symbol.code)"), coordinate: each.coordinate)
-                            .tint(symbol.swiftColor.gradient)
-                            .tag(each)
+                    ForEach(results) { mrt in
+                        if let mainSymbol = mrt.mainSymbol(for: line) {
+                            ForEach(mrt.symbol) { symbol in
+                                if symbol.code != mainSymbol.code {
+                                    Annotation.init(symbol.code, coordinate: mrt.coordinate) {
+                                        SystemImage(.circlebadgeFill)
+                                            .foregroundStyle(symbol.swiftColor.gradient)
+                                    }
+                                }
+                            }
+                            Marker(mrt.name, monogram: Text("\(mainSymbol.code)"), coordinate: mrt.coordinate)
+                                .tint(mainSymbol.swiftColor.gradient)
+                                .tag(mrt)
+                        }
                     }
                 } else {
                     ForEach(data, id: \.0) { (line, mrts) in
-                        MapPolyline(coordinates: mrts.map{ $0.coordinate }, contourStyle: .straight)
-                            .stroke(line.color.gradient, lineWidth: 2)
-                        ForEach(mrts) { each in
-                            let symbol = each.mainSymbol(for: line.rawValue)
-                            Marker(each.name, monogram: Text("\(symbol.code)"), coordinate: each.coordinate)
-                                .tint(symbol.swiftColor.gradient)
-                                .tag(each)
+                        ForEach(mrts) { mrt in
+                            if let mainSymbol = mrt.mainSymbol(for: line) {
+                                ForEach(mrt.symbol) { symbol in
+                                    if symbol.code != mainSymbol.code {
+                                        Annotation.init(symbol.code, coordinate: mrt.coordinate) {
+                                            SystemImage(.circlebadgeFill)
+                                                .foregroundStyle(symbol.swiftColor.gradient)
+                                        }
+                                    }
+                                }
+                                Marker(mrt.name, monogram: Text("\(mainSymbol.code)"), coordinate: mrt.coordinate)
+                                    .tint(mainSymbol.swiftColor.gradient)
+                                    .tag(mrt)
+                            }
                         }
                     }
                 }
@@ -95,22 +104,24 @@ struct MRTMapView: View {
             MapCompass()
             MapScaleView()
         }
+        .mapControlVisibility(.visible)
         .mapCameraKeyframeAnimator(trigger: animation, keyframes: { camera in
             KeyframeTrack(\MapCamera.centerCoordinate) {
                 LinearKeyframe(animation.coordinate ?? camera.centerCoordinate, duration: 1)
             }
             KeyframeTrack(\MapCamera.distance) {
-                LinearKeyframe(animation.distance, duration: 1)
+                LinearKeyframe(animation.distance ?? camera.distance, duration: 1)
             }
             KeyframeTrack(\MapCamera.pitch) {
-                LinearKeyframe(animation.pitch, duration: 3)
+                LinearKeyframe(animation.pitch ?? camera.pitch, duration: 3)
             }
         })
-        .ignoresSafeArea(edges: .vertical)
+        .ignoresSafeArea(edges: .bottom)
         .safeAreaInset(edge: .top) {
             VStack {
                 HStack {
                     _DismissButton(isProtected: selection != nil, title: "Cancel")
+                        ._overlayLightButtonStyle()
                     Spacer()
                 }
             }
@@ -168,6 +179,7 @@ struct MRTMapView: View {
                                 isSearching = false
                             } label: {
                                 Text(searchText.isWhitespace ? "Cancel" : "Clear")
+                                    ._overlayLightButtonStyle()
                             }
                         }
                     }
@@ -177,18 +189,18 @@ struct MRTMapView: View {
         }
         .onChange(of: selection, initial: false, {
             if let selection {
-                animation = .init(coordinate: selection.coordinate, distance: 3000, pitch: 75)
+                animation = .init(selection.coordinate, distance: 3000, pitch: 75)
             } else {
                 let results = selectedLine == nil ? MRT.allValues : data.first(where: { $0.0 == selectedLine })?.1 ?? []
                 let coordinate = PolygonRegion(verticies: results.map{ $0.coordinate}).center
-                animation = .init(coordinate: coordinate, distance: 70000, pitch: 0)
+                animation = .init(coordinate, distance: 181000)
             }
         })
         .onChange(of: isSearching) { _, new in
-            animation.distance = new ? 100000 : 70000
+            animation.distance = new ? 140000 : 70000
         }
         ._onAppear(after: 1) {
-            animation.distance = 70000
+            animation.distance = 160000
         }
     }
     

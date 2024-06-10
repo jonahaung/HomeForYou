@@ -11,61 +11,57 @@ import CoreLocation
 internal class PlanningAreaParser {
     
     static func load() -> [PlanningArea] {
-        guard let asset = NSDataAsset(name: "planning_area", bundle: Bundle.main),
+        guard let asset = NSDataAsset(name: "planning_area", bundle: .main),
               let json = try? JSONSerialization.jsonObject(with: asset.data, options: JSONSerialization.ReadingOptions.allowFragments),
-              let jsonDict = json as? JsonDictionary else {
+              let jsonDict = json as? [String: Any] else {
             return []
         }
-        return PlanningAreaParser().parse(json: jsonDict)
+        return PlanningAreaParser.parse(json: jsonDict)
     }
-    
-    
-    typealias JsonDictionary = [String: Any]
-    func parse(json: JsonDictionary) -> [PlanningArea] {
-        guard let features = json["features"] as? [JsonDictionary] else {
+    static func parse(json: StringAny) -> [PlanningArea] {
+        guard let features = json["features"] as? [StringAny] else {
             return []
         }
         return features.compactMap(self.parse)
     }
     
-    private func parse(dic: JsonDictionary) -> PlanningArea? {
+    private static func parse(dic: StringAny) -> PlanningArea? {
         guard
-            let properties = dic["properties"] as? JsonDictionary,
-            let countryName = properties["name"] as? String,
-            let geometryDict = dic["geometry"] as? JsonDictionary,
+            let properties = dic["properties"] as? StringAny,
+            let name = properties["name"] as? String,
+            let geometryDict = dic["geometry"] as? StringAny,
             let geoType = geometryDict["type"] as? String else {
             return nil
         }
         if geoType == "Polygon" {
-            return PlanningArea(name: countryName, geometry: .polygon(.init(verticies: parsePolygon(json: geometryDict))))
+            return PlanningArea(name: name, geometry: .polygon(.init(verticies: parsePolygon(json: geometryDict))))
         } else if geoType == "MultiPolygon" {
-            return PlanningArea(name: countryName, geometry: .multiPolygon(parseMultiPolygon(json: geometryDict).map{ .init(verticies: $0)}))
+            return PlanningArea(name: name, geometry: .multiPolygon(parseMultiPolygon(json: geometryDict).map{ .init(verticies: $0)}))
         } else {
             return nil
         }
     }
     
-    private func parsePolygon(json: JsonDictionary) -> [CLLocationCoordinate2D] {
+    private static func parsePolygon(json: StringAny) -> [CLLocationCoordinate2D] {
         guard let coordinates = json["coordinates"] as? [[[Double]]] else {
             return []
         }
         return self.parsePoints(points: coordinates)
     }
     
-    private func parseMultiPolygon(json: JsonDictionary) -> [[CLLocationCoordinate2D]] {
+    private static func parseMultiPolygon(json: StringAny) -> [[CLLocationCoordinate2D]] {
         guard let coordinates = json["coordinates"] as? [[[[Double]]]] else {
             return []
         }
         return coordinates.map(self.parsePoints)
     }
     
-    private func parsePoints(points: [[[Double]]]) -> [CLLocationCoordinate2D] {
+    private static func parsePoints(points: [[[Double]]]) -> [CLLocationCoordinate2D] {
         return points.flatMap{ $0 }.compactMap({ point in
-            guard let longitude = point.first, let latitude = point.last else {
+            guard let longitude = point.first, let latitude = point.last, longitude != latitude else {
                 return nil
             }
             return .init(latitude: latitude, longitude: longitude)
         })
     }
 }
-
