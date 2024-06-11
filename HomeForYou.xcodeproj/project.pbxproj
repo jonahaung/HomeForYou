@@ -124,7 +124,6 @@
 		47B716352C01CD0400A9932A /* PostForm+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B715062C01CD0400A9932A /* PostForm+Description.swift */; };
 		47B716362C01CD0400A9932A /* PostForm+Details.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B715072C01CD0400A9932A /* PostForm+Details.swift */; };
 		47B716372C01CD0400A9932A /* PostingFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B715092C01CD0400A9932A /* PostingFlow.swift */; };
-		47B716382C01CD0400A9932A /* PostingFlowRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B7150A2C01CD0400A9932A /* PostingFlowRouter.swift */; };
 		47B716392C01CD0400A9932A /* PostingFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B7150B2C01CD0400A9932A /* PostingFlowView.swift */; };
 		47B7163A2C01CD0400A9932A /* OfferServicesForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B7150D2C01CD0400A9932A /* OfferServicesForm.swift */; };
 		47B7163B2C01CD0400A9932A /* PostingMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B7150F2C01CD0400A9932A /* PostingMenuView.swift */; };
@@ -409,7 +408,6 @@
 		47B715062C01CD0400A9932A /* PostForm+Description.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PostForm+Description.swift"; sourceTree = "<group>"; };
 		47B715072C01CD0400A9932A /* PostForm+Details.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PostForm+Details.swift"; sourceTree = "<group>"; };
 		47B715092C01CD0400A9932A /* PostingFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingFlow.swift; sourceTree = "<group>"; };
-		47B7150A2C01CD0400A9932A /* PostingFlowRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingFlowRouter.swift; sourceTree = "<group>"; };
 		47B7150B2C01CD0400A9932A /* PostingFlowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingFlowView.swift; sourceTree = "<group>"; };
 		47B7150D2C01CD0400A9932A /* OfferServicesForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfferServicesForm.swift; sourceTree = "<group>"; };
 		47B7150F2C01CD0400A9932A /* PostingMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingMenuView.swift; sourceTree = "<group>"; };
@@ -1020,8 +1018,8 @@
 			children = (
 				47B715042C01CD0400A9932A /* PostForm+Address.swift */,
 				47B715052C01CD0400A9932A /* PostForm+Attachments.swift */,
-				47B715062C01CD0400A9932A /* PostForm+Description.swift */,
 				47B715072C01CD0400A9932A /* PostForm+Details.swift */,
+				47B715062C01CD0400A9932A /* PostForm+Description.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1029,9 +1027,8 @@
 		47B7150C2C01CD0400A9932A /* PostingFlow */ = {
 			isa = PBXGroup;
 			children = (
-				47B715082C01CD0400A9932A /* Views */,
 				47B715092C01CD0400A9932A /* PostingFlow.swift */,
-				47B7150A2C01CD0400A9932A /* PostingFlowRouter.swift */,
+				47B715082C01CD0400A9932A /* Views */,
 				47B7150B2C01CD0400A9932A /* PostingFlowView.swift */,
 			);
 			path = PostingFlow;
@@ -1870,7 +1867,6 @@
 				479F725E2C0DC0C100F4452E /* PostCellDisplayData.swift in Sources */,
 				47B7167C2C01CD0400A9932A /* MRTListCell.swift in Sources */,
 				47B716162C01CD0400A9932A /* PostExplorerViewModel.swift in Sources */,
-				47B716382C01CD0400A9932A /* PostingFlowRouter.swift in Sources */,
 				47B7167B2C01CD0400A9932A /* MRT+Extensions.swift in Sources */,
 				47DA408A2C17A92000B385B9 /* PostingAction.swift in Sources */,
 				47B7162A2C01CD0400A9932A /* LookingForSceneInteractor.swift in Sources */,

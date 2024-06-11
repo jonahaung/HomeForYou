@@ -11,32 +11,36 @@ import FireAuthManager
 
 struct PostForm_Description<T: Postable>: View {
     
-    @Binding var postingData: T
     @Environment(\.onTakePostingAction) private var onTakePostingAction
-
+    @Binding private var editablePost: T
+    
+    init(_ editablePost: Binding<T>) {
+        self._editablePost = editablePost
+    }
+    
     var body: some View {
         List {
             Section {
-                _VFormRow(title: "Title", isEmpty: postingData.title.isEmpty) {
-                    TextField("Please input the title", text: $postingData.title, axis: .vertical)
+                _VFormRow(title: "Title", isEmpty: editablePost.title.isEmpty) {
+                    TextField("Please input the title", text: $editablePost.title, axis: .vertical)
                         .textInputAutocapitalization(.words)
                         .disableAutocorrection(true)
                 }
 
-                _NumberTextField(value: $postingData.price, title: "Price", delima: "$")
+                _NumberTextField(value: $editablePost.price, title: "Price", delima: "$")
             } header: {
-                Text(postingData.getPostCaption())
+                Text(editablePost.getPostCaption())
                     .textCase(nil)
             }
 
             Section("Description") {
-                TextField("Add a short description..", text: $postingData.description, axis: .vertical)
+                TextField("Add a short description..", text: $editablePost.description, axis: .vertical)
                     .lineLimit(5...)
             }
 
             Section {
-                _VFormRow(title: "Phone", isEmpty: postingData.phoneNumber.isWhitespace) {
-                    TextField("Please input your phone number", text: $postingData.phoneNumber)
+                _VFormRow(title: "Phone", isEmpty: editablePost.phoneNumber.isWhitespace) {
+                    TextField("Please input your phone number", text: $editablePost.phoneNumber)
                         .textContentType(.telephoneNumber)
                         .keyboardType(.phonePad)
                 }
@@ -46,7 +50,7 @@ struct PostForm_Description<T: Postable>: View {
         .scrollDismissesKeyboard(.immediately)
         .safeAreaInset(edge: .bottom) {
             AsyncButton(actionOptions: [.showProgressView]) {
-                await onTakePostingAction?(postingData.views.count > 0 ? .update(postingData) : .upload(postingData))
+                await onTakePostingAction?(editablePost.views.count > 0 ? .update(editablePost) : .upload(editablePost))
             } label: {
                 Text("Submit")
                     ._borderedProminentButtonStyle()
@@ -65,17 +69,17 @@ struct PostForm_Description<T: Postable>: View {
             }
             ToolbarItemGroup(placement: .bottomBar) {
                 Button("Auto Fill") {
-                    postingData.title = Lorem.shortTweet
-                    postingData.description = Lorem.paragraphs(3)
-                    postingData.propertyType = PropertyType.allCases.random()!
+                    editablePost.title = Lorem.shortTweet
+                    editablePost.description = Lorem.paragraphs(3)
+                    editablePost.propertyType = PropertyType.allCases.random()!
                 }
             }
         }
     }
     private func isValid() -> Bool {
-        !postingData.title.isWhitespace &&
-        !postingData.description.isWhitespace &&
-        !postingData.phoneNumber.isWhitespace &&
-        postingData.price > 0
+        !editablePost.title.isWhitespace &&
+        !editablePost.description.isWhitespace &&
+        !editablePost.phoneNumber.isWhitespace &&
+        editablePost.price > 0
     }
 }

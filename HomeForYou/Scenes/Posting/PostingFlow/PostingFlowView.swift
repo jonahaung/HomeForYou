@@ -14,31 +14,18 @@ import FirebaseAuth
 struct PostingFlowView<T: Postable>: View {
     
     @State private var post: T
-    @State private var postingData: MutablePost
-    @State private var router = PostingFlowRouter()
     @Injected(\.currentUser) private var currentUser
     @Environment(\.dismiss) private var dismiss
     
     init(post: T) {
         self.post = post
-        self.postingData = post.clone()
     }
+    
     var body: some View {
-        NavigationStack(path: $router.path) {
-            PostForm_Address($postingData._location)
-                .navigationDestination(for: PostingFlow.self) { flow in
-                    switch flow {
-                    case .attachments:
-                        PostForm_Attachmments(post: $postingData)
-                    case .details:
-                        PostForm_Details(postingData: $postingData)
-                    case .description:
-                        PostForm_Description(postingData: $postingData)
-                    }
-                }
+        NavigationStack {
+            PostForm_Address<MutablePost>(post.clone())
         }
         .swiftyThemeStyle()
-        .environment(router)
         .statusBarHidden(true)
         .onTakePostingAction { action in
             switch action {

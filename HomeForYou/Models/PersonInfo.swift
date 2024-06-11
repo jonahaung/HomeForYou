@@ -23,12 +23,10 @@ struct PersonInfo: Codable, Sendable, Equatable, Hashable, Identifiable {
     init(model: Person) {
         self.init(id: model.id, name: model.name, email: model.email, photoURL: model.photoURL)
     }
-
     init(user: User) {
         self.init(id: user.uid, name: user.displayName, email: user.email, photoURL: user.photoURL?.absoluteString)
     }
 }
-
 extension Person {
     var personInfo: PersonInfo {
         .init(model: self)

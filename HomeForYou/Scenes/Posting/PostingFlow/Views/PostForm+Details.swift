@@ -10,37 +10,39 @@ import XUI
 
 struct PostForm_Details<T: Postable>: View {
     
-    @Binding var postingData: T
-    @Environment(PostingFlowRouter.self) private var router
+    @Binding private var editablePost: T
     
-    @MainActor
+    init(_ editablePost: Binding<T>) {
+        self._editablePost = editablePost
+    }
+    
     var body: some View {
         Form {
             Section {
                 Group {
-                    XNavPickerBar("Property Type", PropertyType.allCases, $postingData.propertyType)
-                    XNavPickerBar("Room Type", RoomType.allCases, $postingData._roomType)
-                        ._hidable(postingData.category != .rental_room)
-                    XNavPickerBar("Tenant Type", TenantType.allCases, $postingData._tenantType)
-                        ._hidable(postingData.category != .rental_room)
-                    XNavPickerBar("Occupant", Occupant.allCases, $postingData._occupant)
-                        ._hidable(postingData.category != .rental_room)
+                    XNavPickerBar("Property Type", PropertyType.allCases, $editablePost.propertyType)
+                    XNavPickerBar("Room Type", RoomType.allCases, $editablePost._roomType)
+                        ._hidable(editablePost.category != .rental_room)
+                    XNavPickerBar("Tenant Type", TenantType.allCases, $editablePost._tenantType)
+                        ._hidable(editablePost.category != .rental_room)
+                    XNavPickerBar("Occupant", Occupant.allCases, $editablePost._occupant)
+                        ._hidable(editablePost.category != .rental_room)
                 }
                 Group {
-                    XNavPickerBar("Lease Term", LeaseTerm.allCases, $postingData._leaseTerm)
-                        ._hidable(postingData.category == .selling)
-                    XNavPickerBar("Furnishing", Furnishing.allCases, $postingData._furnishing)
-                        ._hidable(postingData.category == .selling)
-                    XNavPickerBar("Floor Level", FloorLevel.allCases, $postingData.floorLevel)
-                    XNavPickerBar("Tenure", Tenure.allCases, $postingData._tenure)
-                        ._hidable(postingData.category != .selling)
-                    XNavPickerBar("Beds", Bedroom.allCases, $postingData.beds)
-                    XNavPickerBar("Bathroom", Bathroom.allCases, $postingData.baths)
+                    XNavPickerBar("Lease Term", LeaseTerm.allCases, $editablePost._leaseTerm)
+                        ._hidable(editablePost.category == .selling)
+                    XNavPickerBar("Furnishing", Furnishing.allCases, $editablePost._furnishing)
+                        ._hidable(editablePost.category == .selling)
+                    XNavPickerBar("Floor Level", FloorLevel.allCases, $editablePost.floorLevel)
+                    XNavPickerBar("Tenure", Tenure.allCases, $editablePost._tenure)
+                        ._hidable(editablePost.category != .selling)
+                    XNavPickerBar("Beds", Bedroom.allCases, $editablePost.beds)
+                    XNavPickerBar("Bathroom", Bathroom.allCases, $editablePost.baths)
                 }
                 Group {
                     DatePicker(
                         "Available Date",
-                        selection: $postingData.availableDate,
+                        selection: $editablePost.availableDate,
                         displayedComponents: [.date]
                     )
                     .datePickerStyle(.automatic)
@@ -51,13 +53,13 @@ struct PostForm_Details<T: Postable>: View {
             }
             
             Section("Features") {
-                GridMultiPicker(source: Feature.allCases, selection: $postingData.features)
+                GridMultiPicker(source: Feature.allCases, selection: $editablePost.features)
                     .listRowInsets(.init())
             }
             .listRowBackground(Color.clear)
             
             Section("Restrictions") {
-                GridMultiPicker(source: Restriction.allCases, selection: $postingData.restrictions)
+                GridMultiPicker(source: Restriction.allCases, selection: $editablePost.restrictions)
                     .listRowInsets(.init())
             }
             .listRowBackground(Color.clear)
@@ -68,24 +70,23 @@ struct PostForm_Details<T: Postable>: View {
         .toolbar {
             ToolbarItemGroup(placement: .bottomBar) {
                 Spacer()
-                Button {
-                    router.path.append(.description)
-                } label: {
-                    Text("next \(Image(systemSymbol: .arrowshapeForwardFill))")
-                }
+                Text("next \(Image(systemSymbol: .arrowshapeForwardFill))")
+                    ._tapToPush {
+                        PostForm_Description($editablePost)
+                    }
                 .disabled(!isValid())
             }
         }
     }
     
     private func isValid() -> Bool {
-        switch postingData.category {
+        switch editablePost.category {
         case .rental_flat:
-            return postingData.propertyType != .Any && postingData.leaseTerm != .Any && postingData.furnishing != .Any && postingData.floorLevel != .Any && postingData.beds != .Any && postingData.baths != .Any
+            return editablePost.propertyType != .Any && editablePost.leaseTerm != .Any && editablePost.furnishing != .Any && editablePost.floorLevel != .Any && editablePost.beds != .Any && editablePost.baths != .Any
         case .rental_room:
-            return postingData.propertyType != .Any && postingData.roomType != .Any && postingData.tenantType != .Any && postingData.occupant != .Any && postingData.occupant != .Any && postingData.leaseTerm != .Any
+            return editablePost.propertyType != .Any && editablePost.roomType != .Any && editablePost.tenantType != .Any && editablePost.occupant != .Any && editablePost.occupant != .Any && editablePost.leaseTerm != .Any
         case .selling:
-            return postingData.propertyType != .Any && postingData.tenure != .Any && postingData.floorLevel != .Any && postingData.baths != .Any && postingData.beds != .Any && postingData.tenure != .Any
+            return editablePost.propertyType != .Any && editablePost.tenure != .Any && editablePost.floorLevel != .Any && editablePost.baths != .Any && editablePost.beds != .Any && editablePost.tenure != .Any
         }
     }
 }

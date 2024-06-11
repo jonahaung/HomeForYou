@@ -11,13 +11,18 @@ import AVKit
 
 struct PostForm_Attachmments<T: Postable>: View {
     
-    @Binding var post: T
-    @State private var attachments = [XAttachment]()
+    @Binding var attachments: [XAttachment]
     @State private var selections = [XAttachment]()
     @State private var tapped: XAttachment?
     @State private var editing = false
-    @Environment(PostingFlowRouter.self) private var router
     @Injected(\.ui) private var ui
+    
+    @Binding private var editablePost: T
+    
+    init(_ post: Binding<T>) {
+        self._editablePost = post
+        self._attachments = post.attachments
+    }
     
     @MainActor
     var body: some View {
@@ -70,13 +75,13 @@ struct PostForm_Attachmments<T: Postable>: View {
                                     .statusBarHidden()
                             }
                         
-                        if let url = post._roomURL {
-                            ShareLink(item: url) {
-                                SystemImage(.checkmarkCircleFill)
-                                    .foregroundColor(.orange)
-                            }
-                            .buttonStyle(.borderless)
-                        }
+                        //                        if let url = editablePost._roomURL {
+                        //                            ShareLink(item: url) {
+                        //                                SystemImage(.checkmarkCircleFill)
+                        //                                    .foregroundColor(.orange)
+                        //                            }
+                        //                            .buttonStyle(.borderless)
+                        //                        }
                     }._borderedProminentLightButtonStyle()
                 }
             }
@@ -104,7 +109,7 @@ struct PostForm_Attachmments<T: Postable>: View {
         .fullScreenCover(item: $tapped) { tapped in
             switch tapped.type {
             case .photo:
-                PhotoGalleryView(attachments: attachments, title: post.category.title, selection: .init(get: {
+                PhotoGalleryView(attachments: attachments, title: "Attachments", selection: .init(get: {
                     attachments.firstIndex(of: tapped) ?? 0
                 }, set: { _ in }))
             case .video:
@@ -114,7 +119,7 @@ struct PostForm_Attachmments<T: Postable>: View {
                 }
             }
         }
-        .synchronizeLazily($post.attachments, $attachments)
+        .lazySync($attachments, $attachments)
         .appPermissionOverlay(.mediaLibrary)
     }
     
@@ -146,7 +151,7 @@ struct PostForm_Attachmments<T: Postable>: View {
                         }
                     }
                 }
-                post.roomURL = nil
+                //                editablePost.roomURL = nil
                 editing = false
             } label: {
                 SystemImage(.trash)
@@ -155,12 +160,11 @@ struct PostForm_Attachmments<T: Postable>: View {
             .disabled(selections.isEmpty)
         } else {
             Spacer()
-            Button {
-                router.path.append(.details)
-            } label: {
-                Text("next \(Image(systemSymbol: .arrowshapeForwardFill))")
-            }
-            .disabled(attachments.isEmpty)
+            Text("next \(Image(systemSymbol: .arrowshapeForwardFill))")
+                ._tapToPush {
+                    PostForm_Details($editablePost)
+                }
+                .disabled(attachments.isEmpty)
         }
     }
 }

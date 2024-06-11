@@ -119,7 +119,7 @@ struct PostsFilterView: View {
         }
         .navigationBarTitle("Filter Posts", displayMode: .inline)
         .embeddedInNavigationView()
-        .synchronizeLazily(filters, .init(get: {
+        .lazySync(filters, .init(get: {
             model.filters.getFilters()
         }, set: { new in
             model.filters = .init(new, category: model.filters.category)

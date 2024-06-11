@@ -9,25 +9,23 @@ import SwiftUI
 import XUI
 import CoreLocation
 
-struct PostForm_Address: View {
+struct PostForm_Address<T: Postable>: View {
     
     enum FocusedField: Hashable {
         case postalCode, addressText
     }
-    @FocusState private var focused: FocusedField?
-    @Injected(\.ui) private  var ui
-    @Environment(PostingFlowRouter.self) private var router
+    
     @Environment(\.keyboardShowing) private var keyboardShowing
+    @FocusState private var focused: FocusedField?
+    @StateObject private var viewModel = PostingFlowAddressViewModel()
+    
+    @State private var post: T
     
     @Environment(\.onTakePostingAction) private var onTakePostingAction
     
-    @StateObject private var viewModel = PostingFlowAddressViewModel()
-    @Binding private var location: LocationInfo
-    
-    init(_ locaton: Binding<LocationInfo>) {
-        self._location = locaton
+    init(_ post: T) {
+        self.post = post
     }
-    
     var body: some View {
         Form {
             Section {
@@ -51,7 +49,7 @@ struct PostForm_Address: View {
             } footer: {
                 Text("Enter the postal code and press the search icon")
             }
-            // Search from Map
+            
             Section {
                 HStack {
                     TextField("Full address", text: $viewModel.location.address.text, axis: .vertical)
@@ -134,24 +132,23 @@ struct PostForm_Address: View {
                 }
                 .disabled(viewModel.location.isEmpty)
                 
-                Button {
-                    location = viewModel.location
-                    router.path.append(.attachments)
-                } label: {
-                    Text("next \(Image(systemSymbol: .arrowshapeForwardFill))")
-                }
-                .disabled(!viewModel.location.isValid)
+                Text("next \(Image(systemSymbol: .arrowshapeForwardFill))")
+                    ._tapToPush {
+                        PostForm_Attachmments($post)
+                    }
+                    .disabled(!viewModel.location.isValid)
             }
         }
         .onAppear {
             if viewModel.location.isEmpty {
-                if location.isEmpty {
+                if post._location.isEmpty {
                     focused = .postalCode
                 } else {
-                    viewModel.location = location
+                    viewModel.location = post._location
                 }
             }
         }
+        .debounceSync($post._location, $viewModel.location)
     }
 }
 

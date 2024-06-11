@@ -10,10 +10,9 @@ import FirebaseAuth
 import XUI
 
 struct Person: Repoable, Equatable {
-    
     var collectionPath: String { Self.collectionID }
     static var collectionID: String { FirebaseProvider.Collection.persons }
-
+    
     var id: String
     var name: String = ""
     var email: String = ""
@@ -22,7 +21,7 @@ struct Person: Repoable, Equatable {
     var isVerified: Bool?
     var providerIDs: [String]?
     var metaData: MetaData?
-
+    
     init(user: User) {
         id = user.uid
         name = user.displayName ?? ""
@@ -33,11 +32,9 @@ struct Person: Repoable, Equatable {
         providerIDs = user.providerData.map { $0.providerID }
         metaData = .init(lastSignInDate: user.metadata.lastSignInDate, creationDate: user.metadata.creationDate)
     }
-
     init() {
         id = "id"
     }
-
     struct MetaData: Codable, Hashable {
         let lastSignInDate: Date?
         let creationDate: Date?
@@ -50,7 +47,6 @@ extension Person {
         case id, name, email, phoneNumber, photoURL, isVerified, providerIDs, metaData
     }
 }
-
 extension Person {
     var isValid: Bool { !id.isEmpty && id != "id" }
 }
