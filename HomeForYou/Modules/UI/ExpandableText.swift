@@ -5,97 +5,101 @@
 //  Created by Aung Ko Min on 25/6/23.
 //
 
-import Foundation
-import SwiftUI
 
 import SwiftUI
+
+public struct TextSet {
+    var text: String
+    var font: Font
+    var color: Color
+    public init(text: String, font: Font, color: Color) {
+        self.text = text
+        self.font = font
+        self.color = color
+    }
+}
 
 public struct ExpandableText: View {
-    var text : String
     
-    @available(iOS 15, *)
+    var text : String
     var markdownText: AttributedString {
-        (try? AttributedString(markdown: text, options: AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace))) ?? AttributedString()
+        (try? AttributedString(markdown: text, options: AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnly))) ?? AttributedString()
     }
     
-    var font: Font = .body
+    var font: Font = .callout
     var lineLimit: Int = 3
     var foregroundColor: Color = .primary
     
-    var expandButton: TextSet = TextSet(text: "more", font: .footnote, color: .blue)
+    var expandButton: TextSet = TextSet(text: "more", font: .subheadline, color: Color.accentColor)
     var collapseButton: TextSet? = nil
     
-    var animation: Animation? = .none
+    var animation: Animation? = nil
+    @State private var viewReloader = 0
+    @State var expand = false
+    @State private var truncated = false
+    @State private var fullSize = CGFloat.zero
     
-    @State private var expand : Bool = false
-    @State private var truncated : Bool = false
-    @State private var fullSize: CGFloat = 0
-    
-    public init(text: String) {
+    public init(text: String, expand : Bool = false) {
         self.text = text
+        self.expand = expand
     }
+    
     public var body: some View {
         ZStack(alignment: .bottomTrailing){
-            Group {
-                if #available(iOS 15.0, *) {
-                    Text(markdownText)
-                } else {
-                    Text(text)
-                }
-            }
-            .font(font)
-            .foregroundColor(foregroundColor)
-            .lineLimit(expand == true ? nil : lineLimit)
-            .animation(animation, value: expand)
-            .mask(
-                VStack(spacing: 0){
-                    Rectangle()
-                        .foregroundColor(.black)
-                    
-                    HStack(spacing: 0){
+            Text(markdownText)
+                .font(font)
+                .foregroundColor(foregroundColor)
+                .lineLimit(expand == true ? nil : lineLimit)
+                .animation(animation, value: expand)
+                .equatable(by: viewReloader)
+                .mask(
+                    VStack(spacing: 0){
                         Rectangle()
                             .foregroundColor(.black)
-                        if truncated{
-                            if !expand {
-                                HStack(alignment: .bottom,spacing: 0){
-                                    LinearGradient(
-                                        gradient: Gradient(stops: [
-                                            Gradient.Stop(color: .black, location: 0),
-                                            Gradient.Stop(color: .clear, location: 0.8)]),
-                                        startPoint: .leading,
-                                        endPoint: .trailing)
-                                    .frame(width: 32, height: expandButton.text.heightOfString(usingFont: fontToUIFont(font: expandButton.font)))
-                                    
-                                    Rectangle()
-                                        .foregroundColor(.clear)
-                                        .frame(width: expandButton.text.widthOfString(usingFont: fontToUIFont(font: expandButton.font)), alignment: .center)
-                                }
-                            }
-                            else if let collapseButton = collapseButton {
-                                HStack(alignment: .bottom,spacing: 0){
-                                    LinearGradient(
-                                        gradient: Gradient(stops: [
-                                            Gradient.Stop(color: .black, location: 0),
-                                            Gradient.Stop(color: .clear, location: 0.8)]),
-                                        startPoint: .leading,
-                                        endPoint: .trailing)
-                                    .frame(width: 32, height: collapseButton.text.heightOfString(usingFont: fontToUIFont(font: collapseButton.font)))
-                                    
-                                    Rectangle()
-                                        .foregroundColor(.clear)
-                                        .frame(width: collapseButton.text.widthOfString(usingFont: fontToUIFont(font: collapseButton.font)), alignment: .center)
+                        HStack(spacing: 0){
+                            Rectangle()
+                                .foregroundColor(.black)
+                            if truncated{
+                                if !expand {
+                                    HStack(alignment: .bottom,spacing: 0){
+                                        LinearGradient(
+                                            gradient: Gradient(stops: [
+                                                Gradient.Stop(color: .black, location: 0),
+                                                Gradient.Stop(color: .clear, location: 0.8)]),
+                                            startPoint: .leading,
+                                            endPoint: .trailing)
+                                        .frame(width: 32, height: expandButton.text.heightOfString(usingFont: fontToUIFont(font: expandButton.font)))
+                                        
+                                        Rectangle()
+                                            .foregroundColor(.clear)
+                                            .frame(width: expandButton.text.widthOfString(usingFont: fontToUIFont(font: expandButton.font)), alignment: .center)
+                                    }
+                                } else if let collapseButton = collapseButton {
+                                    HStack(alignment: .bottom,spacing: 0){
+                                        LinearGradient(
+                                            gradient: Gradient(stops: [
+                                                Gradient.Stop(color: .black, location: 0),
+                                                Gradient.Stop(color: .clear, location: 0.8)]),
+                                            startPoint: .leading,
+                                            endPoint: .trailing)
+                                        .frame(width: 32, height: collapseButton.text.heightOfString(usingFont: fontToUIFont(font: collapseButton.font)))
+                                        
+                                        Rectangle()
+                                            .foregroundColor(.clear)
+                                            .frame(width: collapseButton.text.widthOfString(usingFont: fontToUIFont(font: collapseButton.font)), alignment: .center)
+                                    }
                                 }
                             }
                         }
+                        .frame(height: expandButton.text.heightOfString(usingFont: fontToUIFont(font: font)))
                     }
-                    .frame(height: expandButton.text.heightOfString(usingFont: fontToUIFont(font: font)))
-                }
-            )
+                )
             
             if truncated {
                 if let collapseButton = collapseButton {
                     Button(action: {
                         self.expand.toggle()
+                        reloadView()
                     }, label: {
                         Text(expand == false ? expandButton.text : collapseButton.text)
                             .font(expand == false ? expandButton.font : collapseButton.font)
@@ -105,6 +109,16 @@ public struct ExpandableText: View {
                 else if !expand {
                     Button(action: {
                         self.expand = true
+                        reloadView()
+                    }, label: {
+                        Text(expandButton.text)
+                            .font(expandButton.font)
+                            .foregroundColor(expandButton.color)
+                    })
+                } else {
+                    Button(action: {
+                        self.expand = false
+                        reloadView()
                     }, label: {
                         Text(expandButton.text)
                             .font(expandButton.font)
@@ -146,6 +160,10 @@ public struct ExpandableText: View {
             }
                 .hidden()
         )
+        
+    }
+    private func reloadView() {
+        viewReloader += 1
     }
 }
 extension ExpandableText {
@@ -202,18 +220,6 @@ extension String {
         let fontAttributes = [NSAttributedString.Key.font: font]
         let size = self.size(withAttributes: fontAttributes)
         return size.width
-    }
-}
-
-public struct TextSet {
-    var text: String
-    var font: Font
-    var color: Color
-    
-    public init(text: String, font: Font, color: Color) {
-        self.text = text
-        self.font = font
-        self.color = color
     }
 }
 

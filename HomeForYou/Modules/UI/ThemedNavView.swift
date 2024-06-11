@@ -20,6 +20,7 @@ private struct ThemedNavView<Content: View>: View {
             content
         }
         .swiftyThemeStyle()
+        .ignoresSafeArea(.keyboard)
     }
 }
 

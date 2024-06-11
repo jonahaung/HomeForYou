@@ -12,11 +12,13 @@ struct PostSingleColumnSmallCell: View {
 
     @EnvironmentObject private var post: Post
     @Injected(\.ui) private var ui
-
+    @Injected(\.router) private var router
+    
+    
     var body: some View {
         HStack {
             imageView()
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 HStack {
                     Text("\(post.price)")
                         .font(ui.fonts.title2.bold().width(.compressed))
@@ -40,7 +42,9 @@ struct PostSingleColumnSmallCell: View {
                     .foregroundStyle(.secondary.opacity(1))
             }
             ._flexible(.horizontal)
-            .routable(to: SceneItem(.postDetails, data: post))
+        }
+        .onTapGesture {
+            router.push(to: SceneItem(.postDetails, data: post))
         }
     }
 

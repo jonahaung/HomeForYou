@@ -11,25 +11,25 @@ import XUI
 struct HomeLookingForPostsSection: View {
     
     @Environment(HomeDatasource.self) private var datasource
+    @State private var selection: Looking?
     
     var body: some View {
-        InsetGroupSection(0) {
-            InsetGroupList {
-                ForEach(datasource.lookings) { each in
-                    VStack(alignment: .leading) {
-                        Text(each.title)
-                            .font(.headline)
-                        ExpandableText(text: each.description)
-                            .font(.callout)
-                    }
-                }
+        InsetGroupList(selection: $selection) {
+            subviews.intersperse {
+                Divider()
+                    .padding(.horizontal)
             }
-        } header: {
-            HomeSectionHeaderView(
-                "See What People Wants",
-                .person2Wave2Fill, .init(.lookingForList))
-        } footer: {
-            Spacer(minLength: 40)
+        }
+    }
+    
+    @ViewBuilder var subviews: some View {
+        ForEach(datasource.lookings) { each in
+            VStack(alignment: .leading) {
+                Text(each.title)
+                    .font(.headline)
+                ExpandableText(text: each.description)
+            }
+            .customTag(each)
         }
     }
 }

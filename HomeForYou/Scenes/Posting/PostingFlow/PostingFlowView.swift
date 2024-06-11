@@ -22,42 +22,45 @@ struct PostingFlowView<T: Postable>: View {
     }
     
     var body: some View {
-        NavigationStack {
-            PostForm_Address<MutablePost>(post.clone())
-        }
-        .swiftyThemeStyle()
-        .statusBarHidden(true)
-        .onTakePostingAction { action in
-            switch action {
-            case .cancel:
-                dismiss()
-            case .upload(let post):
-                if let model = currentUser.model {
-                    var mutablePost = post
-                    do {
-                        try await PostUploader.post(&mutablePost, author: PersonInfo(model: model))
-                        self.post.copy(from: mutablePost)
-                        await MainActor.run {
-                            self.post.updateUI()
-                            dismiss()
-                        }
-                    } catch {
-                        Log(error)
+        PostForm_Address<MutablePost>(post.clone())
+            .embeddedInNavigationView()
+            .statusBarHidden(true)
+            .onTakePostingAction { action in
+                await handleAaction(action)
+                
+            }
+    }
+    
+    private func handleAaction(_ action: PostingAction.ActionType) async {
+        switch action {
+        case .cancel:
+            dismiss()
+        case .upload(let post):
+            if let model = currentUser.model {
+                var mutablePost = post
+                do {
+                    try await PostUploader.post(&mutablePost, author: PersonInfo(model: model))
+                    self.post.copy(from: mutablePost)
+                    await MainActor.run {
+                        self.post.updateUI()
+                        dismiss()
                     }
+                } catch {
+                    Log(error)
                 }
-            case .update(let post):
-                if let model = currentUser.model {
-                    var mutablePost = post
-                    do {
-                        try await PostUploader.post(&mutablePost, author: PersonInfo(model: model))
-                        self.post.copy(from: mutablePost)
-                        await MainActor.run {
-                            self.post.updateUI()
-                            dismiss()
-                        }
-                    } catch {
-                        Log(error)
+            }
+        case .update(let post):
+            if let model = currentUser.model {
+                var mutablePost = post
+                do {
+                    try await PostUploader.post(&mutablePost, author: PersonInfo(model: model))
+                    self.post.copy(from: mutablePost)
+                    await MainActor.run {
+                        self.post.updateUI()
+                        dismiss()
                     }
+                } catch {
+                    Log(error)
                 }
             }
         }

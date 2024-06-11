@@ -23,6 +23,8 @@
 		472A8D052C0A3E940083DBF8 /* AreaSearchingWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472A8D042C0A3E940083DBF8 /* AreaSearchingWorker.swift */; };
 		472B26962C137EDF005DB74F /* SearchAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472B26952C137EDF005DB74F /* SearchAction.swift */; };
 		472B269A2C14A2A9005DB74F /* rail_list_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 472B26992C14A2A9005DB74F /* rail_list_data.json */; };
+		473371D42C18C1A600AF8970 /* CustomTagValueTraitKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473371D32C18C1A600AF8970 /* CustomTagValueTraitKey.swift */; };
+		473371D62C18C3B200AF8970 /* Variadic++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473371D52C18C3B200AF8970 /* Variadic++.swift */; };
 		473DA4302C08E7940069D358 /* HomeLogoStretchSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473DA42D2C08E59D0069D358 /* HomeLogoStretchSection.swift */; };
 		47409EC22C0CF70A00CB311D /* PostExplorerBottomToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47409EC12C0CF70A00CB311D /* PostExplorerBottomToolbar.swift */; };
 		476041B42C04F15B002724DB /* SettingsCurrentUserSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476041B32C04F15B002724DB /* SettingsCurrentUserSection.swift */; };
@@ -273,6 +275,7 @@
 		47DCF5E52C03B10F00D41AFD /* XUI in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5E42C03B10F00D41AFD /* XUI */; };
 		47DCF5E92C03B18D00D41AFD /* FireAuthManager in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5E82C03B18D00D41AFD /* FireAuthManager */; };
 		47DCF5ED2C03B2D000D41AFD /* SwiftyTheme in Frameworks */ = {isa = PBXBuildFile; productRef = 47DCF5EC2C03B2D000D41AFD /* SwiftyTheme */; };
+		47EB426B2C1876AC00EF1B0D /* InsetGroupList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EB426A2C1876AC00EF1B0D /* InsetGroupList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -308,6 +311,8 @@
 		472A8D042C0A3E940083DBF8 /* AreaSearchingWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaSearchingWorker.swift; sourceTree = "<group>"; };
 		472B26952C137EDF005DB74F /* SearchAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAction.swift; sourceTree = "<group>"; };
 		472B26992C14A2A9005DB74F /* rail_list_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rail_list_data.json; sourceTree = "<group>"; };
+		473371D32C18C1A600AF8970 /* CustomTagValueTraitKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTagValueTraitKey.swift; sourceTree = "<group>"; };
+		473371D52C18C3B200AF8970 /* Variadic++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Variadic++.swift"; sourceTree = "<group>"; };
 		473DA42D2C08E59D0069D358 /* HomeLogoStretchSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeLogoStretchSection.swift; sourceTree = "<group>"; };
 		47409EC12C0CF70A00CB311D /* PostExplorerBottomToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostExplorerBottomToolbar.swift; sourceTree = "<group>"; };
 		476041B32C04F15B002724DB /* SettingsCurrentUserSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCurrentUserSection.swift; sourceTree = "<group>"; };
@@ -545,6 +550,7 @@
 		47BF10D02C12483500889DB8 /* MRTMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRTMapView.swift; sourceTree = "<group>"; };
 		47C67E272C04375700C498F8 /* CurrentLocationPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationPublisher.swift; sourceTree = "<group>"; };
 		47DA40892C17A92000B385B9 /* PostingAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingAction.swift; sourceTree = "<group>"; };
+		47EB426A2C1876AC00EF1B0D /* InsetGroupList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetGroupList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1604,6 +1610,7 @@
 				47B715CD2C01CD0400A9932A /* Routing */,
 				47B715E22C01CD0400A9932A /* UI */,
 				4703D5E12C0B99A10067145A /* Temporary.swift */,
+				47EB42722C187E8100EF1B0D /* Variadic */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -1614,6 +1621,16 @@
 				47DA40892C17A92000B385B9 /* PostingAction.swift */,
 			);
 			path = Posting;
+			sourceTree = "<group>";
+		};
+		47EB42722C187E8100EF1B0D /* Variadic */ = {
+			isa = PBXGroup;
+			children = (
+				47EB426A2C1876AC00EF1B0D /* InsetGroupList.swift */,
+				473371D32C18C1A600AF8970 /* CustomTagValueTraitKey.swift */,
+				473371D52C18C3B200AF8970 /* Variadic++.swift */,
+			);
+			path = Variadic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1891,6 +1908,7 @@
 				47B715E82C01CD0400A9932A /* LocationInfo.swift in Sources */,
 				47B7165E2C01CD0400A9932A /* MagicButton.swift in Sources */,
 				47BF10D12C12483500889DB8 /* MRTMapView.swift in Sources */,
+				473371D42C18C1A600AF8970 /* CustomTagValueTraitKey.swift in Sources */,
 				47B716242C01CD0400A9932A /* HomeDatasource.swift in Sources */,
 				47B716212C01CD0400A9932A /* NearbyLocationMap.swift in Sources */,
 				47B716B12C01CD0400A9932A /* Repoable.swift in Sources */,
@@ -1948,6 +1966,7 @@
 				47B716982C01CD0400A9932A /* LanguagePickerView.swift in Sources */,
 				47B7167D2C01CD0400A9932A /* MRTListPickerBar.swift in Sources */,
 				47B715FE2C01CD0400A9932A /* StringViewRepresentable.swift in Sources */,
+				47EB426B2C1876AC00EF1B0D /* InsetGroupList.swift in Sources */,
 				47B7162B2C01CD0400A9932A /* LookingForSceneModel.swift in Sources */,
 				47B716032C01CD0400A9932A /* PostDetailsSubViews.swift in Sources */,
 				47B715F82C01CD0400A9932A /* Person.swift in Sources */,
@@ -2013,6 +2032,7 @@
 				47B716CF2C01CD0400A9932A /* GridMultiPicker.swift in Sources */,
 				47B716622C01CD0400A9932A /* MainNavView.swift in Sources */,
 				47B7163C2C01CD0400A9932A /* PostUploader.swift in Sources */,
+				473371D62C18C3B200AF8970 /* Variadic++.swift in Sources */,
 				47B716082C01CD0400A9932A /* FilterTagsView.swift in Sources */,
 				476B39DE2C05A21C00F99D44 /* MutablePost.swift in Sources */,
 				472A8D032C0A3E890083DBF8 /* MRTSearchingWorker.swift in Sources */,

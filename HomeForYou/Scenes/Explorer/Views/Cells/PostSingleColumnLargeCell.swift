@@ -12,27 +12,25 @@ import SFSafeSymbols
 struct PostSingleColumnLargeCell: View {
     
     let data: PostCellDisplayData
-//    @EnvironmentObject private var post: Post
     @Injected(\.ui) private var ui
     @Injected(\.utils) private var utils
     @Injected(\.router) private var router
     
     var body: some View {
-        InsetGroupSection(4) {
+        VStack(alignment: .leading, spacing: 5) {
+            imageCarousellView()
             VStack(alignment: .leading, spacing: 0) {
-                imageCarousellView()
                 content
-                    .padding(.horizontal, 5)
-            }
-            .padding(.bottom, 8)
-            .background(Color.secondarySystemGroupedBackground)
-        } footer: {
-            HStack {
-                Text(data.createdAt)
-                Spacer()
-                Text(data.post.author.name.str)
-            }
+                HStack {
+                    Text(data.createdAt)
+                    Spacer()
+                    Text(data.post.author.name.str)
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            }.padding(.horizontal, 16)
         }
+        .padding(.bottom)
     }
     
     private var content: some View {
@@ -50,7 +48,7 @@ struct PostSingleColumnLargeCell: View {
                 .foregroundStyle(.secondary)
             }
             Text(data.title)
-
+            
             HStack {
                 ForEach(data.secondaryTags, id: \.0) {
                     Text("\(Image(systemSymbol: $0.0.symbol))\($0.1.title)")

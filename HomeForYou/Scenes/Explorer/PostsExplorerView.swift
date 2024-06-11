@@ -21,38 +21,63 @@ struct PostsExplorerView: View {
     init(filters: [PostFilter]) {
         _viewModel = .init(wrappedValue: .init(filters))
     }
+    @State private var selection: PostCellDisplayData?
+    
+    @ViewBuilder var largePostViews: some View {
+        ForEach(viewModel.displayDatas) { data in
+            InsetGroupList(selection: $selection, innerPadding: 0, outerPadding: 8) {
+                PostSingleColumnLargeCell(data: data)
+            }
+            .equatable(by: data)
+            .customTag(data)
+        }
+    }
+    @ViewBuilder var listViews: some View {
+        ForEach(viewModel.posts) { post in
+            PostSingleColumnSmallCell()
+                .environmentObject(post)
+                .equatable(by: post)
+                .customTag(post)
+        }
+        
+    }
+    @ViewBuilder var doubleColmViews: some View {
+        ForEach(viewModel.posts) { post in
+            PostDoubleColumnCell()
+                .environmentObject(post)
+                .equatable(by: post)
+                .customTag(post)
+        }
+    }
+    
     var body: some View {
         LodableScrollView(.vertical, showsIndicators: false, namespace: Self.typeName, content: {
-            VStack(alignment: .leading, spacing: 0) {
+            LazyVStack(alignment: .leading, spacing: 0) {
                 if !viewModel.filters.isEmpty {
                     filteredTagsGroup
                 }
-                if !viewModel.loading && viewModel.posts.isEmpty {
-                    InsetGroupList {
-                        ContentUnavailableView.search
+                if gridAppearance.gridStyle != .TwoCol {
+                    if gridAppearance.gridStyle == .Large {
+                        InsetGroupList(selection: $selection, innerPadding: 0, outerPadding: 8) {
+                            listViews.intersperse {
+                                Divider().padding(.horizontal)
+                            }
+                        }
+                        .containerRelativeFrame(.horizontal)
+                    } else {
+                        largePostViews
+                            .containerRelativeFrame(.horizontal)
                     }
-                }
-                WaterfallVList(columns: gridAppearance.gridStyle == .TwoCol ? 2 : 1, spacing: gridAppearance.gridStyle == .TwoCol ? 3 : 0) {
-                    switch gridAppearance.gridStyle {
-                    case .Large:
-                        ForEach(viewModel.displayDatas) { data in
-                            PostSingleColumnLargeCell(data: data)
-                               
-                        }
-                    case .TwoCol:
-                        ForEach(viewModel.posts) { post in
-                            PostDoubleColumnCell()
-                                .environmentObject(post)
-                        }
-                    case .List:
-                        ForEach(viewModel.posts) { post in
-                            PostSingleColumnSmallCell()
-                                .environmentObject(post)
+                } else {
+                    InsetGroupList(selection: $selection, innerPadding: 0, outerPadding: 4) {
+                        WaterfallVList(columns: 2, spacing: 2) {
+                            doubleColmViews
                         }
                     }
+                    .containerRelativeFrame(.horizontal)
                 }
             }
-            .animation(.interactiveSpring, value: viewModel.posts)
+            .containerRelativeFrame(.horizontal)
             .padding(.bottom, 70)
         }, onLoadMore: {
             guard await viewModel.loading == false else { return }

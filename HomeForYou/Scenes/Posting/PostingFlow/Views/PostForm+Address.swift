@@ -15,7 +15,6 @@ struct PostForm_Address<T: Postable>: View {
         case postalCode, addressText
     }
     
-    @Environment(\.keyboardShowing) private var keyboardShowing
     @FocusState private var focused: FocusedField?
     @StateObject private var viewModel = PostingFlowAddressViewModel()
     
@@ -110,7 +109,7 @@ struct PostForm_Address<T: Postable>: View {
                 }
             }
         }
-        .animation(.interactiveSpring, value: viewModel.location)
+        .animation(.smooth, value: viewModel.location)
         .showLoading(viewModel.loading)
         .alertPresenter($viewModel.alert)
         .scrollDismissesKeyboard(.interactively)

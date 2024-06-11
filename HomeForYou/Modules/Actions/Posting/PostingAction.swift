@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-
 struct PostingAction {
+    
     enum ActionType {
         typealias T = any Postable
         case cancel

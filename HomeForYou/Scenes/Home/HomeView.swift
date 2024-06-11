@@ -93,5 +93,5 @@ struct HomeView: View {
         contentMode: .scaleAspectFit
     ).frame(
         height: Home.Stretchy_Header_Height
-    )
+    ).equatable(by: 1)
 }
