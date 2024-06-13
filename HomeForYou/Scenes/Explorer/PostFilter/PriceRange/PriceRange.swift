@@ -9,8 +9,10 @@ import Foundation
 import XUI
 
 struct PriceRange {
-
-    static func defaultRange(for category: Category) -> ClosedRange<Double> {
+    var range: ClosedRange<Double> = 50000...10000000
+    static func defaultRange(
+        for category: Category
+    ) -> ClosedRange<Double> {
         switch category {
         case .selling:
             return 50000...10000000
@@ -32,7 +34,13 @@ struct PriceRange {
         }
     }
 
-    static func integerRange(for doubleRange: ClosedRange<Double>) -> ClosedRange<Int> {
-        Int(doubleRange.lowerBound)...Int(doubleRange.upperBound)
+    static func integerRange(
+        for doubleRange: ClosedRange<Double>
+    ) -> ClosedRange<Int> {
+        Int(
+            doubleRange.lowerBound
+        )...Int(
+            doubleRange.upperBound
+        )
     }
 }

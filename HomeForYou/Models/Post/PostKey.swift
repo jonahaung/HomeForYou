@@ -9,8 +9,10 @@ import Foundation
 import XUI
 import SFSafeSymbols
 
-enum PostKeys: String, Codable, CaseIterable, Identifiable, Hashable {
+enum PostKey: String, Codable, CaseIterable, Identifiable, Hashable {
+    
     var id: String { rawValue }
+    
     case category
     case id
     case autherID
@@ -48,7 +50,7 @@ enum PostKeys: String, Codable, CaseIterable, Identifiable, Hashable {
     case additional
     case geoHash
     
-    static let keywordKeys = [PostKeys.area, .mrt, .features, restrictions]
+    static let keywordKeys = [PostKey.area, .mrt, .features, restrictions]
     
     var localized: String {
         switch self {
@@ -108,7 +110,6 @@ enum PostKeys: String, Codable, CaseIterable, Identifiable, Hashable {
             return ""
         }
     }
-    
     var symbol: SFSymbol {
         switch self {
         case .category:

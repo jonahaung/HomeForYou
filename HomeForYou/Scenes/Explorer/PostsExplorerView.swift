@@ -14,51 +14,45 @@ struct PostsExplorerView: View {
     @StateObject private var gridAppearance = GridAppearance()
     @StateObject private var viewModel: PostExplorerViewModel
     @StateObject private var searchDatasource = SearchDatasource()
-    
+    @State private var magicButton = MagicButtonItem(.clockFill, .center, 25)
     @Injected(\.ui) private var ui
     @Environment(\.editMode) private var editMode
     
-    init(filters: [PostFilter]) {
+    init(filters: [PostQuery]) {
         _viewModel = .init(wrappedValue: .init(filters))
     }
-    @State private var selection: PostCellDisplayData?
     
-    @ViewBuilder var largePostViews: some View {
+    @ViewBuilder private var largePostViews: some View {
         ForEach(viewModel.displayDatas) { data in
-            InsetGroupList(selection: $selection, innerPadding: 0, outerPadding: 8) {
+            ScrollViewList(innerPadding: 0, outerPadding: 8) {
                 PostSingleColumnLargeCell(data: data)
             }
             .equatable(by: data)
-            .customTag(data)
         }
     }
-    @ViewBuilder var listViews: some View {
-        ForEach(viewModel.posts) { post in
+    @ViewBuilder private var listViews: some View {
+        ForEach(viewModel.displayDatas) { post in
             PostSingleColumnSmallCell()
-                .environmentObject(post)
+                .environmentObject(post.post)
                 .equatable(by: post)
-                .customTag(post)
         }
         
     }
-    @ViewBuilder var doubleColmViews: some View {
-        ForEach(viewModel.posts) { post in
+    @ViewBuilder private var doubleColmViews: some View {
+        ForEach(viewModel.displayDatas) { post in
             PostDoubleColumnCell()
-                .environmentObject(post)
+                .environmentObject(post.post)
                 .equatable(by: post)
-                .customTag(post)
         }
     }
     
     var body: some View {
         LodableScrollView(.vertical, showsIndicators: false, namespace: Self.typeName, content: {
             LazyVStack(alignment: .leading, spacing: 0) {
-                if !viewModel.filters.isEmpty {
-                    filteredTagsGroup
-                }
+                filteredTagsGroup
                 if gridAppearance.gridStyle != .TwoCol {
                     if gridAppearance.gridStyle == .Large {
-                        InsetGroupList(selection: $selection, innerPadding: 0, outerPadding: 8) {
+                        ScrollViewList(innerPadding: 0, outerPadding: 8) {
                             listViews.intersperse {
                                 Divider().padding(.horizontal)
                             }
@@ -69,7 +63,7 @@ struct PostsExplorerView: View {
                             .containerRelativeFrame(.horizontal)
                     }
                 } else {
-                    InsetGroupList(selection: $selection, innerPadding: 0, outerPadding: 4) {
+                    ScrollViewList(innerPadding: 0, outerPadding: 4) {
                         WaterfallVList(columns: 2, spacing: 2) {
                             doubleColmViews
                         }
@@ -79,32 +73,32 @@ struct PostsExplorerView: View {
             }
             .containerRelativeFrame(.horizontal)
             .padding(.bottom, 70)
+            .equatable(by: viewModel.loading)
+            .animation(.snappy, value: viewModel.loading)
         }, onLoadMore: {
             guard await viewModel.loading == false else { return }
-            await viewModel.performFetchMore()
+            await viewModel.performFetchMore(filters: viewModel.filters)
         })
         .refreshable {
             guard !viewModel.loading else { return }
-            await viewModel.refreshable()
+            await viewModel.refreshable(filters: viewModel.filters)
         }
         .overlay(alignment: .bottom) {
             VStack {
-                if viewModel.loading {
-                    LoadingIndicator()
-                        .padding()
-                }
                 if editMode?.wrappedValue == .active {
                     PostExplorerGridStylePicker()
                         .padding(.horizontal)
                 }
                 PostExplorerBottomToolbar()
             }
+            
         }
         .navigationTitle("@explore")
         .toolbar {
             PostExplorerTopToolbar()
         }
-        .magicButton(.backButton)
+        .alertPresenter($viewModel.alert)
+        .magicButton($magicButton)
         .makeSearchable(searchDatasource)
         .background(Color.systemGroupedBackground)
         .environmentObject(viewModel)
@@ -113,11 +107,30 @@ struct PostsExplorerView: View {
         .onSearchSubmit { item in
             Log(item)
         }
+        .task(
+            id: viewModel.filters,
+            priority: .background,
+            debounceTime: .seconds(
+                0
+            )
+        ) {
+            await viewModel.performFirstFetch(
+                filters: viewModel.filters
+            )
+        }
+        .onChange(of: viewModel.loading) { oldValue, newValue in
+            let symbol = newValue ? SFSymbol.arrowTriangle2CirclepathCircleFill : .line2HorizontalDecreaseCircleFill
+            let size = newValue ? CGFloat(30) : 36
+            let alignment = newValue ? Alignment.center : .trailing
+            magicButton.update(symbol: symbol, alignment: alignment, size: size, animations: newValue ? CardinalPoint.allCases.map{ PhaseAnimationType.rotate($0)} : [.scale(1), .scale(1.1)]) {
+                await viewModel.refreshable(filters: viewModel.filters)
+            }
+        }
     }
 }
 private extension PostsExplorerView {
     private var filteredTagsGroup: some View {
-        FilterTagsView(filters: $viewModel.filters)
+        FilterTagsView(queries: $viewModel.filters)
             .padding(.leading)
             .padding(.vertical, 2)
             ._flexible(.horizontal)

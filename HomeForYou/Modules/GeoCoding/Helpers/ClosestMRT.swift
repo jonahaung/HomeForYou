@@ -1,18 +1,14 @@
 //
-//  MRT+Extensions.swift
+//  ClosestMRT.swift
 //  HomeForYou
 //
-//  Created by Aung Ko Min on 18/2/23.
+//  Created by Aung Ko Min on 12/6/24.
 //
 
 import Foundation
 import CoreLocation
 
-extension MRT {
-    
-    var coordinate: CLLocationCoordinate2D { .init(latitude: latitude, longitude: longitude)}
-    var location: CLLocation { .init(latitude: latitude, longitude: longitude) }
-    
+enum ClosestMRT {
     static func closestMRT(from location: CLLocation) -> LocationInfo.NearestMRT {
         let mrts = MRT.allValues
         var closestMRT: MRT?

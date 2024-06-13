@@ -21,6 +21,7 @@ class CurrentLocationPublisher: NSObject {
     }(CLLocationManager())
 }
 extension CurrentLocationPublisher {
+    
     func startRequestingWhenInUseAuthorization() {
         manager.delegate = self
         if manager.authorizationStatus == .notDetermined {

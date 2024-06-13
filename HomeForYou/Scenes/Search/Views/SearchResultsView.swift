@@ -131,7 +131,7 @@ struct SearchResultsView: View {
                     datasource.canPresentOnAppear = true
                     locationReceiver.reset()
                     Task {
-                        await onSearchAction?(.filter([.init(.area, [newValue.geohash(length: 6)])]))
+                        await onSearchAction?(.filter([.init(.area, newValue.geohash(length: 6))]))
                     }
                 }
             })

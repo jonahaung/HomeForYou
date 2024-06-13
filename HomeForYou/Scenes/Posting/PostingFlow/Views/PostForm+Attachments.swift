@@ -27,46 +27,44 @@ struct PostForm_Attachmments<T: Postable>: View {
     @MainActor
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            Section {
-                WaterfallVList(columns: calculateNoOfColumns(), spacing: 3) {
-                    ReorderableForEach($attachments, allowReordering: .constant(true)) { item, isDragged in
-                        ZStack(alignment: .topTrailing) {
-                            if item.type == .photo {
-                                WaterfallImage(urlString: item.url)
-                            } else if item.type == .video, let url = item._url {
-                                VideoPlayer(player: AVPlayer(url: url))
-                                    .frame(minHeight: 150)
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Add photos, videos or RoomPlan 3D data")
+                    .font(.headline)
+                Section {
+                    WaterfallVList(columns: calculateNoOfColumns(), spacing: 3) {
+                        ReorderableForEach($attachments, allowReordering: .constant(true)) { item, isDragged in
+                            ZStack(alignment: .topTrailing) {
+                                if item.type == .photo {
+                                    WaterfallImage(urlString: item.url)
+                                } else if item.type == .video, let url = item._url {
+                                    VideoPlayer(player: AVPlayer(url: url))
+                                        .frame(minHeight: 150)
+                                }
+                                if editing {
+                                    SystemImage(isSelected(for: item) ? .checkmarkCircleFill : .circle)
+                                        .foregroundColor(.white)
+                                }
                             }
-                            if editing {
-                                SystemImage(isSelected(for: item) ? .checkmarkCircleFill : .circle)
-                                    .foregroundColor(.white)
-                            }
-                        }
-                        .opacity(isDragged ? 0.3 : 1)
-                        .onTapGesture {
-                            if editing {
-                                toggleSelected(for: item)
-                            } else {
-                                tapped = item
+                            .opacity(isDragged ? 0.3 : 1)
+                            .onTapGesture {
+                                if editing {
+                                    toggleSelected(for: item)
+                                } else {
+                                    tapped = item
+                                }
                             }
                         }
                     }
                 }
-            } header: {
-                Text("Add photos, videos or RoomPlan 3D data")
-            }
-            Section {
-                Spacer(minLength: 100)
-            } footer: {
-                VStack {
+                ScrollViewList {
                     Text("\(Image(systemSymbol: .photoStack)) Select from Photo Library")
-                        ._borderedProminentLightButtonStyle()
                         ._presentFullScreen {
                             _PhotoPicker(attachments: $attachments, multipleSelection: true)
                                 .selectionLimit(K.Posting.Number_Of_Max_Attachments_Allowed)
                                 .edgesIgnoringSafeArea(.all)
                         }
                         ._hidable(attachments.count >= K.Posting.Number_Of_Max_Attachments_Allowed)
+                    Divider().padding(.trailing)
                     HStack {
                         Text("Capture \(Image(systemSymbol: .rotate3d)) RoomPlan 3D")
                             ._presentFullScreen {
@@ -74,15 +72,7 @@ struct PostForm_Attachmments<T: Postable>: View {
                                     .ignoresSafeArea()
                                     .statusBarHidden()
                             }
-                        
-                        //                        if let url = editablePost._roomURL {
-                        //                            ShareLink(item: url) {
-                        //                                SystemImage(.checkmarkCircleFill)
-                        //                                    .foregroundColor(.orange)
-                        //                            }
-                        //                            .buttonStyle(.borderless)
-                        //                        }
-                    }._borderedProminentLightButtonStyle()
+                    }
                 }
             }
         }
@@ -106,6 +96,7 @@ struct PostForm_Attachmments<T: Postable>: View {
                 bottomBar
             }
         }
+        
         .fullScreenCover(item: $tapped) { tapped in
             switch tapped.type {
             case .photo:
@@ -159,8 +150,8 @@ struct PostForm_Attachmments<T: Postable>: View {
             .accentColor(.red)
             .disabled(selections.isEmpty)
         } else {
-            Spacer()
-            Text("next \(Image(systemSymbol: .arrowshapeForwardFill))")
+            Text("next")
+                ._borderedProminentLightButtonStyle()
                 ._tapToPush {
                     PostForm_Details($editablePost)
                 }

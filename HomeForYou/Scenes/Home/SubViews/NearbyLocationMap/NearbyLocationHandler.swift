@@ -26,7 +26,7 @@ final class NearbyLocationHandler: ViewModel, ObservableObject {
         locationPublisher.publisher()
             .removeDuplicates()
             .debounce(for: 0.2, scheduler: RunLoop.main)
-            .sink { [weak self] value in
+            .asyncSink { [weak self] value in
                 guard let self else { return }
                 await self.setLoading(true)
                 let geoHash = value.coordinate.geohash(length: 6)
@@ -68,8 +68,8 @@ extension NearbyLocationHandler {
 }
 extension NearbyLocationHandler {
     private func getNearbyPosts(for geoHash: String, _ category: Category) async -> [Post]{
-        let query = Firestore.firestore().collection(category.rawValue).whereField(PostKeys.geoHash.rawValue, isGreaterThanOrEqualTo: geoHash)
-            .whereField(PostKeys.geoHash.rawValue, isLessThan: geoHash + "\u{f8ff}").order(by: PostKeys.geoHash.rawValue, descending: true)
+        let query = Firestore.firestore().collection(category.rawValue).whereField(PostKey.geoHash.rawValue, isGreaterThanOrEqualTo: geoHash)
+            .whereField(PostKey.geoHash.rawValue, isLessThan: geoHash + "\u{f8ff}").order(by: PostKey.geoHash.rawValue, descending: true)
         return await getPosts(for: query)
     }
     

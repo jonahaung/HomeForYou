@@ -15,10 +15,10 @@ struct PostsFilterView: View {
     @Injected(\.ui) private var ui
     @Injected(\.utils) private var utils
     
-    private var filters: Binding<[PostFilter]>
+    @Binding private var quries: [PostQuery]
     
-    init(_ filters: Binding<[PostFilter]>) {
-        self.filters = filters
+    init(_ filters: Binding<[PostQuery]>) {
+        self._quries = filters
     }
     
     var body: some View {
@@ -26,12 +26,12 @@ struct PostsFilterView: View {
             
             Section {
                 
-                Toggle(isOn: $model.filters.isPriceRange) {
+                Toggle(isOn: $model.isPriceSearch) {
                     Text("Filter by price range")
                 }
                 
-                if model.filters.isPriceRange {
-                    RangedSliderView(value: $model.filters.priceRange, bounds: 0...1000, step: 100)
+                if model.isPriceSearch {
+                    RangedSliderView(value: $model.priceRange, bounds: 0...1000, step: 100)
                         .padding(.horizontal)
                         .listRowInsets(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
                         .padding(.vertical)
@@ -39,50 +39,118 @@ struct PostsFilterView: View {
                 }
                 
             }
-            .animation(.interactiveSpring(), value: model.filters.isPriceRange)
+            .animation(.interactiveSpring(), value: model.isPriceSearch)
             
-            if !model.filters.isPriceRange {
+            if !model.isPriceSearch {
                 Section {
-                    XNavPickerBar("Area", Area.allCases, $model.filters.area)
-                    MRTPickerBar(mrt: $model.filters.mrt)
+                    XNavPickerBar("Area", model.allCasesSting(for: .area), model.bindableValue(for: .area))
+                    MRTPickerBar(mrt: model.bindableValue(for: .mrt))
                 }
-                
                 Section {
                     Group {
-                        XNavPickerBar("Property Type", PropertyType.allCases, $model.filters.propertyType)
-                        XNavPickerBar("Room Type", RoomType.allCases, $model.filters.roomType)
-                            ._hidable(model.filters.category != .rental_room)
-                        XNavPickerBar("Furnishing", Furnishing.allCases, $model.filters.furnishing)
-                            ._hidable(model.filters.category == .selling)
+                        XNavPickerBar(
+                            "Property Type",
+                            model.allCasesSting(
+                                for: .propertyType
+                            ),
+                            model.bindableValue(
+                                for: .propertyType
+                            )
+                        )
+                        XNavPickerBar(
+                            "Room Type",
+                            model.allCasesSting(
+                                for: .roomType
+                            ),
+                            model.bindableValue(
+                                for: .roomType
+                            )
+                        )
+                        ._hidable(model.category != .rental_room)
+                        XNavPickerBar(
+                            "Furnishing",
+                            model.allCasesSting(
+                                for: .furnishing
+                            ),
+                            model.bindableValue(
+                                for: .furnishing
+                            )
+                        )
+                        ._hidable(model.category == .selling)
                     }
+                    Group {
+                        XNavPickerBar(
+                            "Bedrooms",
+                            model.allCasesSting(
+                                for: .beds
+                            ),
+                            model.bindableValue(
+                                for: .beds
+                            )
+                        )
+                        XNavPickerBar(
+                            "Bathrooms",
+                            model.allCasesSting(
+                                for: .baths
+                            ),
+                            model.bindableValue(
+                                for: .baths
+                            )
+                        )
+                    }
+                    ._hidable(model.category == .rental_room)
                     
                     Group {
-                        XNavPickerBar("Bedrooms", Bedroom.allCases, $model.filters.bedroom)
-                        XNavPickerBar("Bathrooms", Bathroom.allCases, $model.filters.bathroom)
-                    }
-                    ._hidable(model.filters.category == .rental_room)
-                    
-                    Group {
-                        XNavPickerBar("FloorLevel", FloorLevel.allCases, $model.filters.floorLevel)
-                        XNavPickerBar("TenantType", TenantType.allCases, $model.filters.tenantType)
-                            ._hidable(model.filters.category == .selling)
-                        XNavPickerBar("LeaseTerm", LeaseTerm.allCases, $model.filters.leaseTerm)
-                            ._hidable(model.filters.category == .selling)
-                        XNavPickerBar("Tenure", Tenure.allCases, $model.filters.tenure)
-                            ._hidable(model.filters.category != .selling)
+                        XNavPickerBar(
+                            "FloorLevel",
+                            model.allCasesSting(
+                                for: .floorLevel
+                            ),
+                            model.bindableValue(
+                                for: .floorLevel
+                            )
+                        )
+                        XNavPickerBar(
+                            "TenantType",
+                            model.allCasesSting(
+                                for: .tenantType
+                            ),
+                            model.bindableValue(
+                                for: .tenantType
+                            )
+                        )
+                        ._hidable(model.category == .selling)
+                        XNavPickerBar(
+                            "LeaseTerm",
+                            model.allCasesSting(
+                                for: .leaseTerm
+                            ),
+                            model.bindableValue(
+                                for: .leaseTerm
+                            )
+                        )
+                        ._hidable(model.category == .selling)
+                        XNavPickerBar(
+                            "Tenure",
+                            model.allCasesSting(
+                                for: .tenure
+                            ),
+                            model.bindableValue(
+                                for: .tenure
+                            )
+                        )
+                        ._hidable(model.category != .selling)
                     }
                 }
                 .font(ui.fonts.callOut)
                 Section("Features") {
-                    GridMultiPicker(source: Feature.allCases, selection: $model.filters.features)
+                    GridMultiPicker(source: Feature.allCases, selection: model.getBindableModels(for: .features))
                 }
-                
                 Section("Restrictions") {
-                    GridMultiPicker(source: Restriction.allCases, selection: $model.filters.restrictions)
+                    GridMultiPicker(source: Restriction.allCases, selection: model.getBindableModels(for: .restrictions))
                 }
-                
                 Section("Status") {
-                    Picker("", selection: $model.filters.status) {
+                    Picker("", selection: model.bindableValue(for: .status)) {
                         ForEach(PostStatus.allCasesExpectEmpty) {
                             Text($0.title)
                                 .tag($0)
@@ -94,23 +162,23 @@ struct PostsFilterView: View {
                 .listRowBackground(Color.clear)
             }
         }
-        .animation(.interactiveSpring(), value: model.filters)
+        .animation(.interactiveSpring(), value: model.quries)
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 HStack {
                     _ConfirmButton("Reset all filters") {
-                        model.filters = .init(self.filters.wrappedValue, category: .current)
+                        model.quries.removeAll()
                     } label: {
                         Text("Reset")
                     }
-                    .disabled(filters.wrappedValue == model.filters.getFilters())
+                    .disabled(quries == model.quries)
                     
                     _ConfirmButton("Clear all filters") {
-                        model.filters.clear()
+                        model.quries.removeAll()
                     } label: {
                         Text("Clear")
                     }
-                    .disabled(model.filters.isEmpty)
+                    .disabled(model.quries.isEmpty)
                 }
             }
             ToolbarItemGroup(placement: .navigationBarTrailing) {
@@ -119,11 +187,7 @@ struct PostsFilterView: View {
         }
         .navigationBarTitle("Filter Posts", displayMode: .inline)
         .embeddedInNavigationView()
-        .lazySync(filters, .init(get: {
-            model.filters.getFilters()
-        }, set: { new in
-            model.filters = .init(new, category: model.filters.category)
-        }))
+        .debounceSync($quries, $model.quries, 1)
         .presentationDetents([.medium, .large])
         .interactiveDismissDisabled(true)
     }

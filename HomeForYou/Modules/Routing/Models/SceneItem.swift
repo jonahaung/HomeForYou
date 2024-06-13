@@ -11,7 +11,6 @@ import SwiftyTheme
 import FireAuthManager
 
 struct SceneItem: ViewDisplayable {
-    
     let kind: SceneKind
     let data: AnyHashable?
     
@@ -55,7 +54,7 @@ extension SceneItem {
                     .environmentObject(post)
             }
         case .postCollection:
-            let filters: [PostFilter] = data as? [PostFilter] ?? []
+            let filters = data as? [PostQuery] ?? []
             PostsExplorerView(filters: filters)
         case .mrtMap(let onSelect):
             MRTMapView(onSelect: onSelect)

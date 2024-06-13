@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PostCellDisplayData: Identifiable {
     
-    typealias Tag = (PostKeys, String)
+    typealias Tag = (PostKey, String)
     
     var id: String { post.id }
     let title: AttributedString

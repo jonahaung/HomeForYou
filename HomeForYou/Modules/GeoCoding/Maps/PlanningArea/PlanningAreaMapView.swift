@@ -97,7 +97,7 @@ struct PlanningAreaMapView: View {
         }
         .statusBar(hidden: true)
         .task {
-            planningAreas = PlanningArea.allValues
+            planningAreas = PlanningArea.allCases
         }
         ._onAppear(after: 1) {
             selection = nil

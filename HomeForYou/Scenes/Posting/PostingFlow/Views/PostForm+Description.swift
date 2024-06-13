@@ -11,7 +11,7 @@ import FireAuthManager
 
 struct PostForm_Description<T: Postable>: View {
     
-    @Environment(\.onTakePostingAction) private var onTakePostingAction
+    @Environment(\.makeRequestPostUpdate) private var onTakePostingAction
     @Binding private var editablePost: T
     
     init(_ editablePost: Binding<T>) {

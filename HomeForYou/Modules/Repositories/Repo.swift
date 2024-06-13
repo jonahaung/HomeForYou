@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-
+import XUI
 enum XError: Error {
     case unknownError
     case imageUploadFailed
@@ -42,7 +42,7 @@ actor Repo {
         let snapshot = try await query.getDocuments()
         return snapshot.documents.compactMap { try? $0.data(as: T.self) }
     }
-    func async_update<T: Repoable>(path: String, for id: String, in type: T.Type, data: [PostKeys: Any]) async throws {
+    func async_update<T: Repoable>(path: String, for id: String, in type: T.Type, data: [PostKey: Any]) async throws {
         var fields = [String: Any]()
         data.forEach { (key, value) in
             fields[key.rawValue] = value

@@ -14,7 +14,7 @@ struct HomeLookingForPostsSection: View {
     @State private var selection: Looking?
     
     var body: some View {
-        InsetGroupList(selection: $selection) {
+        ScrollViewList {
             subviews.intersperse {
                 Divider()
                     .padding(.horizontal)
@@ -22,14 +22,13 @@ struct HomeLookingForPostsSection: View {
         }
     }
     
-    @ViewBuilder var subviews: some View {
+    @ViewBuilder private var subviews: some View {
         ForEach(datasource.lookings) { each in
             VStack(alignment: .leading) {
                 Text(each.title)
                     .font(.headline)
                 ExpandableText(text: each.description)
             }
-            .customTag(each)
         }
     }
 }

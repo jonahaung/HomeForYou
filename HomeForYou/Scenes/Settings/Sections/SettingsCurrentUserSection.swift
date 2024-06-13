@@ -22,7 +22,6 @@ struct SettingsCurrentUserSection: View {
                         URLImage(url: .init(string: currentUser.photoURL), imageSize: .medium)
                             .frame(square: 220)
                             .clipShape(Circle())
-                            .phaseAnimation([.scale(0.8), .rotate(-10), .rotate(10)])
                             ._presentSheet {
                                 PhotoGalleryView(attachments: [.init(url: currentUser.photoURL, type: .photo)], title: currentUser.displayName, selection: .constant(0))
                             }

@@ -25,13 +25,13 @@ struct PostingFlowView<T: Postable>: View {
         PostForm_Address<MutablePost>(post.clone())
             .embeddedInNavigationView()
             .statusBarHidden(true)
-            .onTakePostingAction { action in
+            .ignoresSafeArea(.keyboard)
+            .onRequestPostUpdate { action in
                 await handleAaction(action)
-                
             }
     }
     
-    private func handleAaction(_ action: PostingAction.ActionType) async {
+    private func handleAaction(_ action: PostUpdateAction.ActionType) async {
         switch action {
         case .cancel:
             dismiss()

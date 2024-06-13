@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import XUI
 
 struct PriceRangePicker: View {
 
@@ -13,12 +14,18 @@ struct PriceRangePicker: View {
 
     var body: some View {
         HStack {
+            _NumberTextField(value: .init(get: {
+                return Int(range.range.lowerBound)
+            }, set: { new in
+                range = .init(range: new.double...range.range.upperBound)
+            }), title: "Max", delima: "$")
+            Divider()
             TextField("Min Price", text: .constant("\(range)"))
-//            TextField("Max Price", text: .init(get: {
-//                return "\(range.max)"
-//            }, set: { newValue in
-//                $range.max = Int(newValue) ?? 0
-//            }))
+            _NumberTextField(value: .init(get: {
+                return Int(range.range.upperBound)
+            }, set: { new in
+                range = .init(range: range.range.lowerBound...new.double)
+            }), title: "Max", delima: "$")
         }
         .keyboardType(.numberPad)
     }

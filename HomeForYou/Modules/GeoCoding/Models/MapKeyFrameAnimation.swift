@@ -9,7 +9,6 @@ import Foundation
 import CoreLocation
 
 struct MapKeyFrameAnimation: Hashable, Equatable {
-    
     var coordinate: CLLocationCoordinate2D?
     var distance: Double?
     var pitch: Double?

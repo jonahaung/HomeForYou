@@ -9,19 +9,22 @@ import SwiftUI
 import XUI
 
 struct AddressPickerView: View {
-
-    @StateObject private var viewModel = AddressAutoComplete()
+    
     @Binding var addressText: String
+    
     @Environment(\.dismiss) private var dismiss
-    @Injected(\.router) private var router
     @State private var isPresentedSearch = true
+    @StateObject private var viewModel = AddressAutoComplete()
+    
     var body: some View {
-        List(self.viewModel.results) { address in
+        List(viewModel.results) { address in
             Button {
                 addressText = address.fullAddress
                 dismiss()
             } label: {
-                AddressRow(address: address)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(.init(address.fullAddress))
+                }
             }
             .buttonStyle(.plain)
         }
@@ -30,14 +33,5 @@ struct AddressPickerView: View {
         .textInputAutocapitalization(.words)
         .navigationBarItems(leading: _DismissButton())
         .embeddedInNavigationView()
-    }
-}
-
-struct AddressRow: View {
-    let address: Address
-    var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(.init(address.fullAddress))
-        }
     }
 }

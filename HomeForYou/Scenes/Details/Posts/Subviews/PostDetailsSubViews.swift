@@ -21,7 +21,7 @@ struct PostDetailsSections {
                     Text("Property Type")
                 } right: {
                     Text(.init(post.propertyType.title))
-                        .routeToPosts([.init(.propertyType, [post.propertyType.rawValue])])
+                        .routeToPosts(.init(.propertyType, post.propertyType.rawValue))
                         .fixedSize()
                 }
                 
@@ -29,7 +29,7 @@ struct PostDetailsSections {
                     Text("Lease Term")
                 } right: {
                     Text(.init(post._leaseTerm.title))
-                        .routeToPosts([.init(.leaseTerm, [post._leaseTerm.rawValue])])
+                        .routeToPosts(.init(.leaseTerm, post._leaseTerm.rawValue))
                         .fixedSize()
                 }
                 ._hidable(post.category == .selling)
@@ -38,7 +38,7 @@ struct PostDetailsSections {
                     Text("Furnishing")
                 } right: {
                     Text(.init(post._furnishing.title))
-                        .routeToPosts([.init(.furnishing, [post._furnishing.rawValue])])
+                        .routeToPosts(.init(.furnishing, post._furnishing.rawValue))
                         .fixedSize()
                 }
                 ._hidable(post.category == .selling)
@@ -47,7 +47,7 @@ struct PostDetailsSections {
                     Text("Floor Level")
                 } right: {
                     Text(.init(post.floorLevel.title))
-                        .routeToPosts([.init(.floorLevel, [post.floorLevel.rawValue])])
+                        .routeToPosts(.init(.floorLevel, post.floorLevel.rawValue))
                         .fixedSize()
                 }
                 
@@ -55,7 +55,7 @@ struct PostDetailsSections {
                     Text("Tenant Type")
                 } right: {
                     Text(.init(post._tenantType.title))
-                        .routeToPosts([.init(.tenantType, [post._tenantType.rawValue])])
+                        .routeToPosts(.init(.tenantType, post._tenantType.rawValue))
                         .fixedSize()
                 }
                 ._hidable(post.category == .selling)
@@ -64,7 +64,7 @@ struct PostDetailsSections {
                     Text("Occupant")
                 } right: {
                     Text(.init(post._occupant.title))
-                        .routeToPosts([.init(.occupant, [post._occupant.rawValue])])
+                        .routeToPosts(.init(.occupant, post._occupant.rawValue))
                         .fixedSize()
                 }
                 ._hidable(post.category == .selling)
@@ -73,7 +73,7 @@ struct PostDetailsSections {
                     Text("Tenure")
                 } right: {
                     Text(.init(post._tenure.title))
-                        .routeToPosts([.init(.tenure, [post._tenure.rawValue])])
+                        .routeToPosts(.init(.tenure, post._tenure.rawValue))
                         .fixedSize()
                 }
                 ._hidable(post.category != .selling)
@@ -82,7 +82,7 @@ struct PostDetailsSections {
                     Text("Bed Rooms")
                 } right: {
                     Text(.init(post.beds.title))
-                        .routeToPosts([.init(.beds, [post.beds.rawValue])])
+                        .routeToPosts(.init(.beds, post.beds.rawValue))
                         .fixedSize()
                 }
                 
@@ -90,7 +90,7 @@ struct PostDetailsSections {
                     Text("Bath Rooms")
                 } right: {
                     Text(.init(post.baths.title))
-                        .routeToPosts([.init(.baths, [post.baths.rawValue])])
+                        .routeToPosts(.init(.baths, post.baths.rawValue))
                         .fixedSize()
                 }
                 
@@ -115,7 +115,7 @@ struct PostDetailsSections {
                                 Text(keyword.localizedString)
                             }
                             .foregroundColor(.primary)
-                            .routeToPosts([.init(.keywords, [keyword.keyValueString])])
+                            .routeToPosts(.init(.keywords, keyword.keyValueString))
                         }
                     }
                 }
@@ -140,7 +140,7 @@ struct PostDetailsSections {
                             .padding(.trailing)
                         VStack(alignment: .leading, spacing: 0) {
                             Text(author.name.str)
-                                .routeToPosts([.init(.autherID, [author.id])])
+                                .routeToPosts(.init(.autherID, author.id))
                             Text("Member since ")
                                 .italic()
                                 .font(.footnote)
@@ -150,7 +150,7 @@ struct PostDetailsSections {
                     }
                     Text(.init("More posts from *\(author.name.str)*"))
                         ._navigationLinkStyle()
-                        .routeToPosts([.init(.autherID, [author.id])])
+                        .routeToPosts(.init(.autherID, author.id))
                 }
             } header: {
                 Text("Author")
@@ -174,25 +174,25 @@ struct PostDetailsSections {
                     Text("Postal Code")
                 } right: {
                     Text(post._location.address.postal)
-                        .routeToPosts([.init(.keywords, [KeyWord(.postal, post.postalCode).keyValueString])])
+                        .routeToPosts(.init(.keywords, KeyWord(.postal, post.postalCode).keyValueString))
                 }
                 _FormCell {
                     Text("Area")
                 } right: {
                     Text(.init(post._location.area.title))
-                        .routeToPosts([.init(.area, [post._location.area.rawValue])])
+                        .routeToPosts(.init(.area, post._location.area.rawValue))
                 }
                 _FormCell {
                     Text("Nearest MRT")
                 } right: {
                     Text(post._location.nearestMRT.mrt)
-                        .routeToPosts([.init(.mrt, [post._location.nearestMRT.mrt])])
+                        .routeToPosts(.init(.mrt, post._location.nearestMRT.mrt))
                 }
                 _FormCell {
                     Text("Location Identifier")
                 } right: {
                     Text(post._location.geoInfo.geoHash)
-                        .routeToPosts([.init(.geoHash, [post._location.geoInfo.geoHash])])
+                        .routeToPosts(.init(.geoHash, post._location.geoInfo.geoHash))
                 }
             } header: {
                 Text(post._location.address.text)
@@ -214,7 +214,7 @@ struct PostDetailsSections {
                                 Text(value.title)
                             }
                             .foregroundColor(.primary)
-                            .routeToPosts([.init(.features, [value.rawValue])])
+                            .routeToPosts(.init(.features, value.rawValue))
                         }
                     }
                     WrappedStack(.vertical) {
@@ -223,7 +223,7 @@ struct PostDetailsSections {
                                 Text(value.title)
                             }
                             .foregroundColor(.primary)
-                            .routeToPosts([.init(.restrictions, [value.rawValue])])
+                            .routeToPosts(.init(.restrictions, value.rawValue))
                         }
                     }
                 }.padding(2)
@@ -280,7 +280,7 @@ struct PostDetailsSections {
                 
                 Text("Similier Items")
                     ._navigationLinkStyle()
-                    .routeToPosts([.init(.propertyType, [post.propertyType.rawValue]), .init(.roomType, [post._roomType.rawValue]), .init(.status, [post.status.rawValue])])
+                    .routeToPosts([.init(.propertyType, post.propertyType.rawValue), .init(.roomType, post._roomType.rawValue), .init(.status, post.status.rawValue)])
             }
         }
     }

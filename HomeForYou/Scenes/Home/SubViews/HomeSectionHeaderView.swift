@@ -15,7 +15,7 @@ struct HomeSectionHeaderView: View {
     private let symbol: SFSymbol
     private let sceneItem: SceneItem
     
-    init(_ title: String, _ symbol: SFSymbol, _ filters: [PostFilter]) {
+    init(_ title: String, _ symbol: SFSymbol, _ filters: [PostQuery]) {
         self.title = title
         self.symbol = symbol
         self.sceneItem = .init(.postCollection, data: filters)

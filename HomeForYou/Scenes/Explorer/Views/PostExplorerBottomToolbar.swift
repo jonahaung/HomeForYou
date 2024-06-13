@@ -15,7 +15,7 @@ struct PostExplorerBottomToolbar: View {
         HStack {
             SystemImage(.map, 25)
                 ._presentSheet {
-                    LocationMap(viewModel.posts.map{ $0.locationMapItem })
+                    LocationMap(viewModel.displayDatas.map{ $0.post.locationMapItem })
                         .embeddedInNavigationView()
                         .environmentObject(viewModel)
                 }
@@ -36,6 +36,7 @@ struct PostExplorerBottomToolbar: View {
         .padding(.horizontal)
         .padding(.vertical, 8)
         .ignoresSafeArea(edges: .bottom)
-        .background(.thickMaterial)
+        .background(.bar)
+        ._flexible(.horizontal)
     }
 }

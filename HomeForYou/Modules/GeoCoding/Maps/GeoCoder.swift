@@ -9,20 +9,21 @@ import Foundation
 import MapKit
 
 struct GeoCoder {
-
+    
     static func createLocationInfo(_ postalCode: String) async throws -> LocationInfo {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = postalCode
         let response = try await MKLocalSearch(request: request).start()
         let placemarks = response.mapItems.map { $0.placemark }
+        
         guard let placemark = placemarks.last else {
             throw XError.unknownError
         }
         return await createLocationInfo(from: placemark)
     }
-
+    
     static func createLocationInfo(from placemark: MKPlacemark) async -> LocationInfo {
-        let mrtResult = MRT.closestMRT(from: .init(latitude: placemark.coordinate.latitude, longitude: placemark.coordinate.longitude))
+        let mrtResult = ClosestMRT.closestMRT(from: .init(latitude: placemark.coordinate.latitude, longitude: placemark.coordinate.longitude))
         let addressText = generateAddress(placemark: placemark)
         let mrt = mrtResult.mrt
         let location = GeoLocation(latitude: placemark.coordinate.latitude, longitude: placemark.coordinate.longitude)
@@ -50,7 +51,7 @@ struct GeoCoder {
         }
         return try await GeoCoder.createLocationInfo(postalCode)
     }
-
+    
     static func createLocationInfo(from adedressText: String) async throws -> LocationInfo {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = adedressText
@@ -59,24 +60,28 @@ struct GeoCoder {
         let location = CLLocation(latitude: region.center.latitude, longitude: region.center.longitude)
         return try await createLocationInfo(from: location)
     }
-
+    
     private static func generateAddress(placemark: CLPlacemark) -> String {
+        if let string = MKPlacemark(placemark: placemark).formattedAddress {
+            print(string)
+            return string
+        }
         var components = [String]()
-
+        
         if let x = placemark.subThoroughfare {
             components.append(x)
         }
         if let x = placemark.thoroughfare, x != placemark.name {
             components.append(x)
         }
-
+        
         if let x = placemark.subLocality {
             components.append(x)
         }
         if let x = placemark.locality {
             components.append(x)
         }
-
+        
         if let x = placemark.postalCode {
             components.append(x)
         }
@@ -88,13 +93,17 @@ struct GeoCoder {
     
     static func address(from postalCode: String) async throws -> Address {
         let postString = "{\"postalCode\":\""+postalCode+"\"}"
-        let url = URL(string: "https://stg.transitlink.com.sg/eservice_admin/mobile/conc_address.php")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("text/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
-        request.setValue("\(UInt(postString.count))", forHTTPHeaderField: "Content-length")
-        request.httpBody = postString.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
+        let url = URL(string: "https://www.transitlink.com.sg/eservice_admin/mobile/conc_address.php")!
+        let request: URLRequest = {
+            var request = $0
+            request.httpMethod = "POST"
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.setValue("text/json; charset=UTF-8", forHTTPHeaderField: "Content-Type")
+            request.setValue("\(UInt(postString.count))", forHTTPHeaderField: "Content-length")
+            request.httpBody = postString.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
+            return request
+        }(URLRequest(url: url))
+        
         let (data, _) = try await URLSession.shared.data(for: request)
         guard let dic = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary else { throw XError.jSONSerialization }
         let block = dic["blockNo"] as? String ?? ""

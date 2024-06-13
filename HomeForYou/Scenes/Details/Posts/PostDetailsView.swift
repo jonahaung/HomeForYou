@@ -31,9 +31,18 @@ struct PostDetailsView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
-                if let url = utils.urlHandler.createURL(for: SceneItem(.postDetails, data: post)) {
-                    ShareLink(item: url)
+            ToolbarItemGroup(
+                placement: .navigationBarTrailing
+            ) {
+                if let url = utils.urlHandler.createURL(
+                    for: SceneItem(
+                        .postDetails,
+                        data: post
+                    )
+                ) {
+                    ShareLink(
+                        item: url
+                    )
                 }
             }
         }
@@ -43,9 +52,9 @@ struct PostDetailsView: View {
         .task(id: post, priority: .background) {
             await updateHasSeenIfNeeded(post)
         }
-        .magicButton(.init(post.author.id == currentUser.uid ? .pencilCircleFill : .arrowshapeTurnUpLeftCircle, .bottomTrailing) {
+        .magicButton(.constant(.init(post.author.id == currentUser.uid ? .pencilCircleFill : .arrowshapeTurnUpLeftCircle, .bottomTrailing) {
             await router.presentFullScreen(SceneItem(.createPost, data: post))
-        })
+        }))
     }
     
     private func updateHasSeenIfNeeded(_ post: Post) async {

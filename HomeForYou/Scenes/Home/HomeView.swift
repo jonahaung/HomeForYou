@@ -62,24 +62,24 @@ struct HomeView: View {
             switch item {
             case .areaMap:
                 await router.presentFullScreen(.init(.planningAreaMap({ area in
-                    let item = SceneItem(.postCollection, data: [PostFilter(.area, [area.area.rawValue])])
+                    let item = SceneItem(.postCollection, data: [PostQuery(.area, area.area.rawValue)])
                     await router.push(to: item)
                 })))
                 
             case .mrtMap:
                 await router.presentFullScreen(.init(
                     .mrtMap({ mrt in
-                        let item = SceneItem(.postCollection, data: [PostFilter(.mrt, [mrt.name])])
+                        let item = SceneItem(.postCollection, data: [PostQuery(.mrt, mrt.name)])
                         await router.push(to: item)
                     })
                 ))
             case .exploreAllPost:
-                await router.push(to: .init(.postCollection, data: [] as [PostFilter]))
+                await router.push(to: .init(.postCollection, data: [] as [PostQuery]))
             case .filter(let filters):
                 await router.push(to: .init(.postCollection, data: filters))
             case .locationPickerMap:
                 await router.presentFullScreen(.init(.locationPickerMap({ locaion in
-                    let item = SceneItem(.postCollection, data: [PostFilter(.keywords, [KeyWord(.postal, locaion.address.postal).keyValueString])])
+                    let item = SceneItem(.postCollection, data: [PostQuery(.keywords, KeyWord(.postal, locaion.address.postal).keyValueString)])
                     await router.push(to: item)
                 })))
             }

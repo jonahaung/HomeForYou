@@ -38,29 +38,29 @@ extension PostDetailsSections {
                     GridRow {
                         // Prooperty Type
                         _IconLabel(symbol: .building2CropCircleFill, post.propertyType.rawValue)
-                            .routeToPosts([.init(.propertyType, [post.propertyType.rawValue])])
+                            .routeToPosts(.init(.propertyType, post.propertyType.rawValue))
                         Spacer()
                         switch post.category {
                         case .rental_room:
                             Text(.init(post._roomType.title.appending(" Room")))
-                                .routeToPosts([.init(.roomType, [post._roomType.rawValue])])
+                                .routeToPosts(.init(.roomType, post._roomType.rawValue))
                         case .rental_flat:
                             Text(.init(post._leaseTerm.title.appending(" Lease")))
-                                .routeToPosts([.init(.leaseTerm, [post._leaseTerm.rawValue])])
+                                .routeToPosts(.init(.leaseTerm, post._leaseTerm.rawValue))
                         case .selling:
                             Text(.init(post._tenure.title.appending(" Tenure")))
-                                .routeToPosts([.init(.tenure, [post._tenure.rawValue])])
+                                .routeToPosts(.init(.tenure, post._tenure.rawValue))
                         }
                     }
                     GridRow {
                         // Area
                         _IconLabel(symbol: .mappinCircleFill, post.area.title)
-                            .routeToPosts([.init(.area, [post.area.rawValue])])
+                            .routeToPosts(.init(.area, post.area.rawValue))
 
                         Spacer()
                         // MRT
                         _IconLabel(symbol: .tramCircleFill, post.mrt)
-                            .routeToPosts([.init(.mrt, [post.mrt])])
+                            .routeToPosts(.init(.mrt, post.mrt))
                     }
                 }
             }

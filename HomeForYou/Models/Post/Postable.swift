@@ -166,7 +166,7 @@ extension Postable {
     }
     
     var _keyWords: [KeyWord] {
-        get { keywords.compactMap { KeyWord(keyValueString: $0) } }
+        get { keywords.sorted().compactMap { KeyWord(rawValue: $0) } }
         set { keywords = newValue.map { $0.keyValueString }.sorted() }
     }
     var _location: LocationInfo {

@@ -96,7 +96,7 @@ struct MRTMapView: View {
                 if let coordinate = proxy.convert(position, from: .local) {
                     if !isSearching && selectedService == nil {
                         _Haptics.play(.rigid)
-                        let nearest = MRT.closestMRT(from: .init(latitude: coordinate.latitude, longitude: coordinate.longitude))
+                        let nearest = ClosestMRT.closestMRT(from: .init(latitude: coordinate.latitude, longitude: coordinate.longitude))
                         let service = mrtServices.first(where: { $0.mrts.contains { element in
                             element.name == nearest.mrt
                         } })

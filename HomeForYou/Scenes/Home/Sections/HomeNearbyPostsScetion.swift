@@ -40,7 +40,7 @@ struct HomeNearbyPostsScetion: View {
                 HomeSectionHeaderView(
                     "Nearby Posts",
                     .locationFill,
-                    [.init(.geoHash, [location.geoInfo.geoHash])]
+                    [.init(.geoHash, location.geoInfo.geoHash)]
                 )
             }
         } footer: {

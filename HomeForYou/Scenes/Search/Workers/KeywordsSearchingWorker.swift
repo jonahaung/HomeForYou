@@ -13,7 +13,7 @@ struct KeywordsSearchingWorker {
     func search(text: String) -> [String] {
         let smartSearcher = SmartSearchMatcher(searchString: text)
         var results = [String]()
-        for keyword in (KeyWord.all.map{ $0.value }) where smartSearcher.matches(keyword.replace("_", with: " ").lowercased()) {
+        for keyword in (KeyWord.allCases.map{ $0.value }) where smartSearcher.matches(keyword.replace("_", with: " ").lowercased()) {
             results.append(keyword)
         }
         return results

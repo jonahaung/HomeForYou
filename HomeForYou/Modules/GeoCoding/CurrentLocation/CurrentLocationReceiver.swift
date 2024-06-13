@@ -20,7 +20,7 @@ final class CurrentLocationReceiver: ObservableObject {
         publisher.publisher()
             .removeDuplicates()
             .debounce(for: 0.2, scheduler: RunLoop.main)
-            .sink { [weak self] value in
+            .asyncSink { [weak self] value in
                 await self?.setLocation(value)
             }
             .store(in: cancelBag)

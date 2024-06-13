@@ -10,7 +10,7 @@ import XUI
 
 struct PostTag: View {
 
-    let key: PostKeys
+    let key: PostKey
     let value: String
     let isSelected: Bool
     var onTap: (() -> Void)?

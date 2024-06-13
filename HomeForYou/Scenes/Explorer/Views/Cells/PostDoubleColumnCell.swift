@@ -63,6 +63,5 @@ struct PostDoubleColumnCell: View {
             .padding(3)
             .routable(to: SceneItem(.postDetails, data: post))
         }
-//        .aspectRatio(0.8, contentMode: .fill)
     }
 }

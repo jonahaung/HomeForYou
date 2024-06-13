@@ -25,7 +25,7 @@ struct HomeBudgetPostsSection: View {
             HomeSectionHeaderView(
                 "Budget Listings",
                 .dollarsignArrowCirclepath,
-                [.init(.price, [500.description, 1000.description])]
+                [.init(.price, "\(0)-\(100000000000)")]
             )
         }
         .equatable(by: datasource.budgetPosts)

@@ -46,13 +46,10 @@ private struct SearchableViewModifier: ViewModifier {
                 }
             }
             .onSubmit(of: .search) {
-                let filter = PostFilter(
-                    .keywords,
-                    datasource.tokens.map{ $0.keyValueString }
-                )
+                let filter = datasource.tokens
                 datasource.canPresentOnAppear = true
                 Task {
-                    await onSearchAction?(.filter([filter]))
+                    await onSearchAction?(.filter(filter.map{ PostQuery($0.key, $0.value)}))
                 }
             }
             .disableAutocorrection(true)

@@ -45,7 +45,7 @@ struct PostUploader {
     }
 
     static func sinitize<T: Postable>(_ post: inout T, _ author: PersonInfo) throws {
-        var keyWords = PostKeys.allCases.map { KeyWord.keyWord(for: $0, to: post)}.flatMap {$0}
+        var keyWords = PostKey.allCases.map { KeyWord.keyWord(for: $0, to: post)}.flatMap {$0}
         keyWords = keyWords
             .compactMap { $0 }
             .filter { $0.value != "Any" && $0.value != "0" && !$0.value.isWhitespace }.uniqued()

@@ -5,75 +5,77 @@
 //  Created by Aung Ko Min on 15/5/23.
 //
 
-import Foundation
+import SwiftUI
 import Combine
 import XUI
+import MapKit
+import Contacts
 
 class PostExplorerViewModel: ObservableObject, ViewModel {
     
-    @Published var filterGroup: PostFiltersGroup = .init([], category: .current)
     @Published var alert: XUI._Alert?
     @Published var loading: Bool = false
-    
-    @Published var filters = [PostFilter]()
-    @Published var posts = LazyList<Post>.empty
+
+    @Published var filters = [PostQuery]()
     @Published var displayDatas = [PostCellDisplayData]()
-    private let cancelBag =  CancelBag()
     private let postFetcher = PostExplorerDatasource()
     
-    init(_ filters: [PostFilter]) {
+    init(_ filters: [PostQuery]) {
         self.filters = filters
-        $filters
-            .removeDuplicates()
-            .debounce(for: 0.1, scheduler: RunLoop.main)
-            .sink { [weak self] value in
-                guard let self else { return }
-                await self.performFirstFetch()
-            }
-            .store(in: cancelBag)
+        
+//        $filters
+//            .removeDuplicates()
+//            .debounce(for: 0.1, scheduler: RunLoop.main)
+//            .asyncSink { [weak self] value in
+//                guard let self else { return }
+//                await self.performFirstFetch(filters: filters)
+//            }
+//            .store(in: cancelBag)
     }
     
     deinit {
         Log("Deinit")
     }
-    func refreshable() async {
-        await performFirstFetch()
+    func refreshable(filters: [PostQuery]) async {
+        await performFirstFetch(filters: filters)
     }
     
-    func performFirstFetch() async {
+    func performFirstFetch(filters: [PostQuery]) async {
         await setLoading(true)
         await postFetcher.reset()
-        let postFilter = PostFiltersGroup(filters, category: .current)
-        let query = postFilter.createQuery()
+        let query = QueryBuilder.createQuery(from: filters, category: .current)
         do {
+            try await Task.sleep(seconds: 2)
             let posts = try await postFetcher.performFetch(query: query)
-            await setLoading(false)
-            await setPosts(posts)
+            await setPosts(posts.map{ PostCellDisplayData($0)} )
+            
         } catch {
-            await setLoading(false)
             await showAlert(.init(error: error))
         }
     }
     
-    func performFetchMore() async {
+    func performFetchMore(filters: [PostQuery]) async {
         guard await postFetcher.canLoadMore() else { return }
         await setLoading(true)
-        let postFilter = PostFiltersGroup(filters, category: .current)
-        let query = postFilter.createQuery()
+        let query = QueryBuilder.createQuery(from: filters, category: .current)
         do {
-            try await Task.sleep(seconds: 0.5)
+            try await Task.sleep(seconds: 2)
             let morePosts = try await postFetcher.fetchMore(query: query)
-            let posts = (posts + morePosts)
-            await setLoading(false)
+            let posts = (displayDatas + morePosts.map{ .init($0) })
             await setPosts(posts)
         } catch {
-            await setLoading(false)
             await showAlert(.init(error: error))
         }
     }
     @MainActor
-    private func setPosts(_ posts: [Post]) {
-        self.posts = posts.lazyList
-        self.displayDatas = posts.map{ .init($0) }
+    private func setPosts(_ posts: [PostCellDisplayData]) {
+        self.displayDatas = posts
+        setLoading(false)
+    }
+}
+extension MKPlacemark {
+    var formattedAddress: String? {
+        guard let postalAddress = postalAddress else { return nil }
+        return CNPostalAddressFormatter.string(from: postalAddress, style: .mailingAddress).replacingOccurrences(of: "\n", with: " ")
     }
 }

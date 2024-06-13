@@ -11,17 +11,27 @@ import XUI
 private struct MagicButtonStateModifier: ViewModifier {
     
     @Environment(MagicButtonViewModel.self) private var viewModel
-    let item: MagicButtonItem
+    @Binding var item: MagicButtonItem
     
     func body(content: Content) -> some View {
         content
-            ._onAppear(after: 0.5) {
-                viewModel.item = item
+            .task(id: item, debounceTime: .seconds(0.7)) {
+                await MainActor.run {
+                    viewModel.item = item
+                    withAnimation {
+                        if viewModel.item.alignment != .bottom {
+                            viewModel.tabBarVisibility = .hidden
+                        } else {
+                            viewModel.tabBarVisibility = .visible
+                        }
+                    }
+                }
             }
+            
     }
 }
 extension View {
-    func magicButton(_ item: MagicButtonItem) -> some View {
+    func magicButton(_ item: Binding<MagicButtonItem>) -> some View {
         modifier(MagicButtonStateModifier(item: item))
     }
 }

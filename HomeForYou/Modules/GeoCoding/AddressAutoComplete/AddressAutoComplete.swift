@@ -20,7 +20,7 @@ final class AddressAutoComplete: NSObject, ObservableObject {
         return $0
     }(MKLocalSearchCompleter())
     
-    private var cancellables = Set<AnyCancellable>()
+    private let cancelBag = CancelBag()
     
     override init() {
         super.init()
@@ -35,7 +35,7 @@ final class AddressAutoComplete: NSObject, ObservableObject {
                 }
                 self.searchAddress(text)
             }
-            .store(in: &cancellables)
+            .store(in: cancelBag)
     }
     
     private func searchAddress(_ searchableText: String) {
@@ -50,41 +50,5 @@ extension AddressAutoComplete: MKLocalSearchCompleterDelegate {
     }
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
         Log(error)
-    }
-}
-
-struct Address: Identifiable {
-    let id = UUID()
-    let title: String
-    let subtitle: String
-    let postalCode: String
-    
-    var fullAddress: String {
-        var string = title
-        if !subtitle.isEmpty {
-            if string.isEmpty {
-                string = subtitle
-            } else {
-                string.append(", \(subtitle)")
-            }
-        }
-        return string.trimmed
-    }
-}
-
-extension Address {
-    init(_ completion: MKLocalSearchCompletion) {
-        title = completion.title
-        subtitle = completion.subtitle
-        Log(completion.description)
-        let components = subtitle.components(separatedBy: ",").map { $0.trimmed }
-        var code = ""
-        for each in components {
-            if each.contains("Singapore "), let possible = each.components(separatedBy: "Singapore ").last, !possible.isEmpty {
-                code = possible
-                break
-            }
-        }
-        postalCode = code
     }
 }

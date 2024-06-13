@@ -10,7 +10,7 @@ import SwiftUI
 struct SearchAction {
     enum ActionItem {
         case mrtMap, areaMap, locationPickerMap, exploreAllPost
-        case filter([PostFilter])
+        case filter([PostQuery])
     }
     typealias Action = @Sendable (ActionItem) async -> ()
     let action: Action

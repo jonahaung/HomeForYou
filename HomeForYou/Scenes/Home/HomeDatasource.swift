@@ -59,11 +59,11 @@ extension HomeDatasource {
         return await getPosts(for: query)
     }
     private func getLatestPosts(_ category: Category) async -> [Post] {
-        let query = collectionReference(category).order(by: PostKeys.createdAt.rawValue, descending: true).limit(to: 4)
+        let query = collectionReference(category).order(by: PostKey.createdAt.rawValue, descending: true).limit(to: 4)
         return await getPosts(for: query)
     }
     private func getBudgetPosts(_ category: Category) async -> [Post] {
-        let query = collectionReference(category).order(by: PostKeys.price.rawValue, descending: false).limit(to: 6)
+        let query = collectionReference(category).order(by: PostKey.price.rawValue, descending: false).limit(to: 6)
         return await getPosts(for: query)
     }
     private func getLookingForPosts(_ category: Category) async -> [Looking] {

@@ -13,25 +13,34 @@ struct PolygonRegion: Hashable, Identifiable {
     var id: CLLocationCoordinate2D { center }
     
     let verticies: [CLLocationCoordinate2D]
-    var maxLat: CLLocationDegrees!
-    var maxLon: CLLocationDegrees!
-    var minLat: CLLocationDegrees!
-    var minLon: CLLocationDegrees!
+    var maxLat: CLLocationDegrees?
+    var maxLon: CLLocationDegrees?
+    var minLat: CLLocationDegrees?
+    var minLon: CLLocationDegrees?
     private var epsilon: CLLocationDegrees
     
-    var center: CLLocationCoordinate2D { CLLocationCoordinate2D(latitude: minLat+(maxLat-minLat)/2, longitude: minLon+(maxLon-minLon)/2) }
-    var latSpan: CLLocationDegrees { abs(maxLat-minLat) }
-    var lonSpan: CLLocationDegrees { abs(maxLon-minLon) }
+    var center: CLLocationCoordinate2D {
+        guard let minLat, let maxLat, let minLon, let maxLon else { return .singapore  }
+        return CLLocationCoordinate2D(latitude: minLat+(maxLat-minLat)/2, longitude: minLon+(maxLon-minLon)/2)
+    }
+    var latSpan: CLLocationDegrees {
+        guard let maxLat, let minLat else { fatalError() }
+        return abs(maxLat-minLat)
+    }
+    var lonSpan: CLLocationDegrees {
+        guard let maxLon, let minLon else { fatalError() }
+        return abs(maxLon-minLon)
+    }
     
     init(verticies: [CLLocationCoordinate2D], epsilon: CLLocationDegrees = 0.01) {
         self.verticies = verticies
         self.epsilon = epsilon
         
         for point in self.verticies {
-            maxLat = maxLat != nil ? max(maxLat, point.latitude) : point.latitude
-            maxLon = maxLon != nil ? max(maxLon, point.longitude)  :point.longitude
-            minLat = minLat != nil ? min(minLat, point.latitude) : point.latitude
-            minLon = minLon != nil ? min(minLon, point.longitude) : point.longitude
+            maxLat = maxLat != nil ? max(maxLat!, point.latitude) : point.latitude
+            maxLon = maxLon != nil ? max(maxLon!, point.longitude)  :point.longitude
+            minLat = minLat != nil ? min(minLat!, point.latitude) : point.latitude
+            minLon = minLon != nil ? min(minLon!, point.longitude) : point.longitude
         }
     }
     
@@ -39,9 +48,9 @@ struct PolygonRegion: Hashable, Identifiable {
         guard isInsideBoundingBox(testPoint) else {
             return false
         }
-        
+        guard let minLat else { return false }
         var intersections = 0
-        let outsidePoint = CLLocationCoordinate2D(latitude: self.minLat - epsilon, longitude: testPoint.longitude)
+        let outsidePoint = CLLocationCoordinate2D(latitude: minLat - epsilon, longitude: testPoint.longitude)
         let testRay = Ray(point1: outsidePoint, point2: testPoint)
         for index in 0..<verticies.count {
             let edge = Ray(point1: verticies[index], point2: verticies[(index+1)%verticies.count])
@@ -57,6 +66,7 @@ struct PolygonRegion: Hashable, Identifiable {
     
     
     private func isInsideBoundingBox(_ testPoint: CLLocationCoordinate2D) -> Bool {
+        guard let minLat, let maxLat, let minLon, let maxLon else { return false }
         return !( testPoint.latitude < minLat || testPoint.latitude > maxLat || testPoint.longitude < minLon || testPoint.longitude > maxLon )
     }
     

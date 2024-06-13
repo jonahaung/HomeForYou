@@ -24,11 +24,11 @@ struct DeepLinkHandler {
         switch screen.kind {
         case .postDetails:
             if let post = screen.data as? Post {
-                components.queryItems = [.init(name: PostKeys.id.rawValue, value: post.id), .init(name: PostKeys.category.rawValue, value: post.category.rawValue)]
+                components.queryItems = [.init(name: PostKey.id.rawValue, value: post.id), .init(name: PostKey.category.rawValue, value: post.category.rawValue)]
             }
         case .postCollection:
-            if let filters = screen.data as? [PostFilter] {
-                components.queryItems = filters.map{ .init(postFilter: $0) }
+            if let filters = screen.data as? [PostQuery] {
+                components.queryItems = filters.map{ .init(postQuery: $0) }
             }
         default:
             break
@@ -49,8 +49,8 @@ struct DeepLinkHandler {
         switch screenType {
         case .postDetails:
             guard
-                let id = queryItems.first(where: { $0.name == PostKeys.id.rawValue })?.value,
-                let categoryString = queryItems.first(where: { $0.name == PostKeys.category.rawValue })?.value,
+                let id = queryItems.first(where: { $0.name == PostKey.id.rawValue })?.value,
+                let categoryString = queryItems.first(where: { $0.name == PostKey.category.rawValue })?.value,
                 let category = Category(rawValue: categoryString)
             else {
                 throw XError.deeplink_unsupported_url
@@ -58,7 +58,7 @@ struct DeepLinkHandler {
             let post = try await Repo.shared.async_fetch(path: category.rawValue, for: id, as: Post.self)
             return SceneItem(screenType, data: post)
         case .postCollection:
-            let filters = queryItems.compactMap{ PostFilter(queryItem: $0) }
+            let filters = queryItems.compactMap{ PostQuery(queryItem: $0) }
             return SceneItem(screenType, data: filters)
         default:
             return SceneItem(screenType)

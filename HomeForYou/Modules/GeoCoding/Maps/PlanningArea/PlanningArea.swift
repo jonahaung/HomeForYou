@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 struct PlanningArea: Sendable {
-    
+    var rawValue: String { name }
     let name: String
     let geometry: Geometry
     
@@ -17,35 +17,15 @@ struct PlanningArea: Sendable {
         self.name = name
         self.geometry = geometry
     }
-    
-    init?(_ coordinate: CLLocationCoordinate2D) {
-        if let item = Self.allValues.first(where: { $0.geometry.isContain(coordinate) }) {
-            self = item
-        } else {
-            return nil
-        }
-    }
-    
-    init?(_ area: Area) {
-        let name = area.rawValue.replace("_", with: " ").uppercased()
-        if let found = Self.allValues.first(where: { $0.name == name }) {
-            self = found
-        } else {
-            return nil
-        }
-    }
-    
+}
+extension PlanningArea {
     enum Geometry: Identifiable {
         case polygon(PolygonRegion)
         case multiPolygon([PolygonRegion])
-        
         var id: AnyHashable {
             switch self {
             case .polygon(let array):
-                if array.verticies.isEmpty {
-                    return 0
-                }
-                return 1
+                return array.id
             case .multiPolygon(let array):
                 return array.count
             }
@@ -71,9 +51,25 @@ struct PlanningArea: Sendable {
     }
 }
 extension PlanningArea {
-    static let allValues: [PlanningArea] = {
-        return PlanningAreaParser.load()
-    }()
+    init?(_ coordinate: CLLocationCoordinate2D) {
+        if let item = Self.allCases.first(where: { $0.geometry.isContain(coordinate) }) {
+            self = item
+        } else {
+            return nil
+        }
+    }
+    
+    init?(_ area: Area) {
+        let name = area.rawValue.replace("_", with: " ").uppercased()
+        if let found = Self.allCases.first(where: { $0.name == name }) {
+            self = found
+        } else {
+            return nil
+        }
+    }
+}
+extension PlanningArea: CaseIterable {
+    static let allCases: [PlanningArea] = PlanningAreaParser.load()
     var area: Area {
         let rawValue = name.replace(" ", with: "_").capitalized
         return .init(rawValue: rawValue)!

@@ -27,16 +27,16 @@ struct MyItemsView: View {
             if let person = currentUser.model {
                 Section {
                     ListRowLabel(.checklist, "My Listings")
-                        .routeToPosts([PostFilter(.autherID, [person.id])])
+                        .routeToPosts(PostQuery(.autherID, person.id))
 
                     ListRowLabel(.handThumbsup, "My Favourites")
-                        .routeToPosts([PostFilter(.features, [person.id])])
+                        .routeToPosts(PostQuery(.favourites, person.id))
 
                     ListRowLabel(.shoeprintsFill, "My Seen Posts")
-                        .routeToPosts([PostFilter(.views, [person.id])])
+                        .routeToPosts(PostQuery(.views, person.id))
 
                     ListRowLabel(.aMagnify, "My Search History")
-                        .routeToPosts([PostFilter(.views, [person.id])])
+                        .routable(to: .init(.developerControl))
                 } footer: {
                     Text(Lorem.tweet)
                 }

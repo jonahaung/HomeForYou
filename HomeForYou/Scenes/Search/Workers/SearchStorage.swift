@@ -16,7 +16,6 @@ struct SearchStorage {
             UserDefaults.standard.set(newValue, forKey: "SearchStorage")
         }
     }
-    
     static func insert(text: String) {
         if let i = items.firstIndex(of: text) {
             items.remove(at: i)
@@ -31,6 +30,6 @@ struct SearchStorage {
         keywords.map{ Search.Result(attributedString: .init($0.value.title, attributes: .init([.font: UIFont.systemFont(ofSize: UIFont.labelFontSize, weight: .medium), .foregroundColor: UIColor.label, .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak])), keyword: $0) }
     }
     static var keywords: [KeyWord] {
-        items.compactMap { KeyWord(keyValueString: $0) }
+        items.compactMap { KeyWord(rawValue: $0) }
     }
 }

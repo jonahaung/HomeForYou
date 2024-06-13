@@ -35,8 +35,11 @@ extension View {
     func routable<Style>(to path: SceneItem, style: Style = .borderless) -> some View where Style: PrimitiveButtonStyle {
         ModifiedContent(content: self, modifier: RoutableButtonPath(path: path, style: style))
     }
-    func routeToPosts(_ filters: [PostFilter]) -> some View {
+    func routeToPosts(_ filters: [PostQuery]) -> some View {
         self.routable(to: .init(.postCollection, data: filters))
+    }
+    func routeToPosts(_ filter: PostQuery) -> some View {
+        self.routeToPosts([filter])
     }
     func routableNav<Path>(to path: Path) -> some View where Path: Hashable, Path: ViewDisplayable {
         ModifiedContent(content: self, modifier: RoutableNavPath(path: path))
