@@ -15,19 +15,11 @@ private struct MagicButtonStateModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .task(id: item, debounceTime: .seconds(0.7)) {
+            .task(id: item, debounceTime: .seconds(0.2)) {
                 await MainActor.run {
                     viewModel.item = item
-                    withAnimation {
-                        if viewModel.item.alignment != .bottom {
-                            viewModel.tabBarVisibility = .hidden
-                        } else {
-                            viewModel.tabBarVisibility = .visible
-                        }
-                    }
                 }
             }
-            
     }
 }
 extension View {

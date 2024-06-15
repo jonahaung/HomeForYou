@@ -80,8 +80,7 @@
 		47B716062C01CD0400A9932A /* PriceRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714C72C01CD0400A9932A /* PriceRange.swift */; };
 		47B716082C01CD0400A9932A /* FilterTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714CA2C01CD0400A9932A /* FilterTagsView.swift */; };
 		47B716092C01CD0400A9932A /* PostsFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714CB2C01CD0400A9932A /* PostsFilterView.swift */; };
-		47B7160A2C01CD0400A9932A /* PostsFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714CC2C01CD0400A9932A /* PostsFilterViewModel.swift */; };
-		47B7160B2C01CD0400A9932A /* PostTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714CD2C01CD0400A9932A /* PostTag.swift */; };
+		47B7160B2C01CD0400A9932A /* SelectablePostQueryTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714CD2C01CD0400A9932A /* SelectablePostQueryTagView.swift */; };
 		47B7160C2C01CD0400A9932A /* PriceRangePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714CE2C01CD0400A9932A /* PriceRangePicker.swift */; };
 		47B7160E2C01CD0400A9932A /* PostDoubleColumnCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714D12C01CD0400A9932A /* PostDoubleColumnCell.swift */; };
 		47B7160F2C01CD0400A9932A /* PostHCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714D22C01CD0400A9932A /* PostHCell.swift */; };
@@ -91,7 +90,6 @@
 		47B716132C01CD0400A9932A /* GridAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714D82C01CD0400A9932A /* GridAppearance.swift */; };
 		47B716152C01CD0400A9932A /* PostsExplorerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714DA2C01CD0400A9932A /* PostsExplorerView.swift */; };
 		47B716162C01CD0400A9932A /* PostExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714DB2C01CD0400A9932A /* PostExplorerViewModel.swift */; };
-		47B716172C01CD0400A9932A /* QueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714DC2C01CD0400A9932A /* QueryBuilder.swift */; };
 		47B716182C01CD0400A9932A /* HomeBudgetPostsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714DE2C01CD0400A9932A /* HomeBudgetPostsSection.swift */; };
 		47B716192C01CD0400A9932A /* HomeCarousellSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714DF2C01CD0400A9932A /* HomeCarousellSection.swift */; };
 		47B7161A2C01CD0400A9932A /* HomeCategorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B714E02C01CD0400A9932A /* HomeCategorySection.swift */; };
@@ -264,6 +262,10 @@
 		47B716E52C01CDEA00A9932A /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716E42C01CDEA00A9932A /* FirebaseStorageCombine-Community */; };
 		47B716EB2C01CE4400A9932A /* MediaPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716EA2C01CE4400A9932A /* MediaPicker */; };
 		47B716EE2C01CE7C00A9932A /* SwiftyTheme in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716ED2C01CE7C00A9932A /* SwiftyTheme */; };
+		47BC14D02C1B451F00106BAA /* PostQuery+URLQueryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC14CF2C1B451F00106BAA /* PostQuery+URLQueryItem.swift */; };
+		47BC14D22C1B479800106BAA /* PostQueryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC14D12C1B479800106BAA /* PostQueryable.swift */; };
+		47BC14DC2C1B523A00106BAA /* FireQueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC14DB2C1B523A00106BAA /* FireQueryBuilder.swift */; };
+		47BC14E22C1B555C00106BAA /* PostQueryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC14E12C1B555C00106BAA /* PostQueryStorage.swift */; };
 		47BF10CF2C1245E100889DB8 /* FireAuthManager in Frameworks */ = {isa = PBXBuildFile; productRef = 47BF10CE2C1245E100889DB8 /* FireAuthManager */; };
 		47BF10D12C12483500889DB8 /* MRTMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BF10D02C12483500889DB8 /* MRTMapView.swift */; };
 		47C67E282C04375700C498F8 /* CurrentLocationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C67E272C04375700C498F8 /* CurrentLocationPublisher.swift */; };
@@ -367,8 +369,7 @@
 		47B714C72C01CD0400A9932A /* PriceRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceRange.swift; sourceTree = "<group>"; };
 		47B714CA2C01CD0400A9932A /* FilterTagsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagsView.swift; sourceTree = "<group>"; };
 		47B714CB2C01CD0400A9932A /* PostsFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsFilterView.swift; sourceTree = "<group>"; };
-		47B714CC2C01CD0400A9932A /* PostsFilterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsFilterViewModel.swift; sourceTree = "<group>"; };
-		47B714CD2C01CD0400A9932A /* PostTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTag.swift; sourceTree = "<group>"; };
+		47B714CD2C01CD0400A9932A /* SelectablePostQueryTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectablePostQueryTagView.swift; sourceTree = "<group>"; };
 		47B714CE2C01CD0400A9932A /* PriceRangePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceRangePicker.swift; sourceTree = "<group>"; };
 		47B714D12C01CD0400A9932A /* PostDoubleColumnCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDoubleColumnCell.swift; sourceTree = "<group>"; };
 		47B714D22C01CD0400A9932A /* PostHCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostHCell.swift; sourceTree = "<group>"; };
@@ -378,7 +379,6 @@
 		47B714D82C01CD0400A9932A /* GridAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridAppearance.swift; sourceTree = "<group>"; };
 		47B714DA2C01CD0400A9932A /* PostsExplorerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsExplorerView.swift; sourceTree = "<group>"; };
 		47B714DB2C01CD0400A9932A /* PostExplorerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostExplorerViewModel.swift; sourceTree = "<group>"; };
-		47B714DC2C01CD0400A9932A /* QueryBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryBuilder.swift; sourceTree = "<group>"; };
 		47B714DE2C01CD0400A9932A /* HomeBudgetPostsSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeBudgetPostsSection.swift; sourceTree = "<group>"; };
 		47B714DF2C01CD0400A9932A /* HomeCarousellSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCarousellSection.swift; sourceTree = "<group>"; };
 		47B714E02C01CD0400A9932A /* HomeCategorySection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCategorySection.swift; sourceTree = "<group>"; };
@@ -544,6 +544,10 @@
 		47B715DF2C01CD0400A9932A /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		47B715E02C01CD0400A9932A /* ThemedNavView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemedNavView.swift; sourceTree = "<group>"; };
 		47B715E12C01CD0400A9932A /* WaterfallImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallImage.swift; sourceTree = "<group>"; };
+		47BC14CF2C1B451F00106BAA /* PostQuery+URLQueryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostQuery+URLQueryItem.swift"; sourceTree = "<group>"; };
+		47BC14D12C1B479800106BAA /* PostQueryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostQueryable.swift; sourceTree = "<group>"; };
+		47BC14DB2C1B523A00106BAA /* FireQueryBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireQueryBuilder.swift; sourceTree = "<group>"; };
+		47BC14E12C1B555C00106BAA /* PostQueryStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostQueryStorage.swift; sourceTree = "<group>"; };
 		47BF10D02C12483500889DB8 /* MRTMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRTMapView.swift; sourceTree = "<group>"; };
 		47C67E272C04375700C498F8 /* CurrentLocationPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationPublisher.swift; sourceTree = "<group>"; };
 		47DA40892C17A92000B385B9 /* PostUpdateAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostUpdateAction.swift; sourceTree = "<group>"; };
@@ -665,24 +669,13 @@
 			path = MRT;
 			sourceTree = "<group>";
 		};
-		479F725B2C0DB7E400F4452E /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				4724C27D2C0C6ECB0097D0DD /* PostExplorer.swift */,
-				47B714D82C01CD0400A9932A /* GridAppearance.swift */,
-				479F725D2C0DC0C100F4452E /* PostCellDisplayData.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		479F725C2C0DB7F500F4452E /* Utils */ = {
+		479F725C2C0DB7F500F4452E /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				4724C27F2C0C748E0097D0DD /* PostExplorerDatasource.swift */,
 				47B714DB2C01CD0400A9932A /* PostExplorerViewModel.swift */,
-				47B714DC2C01CD0400A9932A /* QueryBuilder.swift */,
 			);
-			path = Utils;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		47B714662C01CC4800A9932A = {
@@ -774,12 +767,14 @@
 			path = Post;
 			sourceTree = "<group>";
 		};
-		47B714A82C01CD0400A9932A /* PostFilters */ = {
+		47B714A82C01CD0400A9932A /* PostQuery */ = {
 			isa = PBXGroup;
 			children = (
 				47B714A62C01CD0400A9932A /* PostQuery.swift */,
+				47BC14D12C1B479800106BAA /* PostQueryable.swift */,
+				47BC14CF2C1B451F00106BAA /* PostQuery+URLQueryItem.swift */,
 			);
-			path = PostFilters;
+			path = PostQuery;
 			sourceTree = "<group>";
 		};
 		47B714AA2C01CD0400A9932A /* ViewModels */ = {
@@ -796,7 +791,6 @@
 				47B7149D2C01CD0400A9932A /* Looking */,
 				47B714A02C01CD0400A9932A /* MRT */,
 				47B714A52C01CD0400A9932A /* Post */,
-				47B714A82C01CD0400A9932A /* PostFilters */,
 				47B714AA2C01CD0400A9932A /* ViewModels */,
 				47B714AB2C01CD0400A9932A /* Area.swift */,
 				47B714AC2C01CD0400A9932A /* Bathroom.swift */,
@@ -849,25 +843,14 @@
 			path = Details;
 			sourceTree = "<group>";
 		};
-		47B714C82C01CD0400A9932A /* PriceRange */ = {
+		47B714CF2C01CD0400A9932A /* PostExplorerFilterScene */ = {
 			isa = PBXGroup;
 			children = (
-				47B714C72C01CD0400A9932A /* PriceRange.swift */,
-			);
-			path = PriceRange;
-			sourceTree = "<group>";
-		};
-		47B714CF2C01CD0400A9932A /* PostFilter */ = {
-			isa = PBXGroup;
-			children = (
-				47B714C82C01CD0400A9932A /* PriceRange */,
 				47B714CA2C01CD0400A9932A /* FilterTagsView.swift */,
 				47B714CB2C01CD0400A9932A /* PostsFilterView.swift */,
-				47B714CC2C01CD0400A9932A /* PostsFilterViewModel.swift */,
-				47B714CD2C01CD0400A9932A /* PostTag.swift */,
 				47B714CE2C01CD0400A9932A /* PriceRangePicker.swift */,
 			);
-			path = PostFilter;
+			path = PostExplorerFilterScene;
 			sourceTree = "<group>";
 		};
 		47B714D52C01CD0400A9932A /* Cells */ = {
@@ -884,25 +867,23 @@
 		47B714D72C01CD0400A9932A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				47B714DA2C01CD0400A9932A /* PostsExplorerView.swift */,
 				4724C2822C0CC41D0097D0DD /* PostExplorerTopToolbar.swift */,
 				47409EC12C0CF70A00CB311D /* PostExplorerBottomToolbar.swift */,
 				4724C2842C0CC4A80097D0DD /* PostExplorerGridStylePicker.swift */,
-				47B714D52C01CD0400A9932A /* Cells */,
 				47B714D62C01CD0400A9932A /* PostCellImageView.swift */,
+				47B714D52C01CD0400A9932A /* Cells */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		47B714DD2C01CD0400A9932A /* Explorer */ = {
+		47B714DD2C01CD0400A9932A /* PostExplorerScene */ = {
 			isa = PBXGroup;
 			children = (
-				47B714DA2C01CD0400A9932A /* PostsExplorerView.swift */,
-				47B714CF2C01CD0400A9932A /* PostFilter */,
 				47B714D72C01CD0400A9932A /* Views */,
-				479F725B2C0DB7E400F4452E /* Models */,
-				479F725C2C0DB7F500F4452E /* Utils */,
+				479F725C2C0DB7F500F4452E /* ViewModels */,
 			);
-			path = Explorer;
+			path = PostExplorerScene;
 			sourceTree = "<group>";
 		};
 		47B714E62C01CD0400A9932A /* Sections */ = {
@@ -1137,8 +1118,8 @@
 		47B715312C01CD0400A9932A /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				47BC14DD2C1B532200106BAA /* PostExplorer */,
 				47B714C62C01CD0400A9932A /* Details */,
-				47B714DD2C01CD0400A9932A /* Explorer */,
 				47B714EF2C01CD0400A9932A /* Home */,
 				47B714F12C01CD0400A9932A /* MyItems */,
 				47B714FF2C01CD0400A9932A /* Others */,
@@ -1591,6 +1572,39 @@
 			path = Modules;
 			sourceTree = "<group>";
 		};
+		47BC14DD2C1B532200106BAA /* PostExplorer */ = {
+			isa = PBXGroup;
+			children = (
+				4724C27D2C0C6ECB0097D0DD /* PostExplorer.swift */,
+				47BC14E02C1B54CA00106BAA /* Common */,
+				47BC14DE2C1B534800106BAA /* Models */,
+				47B714DD2C01CD0400A9932A /* PostExplorerScene */,
+				47B714CF2C01CD0400A9932A /* PostExplorerFilterScene */,
+			);
+			path = PostExplorer;
+			sourceTree = "<group>";
+		};
+		47BC14DE2C1B534800106BAA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				47B714A82C01CD0400A9932A /* PostQuery */,
+				47B714C72C01CD0400A9932A /* PriceRange.swift */,
+				47B714D82C01CD0400A9932A /* GridAppearance.swift */,
+				479F725D2C0DC0C100F4452E /* PostCellDisplayData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		47BC14E02C1B54CA00106BAA /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				47BC14DB2C1B523A00106BAA /* FireQueryBuilder.swift */,
+				47B714CD2C01CD0400A9932A /* SelectablePostQueryTagView.swift */,
+				47BC14E12C1B555C00106BAA /* PostQueryStorage.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		47DA40882C17A90900B385B9 /* RequestUploadingPost */ = {
 			isa = PBXGroup;
 			children = (
@@ -1838,11 +1852,12 @@
 				47B715F62C01CD0400A9932A /* LeaseTerm.swift in Sources */,
 				47B716C72C01CD0400A9932A /* TimerImageCroursellView.swift in Sources */,
 				47B716C52C01CD0400A9932A /* PersonAvatarView.swift in Sources */,
+				47BC14D22C1B479800106BAA /* PostQueryable.swift in Sources */,
 				47B7161E2C01CD0400A9932A /* HomeLookingForPostsSection.swift in Sources */,
 				4703D5E22C0B99A10067145A /* Temporary.swift in Sources */,
 				4703D5DE2C0B8F290067145A /* Home.swift in Sources */,
 				47B716702C01CD0400A9932A /* FirestoreEncoder.swift in Sources */,
-				47B7160B2C01CD0400A9932A /* PostTag.swift in Sources */,
+				47B7160B2C01CD0400A9932A /* SelectablePostQueryTagView.swift in Sources */,
 				47B716092C01CD0400A9932A /* PostsFilterView.swift in Sources */,
 				47B716972C01CD0400A9932A /* L10n_.swift in Sources */,
 				47B716462C01CD0400A9932A /* SmartSearchMatcher.swift in Sources */,
@@ -1882,7 +1897,6 @@
 				4703D5E52C0B9A3F0067145A /* SearchSuggestionsScope.swift in Sources */,
 				47B716C22C01CD0400A9932A /* Presentable.swift in Sources */,
 				47B7165C2C01CD0400A9932A /* AppDidLoadView.swift in Sources */,
-				47B7160A2C01CD0400A9932A /* PostsFilterViewModel.swift in Sources */,
 				47B716022C01CD0400A9932A /* PostDetailsSections.TitleOverviewSection.swift in Sources */,
 				47B716B32C01CD0400A9932A /* simd_float4x4+EulerAnglesAndPosition.swift in Sources */,
 				47B716B72C01CD0400A9932A /* FloorPlanSurface.swift in Sources */,
@@ -1925,6 +1939,7 @@
 				47B716962C01CD0400A9932A /* Injected.swift in Sources */,
 				47B716B42C01CD0400A9932A /* DrawParameters.swift in Sources */,
 				47B715FA2C01CD0400A9932A /* PostStatus.swift in Sources */,
+				47BC14E22C1B555C00106BAA /* PostQueryStorage.swift in Sources */,
 				47B715F32C01CD0400A9932A /* Furnishing.swift in Sources */,
 				47B716B92C01CD0400A9932A /* RoomCaptureRepresentable.swift in Sources */,
 				47B715F42C01CD0400A9932A /* GeoLocation.swift in Sources */,
@@ -1951,7 +1966,6 @@
 				47B716AB2C01CD0400A9932A /* LottieView.swift in Sources */,
 				47B716B62C01CD0400A9932A /* FloorPlanScene.swift in Sources */,
 				47B7162E2C01CD0400A9932A /* PersonDetailsView.swift in Sources */,
-				47B716172C01CD0400A9932A /* QueryBuilder.swift in Sources */,
 				47B7163F2C01CD0400A9932A /* Searchable.swift in Sources */,
 				47B7168E2C01CD0400A9932A /* Colours.swift in Sources */,
 				47B7162D2C01CD0400A9932A /* LookingForSceneView.swift in Sources */,
@@ -2038,6 +2052,8 @@
 				47B7168B2C01CD0400A9932A /* FireImageUploader.swift in Sources */,
 				47B716372C01CD0400A9932A /* PostingFlow.swift in Sources */,
 				47B716B52C01CD0400A9932A /* FloorPlanObject.swift in Sources */,
+				47BC14D02C1B451F00106BAA /* PostQuery+URLQueryItem.swift in Sources */,
+				47BC14DC2C1B523A00106BAA /* FireQueryBuilder.swift in Sources */,
 				47B716CF2C01CD0400A9932A /* GridMultiPicker.swift in Sources */,
 				47B716622C01CD0400A9932A /* MainNavView.swift in Sources */,
 				47B7163C2C01CD0400A9932A /* PostUploader.swift in Sources */,

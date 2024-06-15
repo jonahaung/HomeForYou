@@ -7,7 +7,7 @@
 
 import Foundation
 import MapKit
-
+import Contacts
 struct GeoCoder {
     
     static func createLocationInfo(_ postalCode: String) async throws -> LocationInfo {
@@ -110,5 +110,11 @@ struct GeoCoder {
         let streetName = dic["streetName"] as? String ?? ""
         let buildingName = dic["buildingName"] as? String ?? ""
         return Address(title: buildingName.trimmed.capitalized, subtitle: "\(block) \(streetName)".trimmed, postalCode: postalCode)
+    }
+}
+extension MKPlacemark {
+    var formattedAddress: String? {
+        guard let postalAddress = postalAddress else { return nil }
+        return CNPostalAddressFormatter.string(from: postalAddress, style: .mailingAddress).replacingOccurrences(of: "\n", with: " ")
     }
 }

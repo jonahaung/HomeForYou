@@ -15,6 +15,8 @@ struct AppDidLoadView<Content: View>: View {
     @Injected(\.router) private var router
     @State private var appReloader = AppReloader()
     private let appConfigs = AppConfigs()
+    @Environment(\.notificationCenter) private var notificationCenter
+    private let cancelBag = CancelBag()
     
     private let content: () -> Content
     init(_ content: @escaping @autoclosure () -> Content) {
@@ -34,6 +36,17 @@ struct AppDidLoadView<Content: View>: View {
                 .swiftyThemeStyle()
                 .onAppear {
                     router.checkSetupStatus()
+                }
+                .task {
+                    Reachability.shared.publisher
+                        .removeDuplicates()
+                        .sink { path in
+                            if path.isReachable {
+                                // Do Some Tesks
+                            } else {
+                                notificationCenter.post(title: "Network not found", subtitle: "", body: "")
+                            }
+                        }.store(in: cancelBag)
                 }
         }
     }

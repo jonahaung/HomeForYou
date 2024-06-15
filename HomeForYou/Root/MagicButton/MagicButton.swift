@@ -14,19 +14,21 @@ struct MagicButton: View {
     
     var body: some View {
         if let symbol = viewModel.item.symbol {
-            AsyncButton {
+            AsyncButton(actionOptions: []) {
                 _Haptics.play(.soft)
-                try await viewModel.item.action?()
+                 try await viewModel.item.action?()
             } label: {
                 SystemImage(symbol, viewModel.item.size)
                     .symbolRenderingMode(.multicolor)
+
             }
-            .foregroundStyle(Color.accentColor.gradient)
+            .foregroundStyle(Gradient(colors: [.accentColor,  Color.accentColor.opacity(0.8), .accentColor]))
             .contentTransition(.symbolEffect)
             .offset(y: viewModel.item.alignment == .bottom ? -30 : 0)
             .phaseAnimation(viewModel.item.animations)
             .animation(.smooth, value: viewModel.item.alignment)
             .padding(.horizontal)
+            .equatable(by: viewModel.item)
         }
     }
 }

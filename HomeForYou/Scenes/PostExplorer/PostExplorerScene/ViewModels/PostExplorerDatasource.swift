@@ -49,7 +49,7 @@ actor PostExplorerDatasource {
     }
     
     func canLoadMore() async -> Bool {
-        totalPostCount != currentPostCount
+        totalPostCount > currentPostCount
     }
     func reset() async {
         currentPostCount = 0

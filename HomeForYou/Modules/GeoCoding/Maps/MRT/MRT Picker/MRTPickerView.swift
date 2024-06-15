@@ -163,7 +163,7 @@ struct MRTPickerView: View {
                 multiSelection.insert(newValue.id)
             }
         } else {
-            selected = newValue
+            selected = selected == newValue ? nil : newValue
             
         }
     }

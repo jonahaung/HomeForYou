@@ -106,6 +106,8 @@ enum PostKey: String, Codable, CaseIterable, Identifiable, Hashable {
             return "Likes"
         case .geoHash:
             return "#"
+        case .propertyType:
+            return "Property Type"
         default:
             return ""
         }
@@ -186,4 +188,5 @@ enum PostKey: String, Codable, CaseIterable, Identifiable, Hashable {
             return .atBadgeMinus
         }
     }
+    var typeName: String { String(describing: self).capitalized }
 }

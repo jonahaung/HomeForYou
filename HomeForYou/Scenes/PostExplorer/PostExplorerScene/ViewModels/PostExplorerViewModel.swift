@@ -13,24 +13,18 @@ import Contacts
 
 class PostExplorerViewModel: ObservableObject, ViewModel {
     
+    @Published var reloadTag = 0
+    
     @Published var alert: XUI._Alert?
     @Published var loading: Bool = false
-
-    @Published var filters = [PostQuery]()
-    @Published var displayDatas = [PostCellDisplayData]()
+    @Published var showPostFilterview = false
+    var queries = [PostQuery]()
+    var displayDatas = [PostCellDisplayData]()
+    var canLoadMore: Bool = true
     private let postFetcher = PostExplorerDatasource()
     
     init(_ filters: [PostQuery]) {
-        self.filters = filters
-        
-//        $filters
-//            .removeDuplicates()
-//            .debounce(for: 0.1, scheduler: RunLoop.main)
-//            .asyncSink { [weak self] value in
-//                guard let self else { return }
-//                await self.performFirstFetch(filters: filters)
-//            }
-//            .store(in: cancelBag)
+        self.queries = filters
     }
     
     deinit {
@@ -43,12 +37,11 @@ class PostExplorerViewModel: ObservableObject, ViewModel {
     func performFirstFetch(filters: [PostQuery]) async {
         await setLoading(true)
         await postFetcher.reset()
-        let query = QueryBuilder.createQuery(from: filters, category: .current)
+        let query = FireQueryBuilder.build(from: filters, category: .current)
         do {
-            try await Task.sleep(seconds: 2)
             let posts = try await postFetcher.performFetch(query: query)
+            canLoadMore = await postFetcher.canLoadMore()
             await setPosts(posts.map{ PostCellDisplayData($0)} )
-            
         } catch {
             await showAlert(.init(error: error))
         }
@@ -57,11 +50,12 @@ class PostExplorerViewModel: ObservableObject, ViewModel {
     func performFetchMore(filters: [PostQuery]) async {
         guard await postFetcher.canLoadMore() else { return }
         await setLoading(true)
-        let query = QueryBuilder.createQuery(from: filters, category: .current)
+        let query = FireQueryBuilder.build(from: filters, category: .current)
         do {
-            try await Task.sleep(seconds: 2)
+            try await Task.sleep(seconds: 1)
             let morePosts = try await postFetcher.fetchMore(query: query)
             let posts = (displayDatas + morePosts.map{ .init($0) })
+            canLoadMore = await postFetcher.canLoadMore()
             await setPosts(posts)
         } catch {
             await showAlert(.init(error: error))
@@ -71,11 +65,10 @@ class PostExplorerViewModel: ObservableObject, ViewModel {
     private func setPosts(_ posts: [PostCellDisplayData]) {
         self.displayDatas = posts
         setLoading(false)
+        reloadUI()
     }
-}
-extension MKPlacemark {
-    var formattedAddress: String? {
-        guard let postalAddress = postalAddress else { return nil }
-        return CNPostalAddressFormatter.string(from: postalAddress, style: .mailingAddress).replacingOccurrences(of: "\n", with: " ")
+    @MainActor
+    func reloadUI() {
+        reloadTag += 1
     }
 }

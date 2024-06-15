@@ -63,12 +63,28 @@ public struct ExpandableText: View {
                                 if !expand {
                                     HStack(alignment: .bottom,spacing: 0){
                                         LinearGradient(
-                                            gradient: Gradient(stops: [
-                                                Gradient.Stop(color: .black, location: 0),
-                                                Gradient.Stop(color: .clear, location: 0.8)]),
+                                            gradient: Gradient(
+                                                stops: [
+                                                    Gradient.Stop(
+                                                        color: .black,
+                                                        location: 0
+                                                    ),
+                                                    Gradient.Stop(
+                                                        color: .clear,
+                                                        location: 0.8
+                                                    )]
+                                            ),
                                             startPoint: .leading,
-                                            endPoint: .trailing)
-                                        .frame(width: 32, height: expandButton.text.heightOfString(usingFont: fontToUIFont(font: expandButton.font)))
+                                            endPoint: .trailing
+                                        )
+                                        .frame(
+                                            width: 32,
+                                            height: expandButton.text.heightOfString(
+                                                usingFont: fontToUIFont(
+                                                    font: expandButton.font
+                                                )
+                                            )
+                                        )
                                         
                                         Rectangle()
                                             .foregroundColor(.clear)
@@ -77,12 +93,28 @@ public struct ExpandableText: View {
                                 } else if let collapseButton = collapseButton {
                                     HStack(alignment: .bottom,spacing: 0){
                                         LinearGradient(
-                                            gradient: Gradient(stops: [
-                                                Gradient.Stop(color: .black, location: 0),
-                                                Gradient.Stop(color: .clear, location: 0.8)]),
+                                            gradient: Gradient(
+                                                stops: [
+                                                    Gradient.Stop(
+                                                        color: .black,
+                                                        location: 0
+                                                    ),
+                                                    Gradient.Stop(
+                                                        color: .clear,
+                                                        location: 0.8
+                                                    )]
+                                            ),
                                             startPoint: .leading,
-                                            endPoint: .trailing)
-                                        .frame(width: 32, height: collapseButton.text.heightOfString(usingFont: fontToUIFont(font: collapseButton.font)))
+                                            endPoint: .trailing
+                                        )
+                                        .frame(
+                                            width: 32,
+                                            height: collapseButton.text.heightOfString(
+                                                usingFont: fontToUIFont(
+                                                    font: collapseButton.font
+                                                )
+                                            )
+                                        )
                                         
                                         Rectangle()
                                             .foregroundColor(.clear)

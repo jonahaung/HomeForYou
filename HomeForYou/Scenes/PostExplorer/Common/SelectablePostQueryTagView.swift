@@ -8,14 +8,14 @@
 import SwiftUI
 import XUI
 
-struct PostTag: View {
-
+struct SelectablePostQueryTagView: View {
+    
     let key: PostKey
     let value: String
     let isSelected: Bool
     var onTap: (() -> Void)?
     @Injected(\.ui) private var ui
-
+    
     var body: some View {
         _Tag(color: ui.colors.opaqueSeparator) {
             HStack(alignment: .center, spacing: 1) {
