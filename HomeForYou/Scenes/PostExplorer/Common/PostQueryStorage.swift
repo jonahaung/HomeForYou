@@ -15,7 +15,7 @@ class PostQueryStorage: ObservableObject {
     @Published var features = [Feature]()
     @Published var restictions = [Restriction]()
     @Published var priceRange: ClosedRange<Int> = 0...1000
-    
+    @Published var quries = [PostQuery]()
     private var cachedValues: [PostKey: String] = [:]
 }
 extension PostQueryStorage {
@@ -26,7 +26,7 @@ extension PostQueryStorage {
         } set: { [weak self] newValue in
             guard let self else { return }
             cachedValues[key] = newValue
-            objectWillChange.send()
+            getPostQuries()
         }
     }
     func allCases(for key: PostKey) -> [String] {
@@ -69,15 +69,35 @@ extension PostQueryStorage {
 extension PostQueryStorage {
     func configureDatas(rules: [PostKey]) {
         rules.forEach { each in
-            cachedValues[each] = "Any"
+            cachedValues[each] = ""
         }
+        getPostQuries()
     }
     func updateQueries(queries: [PostQuery]) {
+        guard self.quries.isEmpty else { return }
         queries.forEach { each in
             cachedValues[each.key] = each.value
         }
+        getPostQuries()
     }
-    func getPostQuries() -> [PostQuery] {
+    func clearQueries() {
+        switch scope {
+        case .Accurate:
+            cachedValues.forEach { key, value in
+                cachedValues[key] = ""
+            }
+        case .Possibilities:
+            cachedValues.forEach { key, value in
+                cachedValues[key] = ""
+            }
+            restictions.removeAll()
+            features.removeAll()
+        case .Price:
+            priceRange = 0...1000
+        }
+        getPostQuries()
+    }
+    private func getPostQuries() {
         var results  = [PostQuery]()
         switch scope {
         case .Accurate:
@@ -90,8 +110,6 @@ extension PostQueryStorage {
             }
             results = features.map{ PostQuery(.keywords, $0.rawValue)}
             results.append(contentsOf: restictions.map{ PostQuery(.keywords, $0.rawValue)})
-            let keyWordQuery = PostQuery(.keywords, results.map{ $0.value }.joined(separator: "|"))
-            return [keyWordQuery]
         case .Price:
             let query = PostQuery(.price, "\(priceRange.lowerBound)-\(priceRange.upperBound)")
             results.append(query)
@@ -99,6 +117,6 @@ extension PostQueryStorage {
         results.removeAll(where: { query in
             query.value.isWhitespace || query.value == "Any"
         })
-        return results
+        self.quries = results
     }
 }

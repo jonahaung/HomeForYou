@@ -52,9 +52,9 @@ struct PostDetailsView: View {
         .task(id: post, priority: .background) {
             await updateHasSeenIfNeeded(post)
         }
-        .magicButton(.constant(.init(post.author.id == currentUser.uid ? .pencilCircleFill : .arrowshapeTurnUpLeftCircle, .bottomTrailing) {
-            await router.presentFullScreen(SceneItem(.createPost, data: post))
-        }))
+        .magicButton(.init(post.author.id == currentUser.uid ? .pencilCircleFill : .arrowshapeTurnUpLeftCircle, .bottomTrailing) {
+            router.presentFullScreen(SceneItem(.createPost, data: post))
+        })
     }
     
     private func updateHasSeenIfNeeded(_ post: Post) async {

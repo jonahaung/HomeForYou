@@ -23,16 +23,34 @@ public struct ImageCarousellView: View {
     
     public var body: some View {
         PagerScrollView(attachments, id: \.id, selection: $selection) { item in
-            URLImage(
-                url: item._url,
-                imageSize: .medium
-            )
+            URLImage(url: item._url) { state in
+              switch state {
+              case .empty:
+                ProgressView()
+                      .foregroundStyle(Color.secondary)
+              case .success(let image, let _):
+                image
+                  .resizable()
+                  .scaledToFill()
+              case .failure:
+                Image(systemName: "photo.fill")
+                  .imageScale(.large)
+                  .blendMode(.overlay)
+              }
+            }
             .containerRelativeFrame([.horizontal, .vertical])
+            .clipShape(RoundedRectangle(cornerRadius: 4))
+            .overlay {
+                RoundedRectangle(cornerRadius: 4)
+                    .strokeBorder(style: .init(lineWidth: 0.5))
+                    .foregroundColor(Color.primary.opacity(0.25))
+            }
             .scrollTransition(topLeading: .interactive, bottomTrailing: .interactive, transition: { view, phase in
                 view
                     .scaleEffect(1-(phase.value < 0 ? -phase.value/2 : phase.value/2), anchor: phase.value < 0 ? .trailing : .leading)
             })
             .id(item)
+            .equatable(by: item._url)
         }
         .onTapGesture {
             _Haptics.play(.soft)
@@ -42,12 +60,12 @@ public struct ImageCarousellView: View {
                 tappedIndex = selection
             }
         }
-        .if(onTap == nil, { view in
+        .if (onTap == nil) { view in
             view
                 .fullScreenCover(item: $tappedIndex) { _ in
                     PhotoGalleryView(attachments: attachments, title: "Gallery", selection: $selection)
                         .swiftyThemeStyle()
                 }
-        })
+        }
     }
 }

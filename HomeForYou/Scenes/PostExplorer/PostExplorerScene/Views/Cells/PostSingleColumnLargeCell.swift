@@ -15,7 +15,7 @@ struct PostSingleColumnLargeCell: View {
     @Injected(\.ui) private var ui
     @Injected(\.utils) private var utils
     @Injected(\.router) private var router
-    
+    @State private var loadImage = false
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             imageCarousellView()
@@ -28,7 +28,8 @@ struct PostSingleColumnLargeCell: View {
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
-            }.padding(.horizontal, 16)
+            }
+            .padding(.horizontal, 16)
         }
         .padding(.bottom)
     }
@@ -46,6 +47,7 @@ struct PostSingleColumnLargeCell: View {
                 }
                 .font(ui.fonts.footnote)
                 .foregroundStyle(.secondary)
+                .equatable(by: data.primaryTags.count)
             }
             Text(data.title)
             
@@ -56,10 +58,12 @@ struct PostSingleColumnLargeCell: View {
             }
             .font(ui.fonts.footnote)
             .foregroundStyle(.secondary)
+            .equatable(by: data.secondaryTags.count)
         }
     }
     private func imageCarousellView () -> some View {
         ZStack {
+            Color.clear
             ImageCarousellView(attachments: data.post.attachments) { _ in
                 DispatchQueue.main.async {
                     router.push(to: SceneItem(.postDetails, data: data.post))
@@ -76,6 +80,8 @@ struct PostSingleColumnLargeCell: View {
                 }
             }
         }
+        ._flexible(.horizontal)
         .aspectRatio(1.6, contentMode: .fill)
+        .equatable(by: data.post.attachments)
     }
 }

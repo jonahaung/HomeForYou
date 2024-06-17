@@ -29,10 +29,13 @@ struct FavouriteButton: View {
                 favourites.append(currentUser.uid)
             }
             post.favourites = favourites
+            if isFavourite {
+                _Haptics.play(.rigid)
+            }
             try await Repo.shared.async_add(post)
         } label: {
-            SystemImage(.handThumbsupFill, isFavourite ? 34 : 25)
-                .foregroundStyle(isFavourite ? Color.accentColor : Color.gray)
+            SystemImage(isFavourite ? .handThumbsupFill : .handThumbsup, isFavourite ? 34 : 25)
+                .foregroundStyle(isFavourite ? Color.accentColor.gradient : Color.secondary.gradient)
                 .padding()
         }
         .withReactionAnimation(isFavourite)

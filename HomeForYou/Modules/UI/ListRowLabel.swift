@@ -10,18 +10,18 @@ import SFSafeSymbols
 import XUI
 
 public struct ListRowLabel: View {
-
+    
     private let alignment: HorizontalAlignment
     private let icon: SFSymbol?
     private let text: String
     @Injected(\.ui) private var ui
-
+    
     public init(alignment: HorizontalAlignment = .listRowSeparatorLeading, _ icon: SFSymbol?, _ text: String) {
         self.alignment = alignment
         self.icon = icon
         self.text = text
     }
-
+    
     private func image(_ icon: SFSymbol) -> some View {
         SystemImage(icon, 18)
             .imageScale(.small)
@@ -42,14 +42,14 @@ public struct ListRowLabel: View {
             .compositingGroup()
             .symbolVariant(.fill)
     }
-
+    
     private func text(_ text: String) -> some View {
         Text(.init(text))
             .fixedSize()
             .font(ui.fonts.callOut)
             .foregroundStyle(Color.primary)
     }
-
+    
     public var body: some View {
         HStack(spacing: 16) {
             switch alignment {

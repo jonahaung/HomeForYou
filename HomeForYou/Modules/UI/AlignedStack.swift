@@ -8,15 +8,15 @@
 import SwiftUI
 
 public struct AlignedStack<Content: View>: View {
-
+    
     private let alignment: Alignment
     @ViewBuilder private var content: () -> Content
-
+    
     public init(_ alignment: Alignment, @ViewBuilder content: @escaping () -> Content) {
         self.alignment = alignment
         self.content = content
     }
-
+    
     public var body: some View {
         Group {
             switch alignment {

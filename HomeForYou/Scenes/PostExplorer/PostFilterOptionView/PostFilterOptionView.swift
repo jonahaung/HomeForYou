@@ -8,21 +8,15 @@
 import SwiftUI
 import XUI
 
-struct PostsFilterView: View {
+struct PostFilterOptionView: View {
     
     @EnvironmentObject private var storage: PostQueryStorage
-    @State private var quries: [PostQuery]
-    private let onSelectQueries: ([PostQuery]) async -> Void
+    @Binding var quries: [PostQuery]
     @Environment(\.dismiss) private var dismiss
     @Injected(\.ui) private var ui
     @Injected(\.utils) private var utils
     
     private let allowedQueries = [PostKey.propertyType, .roomType, .furnishing, .baths, .beds, .floorLevel, .tenantType, .leaseTerm, .tenure]
-    
-    init(_ quries: [PostQuery], onSelectQueries: @MainActor @escaping ([PostQuery]) async -> Void) {
-        self.quries = quries
-        self.onSelectQueries = onSelectQueries
-    }
     
     var body: some View {
         Form {
@@ -103,23 +97,19 @@ struct PostsFilterView: View {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 HStack {
-                    _ConfirmButton("Reset all filters") {
-                        storage.updateQueries(queries: self.quries)
-                    } label: {
-                        Text("Reset")
-                    }
                     _ConfirmButton("Clear all filters") {
-                        storage.configureDatas(rules: self.allowedQueries)
+                        storage.clearQueries()
                     } label: {
                         Text("Clear")
                     }
+                    .disabled(quries == storage.quries)
                 }
             }
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 AsyncButton {
-                    let queries = storage.getPostQuries()
-                    print(queries)
-                    await onSelectQueries(queries)
+                    let queries = storage.quries
+                    storage.clearQueries()
+                    self.quries = queries
                 } label: {
                     Text("Done")
                 } onFinish: {
@@ -129,7 +119,7 @@ struct PostsFilterView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .embeddedInNavigationView()
-        .task {
+        .onAppear {
             storage.updateQueries(queries: self.quries)
         }
         .presentationDetents([.medium, .large])

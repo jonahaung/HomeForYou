@@ -10,12 +10,10 @@ import XUI
 import URLImage
 
 struct AvatarView: View {
-
     let urlString: String
     let size: CGFloat
-
     var body: some View {
-        URLImage(url: .init(string: urlString), imageSize: .small)
+        URLImage(url: .init(string: urlString))
             .frame(square: size)
             .clipShape(Circle())
     }

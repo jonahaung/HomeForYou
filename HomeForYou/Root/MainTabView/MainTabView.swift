@@ -12,9 +12,9 @@ import SwiftyTheme
 struct MainTabView: View {
     
     @State var router: Router
-    @State private var magicButtonViewModel = MagicButtonViewModel()
+    private let magicButtonViewModel = MagicButtonViewModel()
     @Injected(\.utils) private var utils: Utils
-    
+    @State private var developerText = ""
     var body: some View {
         TabView(selection: $router.tabPath) {
             ForEach(router.navRouters) { navRouter in
@@ -23,23 +23,23 @@ struct MainTabView: View {
                     case .myItems:
                         MyItemsView()
                             .navigationTitle(L10n_.Navigation.Title.my_stuffs)
-                            .magicButton(.constant(homeMagicItem))
+                            .magicButton(homeMagicItem)
                     case .createPost:
                         PostingMenuView()
                             .navigationTitle(L10n_.Navigation.Title.post)
-                            .magicButton(.constant(homeMagicItem))
+                            .magicButton(homeMagicItem)
                     case .home:
                         HomeView()
                             .navigationTitle(L10n_.Navigation.Title.home)
-                            .magicButton(.constant(.explorer))
+                            .magicButton(.explorer)
                     case .more:
                         ServicesView()
                             .navigationTitle(L10n_.Navigation.Title.services)
-                            .magicButton(.constant(homeMagicItem))
+                            .magicButton(homeMagicItem)
                     case .settings:
                         SettingsView()
                             .navigationTitle(L10n_.Navigation.Title.settings)
-                            .magicButton(.constant(homeMagicItem))
+                            .magicButton(homeMagicItem)
                     }
                 }
                 .tabItem {
@@ -65,7 +65,7 @@ struct MainTabView: View {
         }, set: { newValue in
             if !router.fullScreenCovers.isEmpty {
                 router.fullScreenCovers.removeLast()
-            }
+            } 
         })) {
             $0.viewToDisplay
                 .swiftyThemeStyle()
@@ -89,7 +89,7 @@ struct MainTabView: View {
     
     private var homeMagicItem: MagicButtonItem {
         .init(.houseCircleFill, .bottom) {
-            await router.tab(to: .home)
+            router.tab(to: .home)
         }
     }
 }

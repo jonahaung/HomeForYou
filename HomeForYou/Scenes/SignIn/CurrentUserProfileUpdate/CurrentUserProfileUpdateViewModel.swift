@@ -9,7 +9,6 @@ import UIKit
 import FirebaseAuth
 import FireAuthManager
 import FirebaseStorage
-import Nuke
 import XUI
 
 @Observable
@@ -49,12 +48,8 @@ class CurrentUserProfileUpdateViewModel: ViewModel {
     
     func uploadProfilePhoto(to currentUser: CurrentUser) async throws -> URL {
         if let pickedImage {
-            let cropProcessor = ImageProcessors.Resize(size: CGSize(width: 150, height: 150), crop: true, upscale: true)
-            let circleProcessor = ImageProcessors.Circle(border: ImageProcessingOptions.Border.init(color: .white, width: 2))
             if
-                let crop = cropProcessor.process(pickedImage),
-                let circled = circleProcessor.process(crop),
-                let data = circled.pngData() {
+                let data = pickedImage.pngData() {
                 let ref = Storage.storage().reference(withPath: "profilePhotos").child(currentUser.uid)
                 let metadata = StorageMetadata()
                 metadata.contentType = "image/jpeg"

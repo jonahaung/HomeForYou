@@ -9,5 +9,5 @@ import SwiftUI
 
 @Observable
 final class MagicButtonViewModel {
-    var item: MagicButtonItem = .hidden
+    var item: MagicButtonItem = .backButton
 }

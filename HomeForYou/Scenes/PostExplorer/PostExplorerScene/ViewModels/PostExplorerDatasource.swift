@@ -8,44 +8,52 @@
 import SwiftUI
 import FirebaseFirestore
 import XUI
+import Combine
 
 actor PostExplorerDatasource {
     
-    private var totalPostCount = 0
-    private var currentPostCount = 0
-    private var fetchLimit = PostExplorer.Posts_Fetch_Limit
-    private var lastSnapshot: DocumentSnapshot?
+    enum FetchError: Error {
+        case noMorePosts, currentlyLoading
+    }
     
-    func performFetch(query: Query) async throws -> [Post] {
-        await reset()
-        totalPostCount = try await query.count.getAggregation(source: .server).count.intValue
+    let fetchSubject = PassthroughSubject<[PostCellDisplayData], Never>()
+    let loadMoreSubject = PassthroughSubject<[PostCellDisplayData], Never>()
+    
+    private(set) var totalPostCount = 0
+    private(set) var currentPostCount = 0
+    private let fetchLimit = PostExplorer.Posts_Fetch_Limit
+    private(set) var nextQuery: Query?
+    
+    func performFetch(query: Query) async throws {
+        totalPostCount = try await query.count.getAggregation(source: AggregateSource.server).count.intValue
         let documents = try await query.limit(to: fetchLimit).getDocuments().documents
         let results = documents.compactMap { try? $0.decode(as: Post.self) }
         currentPostCount = documents.count
-        lastSnapshot = documents.last
-        return results
+        let data = results.map{ PostCellDisplayData($0) }
+        fetchSubject.send(data)
+        if let lastSnapshot = documents.last {
+            self.nextQuery = query.start(afterDocument: lastSnapshot)
+        } else {
+            self.nextQuery = nil
+        }
     }
     
-    func fetchMore(query: Query) async throws -> [Post] {
-        var query = query
-        if let lastSnapshot {
-            query = query.start(afterDocument: lastSnapshot)
-        } else {
-            throw(XError.unknownError)
+    func fetchMore() async throws  {
+        guard let nextQuery else { throw FetchError.currentlyLoading }
+        self.nextQuery = nil
+        let limit: Int = min(totalPostCount - currentPostCount, fetchLimit)
+        guard limit > 0 else {
+            throw FetchError.noMorePosts
         }
-        
-        let limit: Int = {
-            if (totalPostCount - currentPostCount) < fetchLimit {
-                return fetchLimit
-            }
-            return fetchLimit
-        }()
-        
-        let documents = try await query.limit(to: limit).getDocuments().documents
-        let posts = documents.compactMap{ try? $0.decode(as: Post.self) }.uniqued()
+        let documents = try await nextQuery.limit(to: limit).getDocuments().documents
+        let results = documents.compactMap{ try? $0.decode(as: Post.self) }.uniqued()
         currentPostCount += documents.count
-        lastSnapshot = currentPostCount == totalPostCount ? nil : documents.last
-        return posts
+        let data = results.map{ PostCellDisplayData($0) }
+        print(data.count)
+        loadMoreSubject.send(data)
+        if let lastSnapshot = documents.last {
+            self.nextQuery = nextQuery.start(afterDocument: lastSnapshot)
+        }
     }
     
     func canLoadMore() async -> Bool {
@@ -53,7 +61,7 @@ actor PostExplorerDatasource {
     }
     func reset() async {
         currentPostCount = 0
-        lastSnapshot = nil
+        nextQuery = nil
         totalPostCount = 0
     }
 }

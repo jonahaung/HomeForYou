@@ -9,7 +9,6 @@ import Foundation
 import XUI
 
 extension Post {
-    
     static func mock(for i: Int) -> [Post] {
         var posts = [Post]()
         (1...i).forEach { i in

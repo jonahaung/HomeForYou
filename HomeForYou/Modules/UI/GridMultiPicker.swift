@@ -9,17 +9,17 @@ import SwiftUI
 import XUI
 
 struct GridMultiPicker<Item>: View where Item: XPickable, Item: Equatable {
-
+    
     private let sourceItems: [Item]
     private var selected: Binding<[Item]>
     private var columns: [GridItem]
-
+    
     init(source: [Item], selection: Binding<[Item]>, colNum: Int = 2) {
         sourceItems = source
         selected = selection
         columns = Array(repeating: GridItem(.flexible()), count: colNum)
     }
-
+    
     var body: some View {
         VStack {
             WrappedStack(.vertical, spacing: 3) {

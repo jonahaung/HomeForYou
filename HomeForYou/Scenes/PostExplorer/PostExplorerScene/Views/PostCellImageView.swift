@@ -11,7 +11,7 @@ import URLImage
 struct PostCellImageView: View {
     let post: Post
     var body: some View {
-        URLImage(url: post.attachments.first?._url, imageSize: .medium)
+        URLImage(url: post.attachments.first?._url)
             .clipped()
     }
 }

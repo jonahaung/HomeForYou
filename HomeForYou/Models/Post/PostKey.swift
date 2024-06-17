@@ -123,11 +123,11 @@ enum PostKey: String, Codable, CaseIterable, Identifiable, Hashable {
         case .author:
             return .personCropArtframe
         case .attachments:
-            return .atCircleFill
+            return .photoOnRectangleAngled
         case .title:
             return .textAppend
         case .description:
-            return .textformat
+            return .textBubbleFill
         case .phoneNumber:
             return .phoneFill
         case .price:
@@ -135,11 +135,11 @@ enum PostKey: String, Codable, CaseIterable, Identifiable, Hashable {
         case .occupant:
             return .person3SequenceFill
         case .area:
-            return .locationFillViewfinder
+            return .mappinAndEllipse
         case .mrt:
             return .tram
         case .mrtDistance:
-            return .ruler
+            return .figureWalk
         case .address:
             return .houseCircle
         case .postal:
@@ -151,9 +151,9 @@ enum PostKey: String, Codable, CaseIterable, Identifiable, Hashable {
         case .propertyType:
             return .building
         case .roomType:
-            return .doorFrenchOpen
+            return .doorLeftHandOpen
         case .furnishing:
-            return .sofa
+            return .chairLoungeFill
         case .beds:
             return .bedDoubleFill
         case .baths:

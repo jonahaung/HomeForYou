@@ -7,14 +7,15 @@
 
 import SwiftUI
 import XUI
+import SFSafeSymbols
 
 struct PostsExplorerView: View {
     
     @StateObject private var gridAppearance = GridAppearance()
     @StateObject private var viewModel: PostExplorerViewModel
     @StateObject private var searchDatasource = SearchDatasource()
-    @State private var magicButton = MagicButtonItem(.clockFill, .trailing, 25)
     @StateObject private var storage = PostQueryStorage()
+    @Environment(MagicButtonViewModel.self) private var magicButton
     
     @Injected(\.ui) private var ui
     
@@ -23,64 +24,52 @@ struct PostsExplorerView: View {
     }
     
     var body: some View {
-        LodableScrollView(.vertical, showsIndicators: false, namespace: Self.typeName, content: {
-            LazyVStack(alignment: .leading, spacing: 0) {
-                filteredTagsGroup
-                if gridAppearance.gridStyle != .TwoCol {
-                    if gridAppearance.gridStyle == .Large {
-                        ScrollViewList(innerPadding: 0, outerPadding: 8) {
-                            listViews.intersperse {
-                                Divider().padding(.horizontal)
+        ZStack {
+            Color.systemGroupedBackground
+                .ignoresSafeArea()
+            LodableScrollView(.vertical, showsIndicators: true, namespace: Self.typeName, content: {
+                LazyVStack(alignment: .leading, spacing: 0) {
+                    filteredTagsGroup
+                    if viewModel.displayDatas.isEmpty && !viewModel.canLoadMore {
+                        ContentUnavailableView("No Posts Found", systemImage: "doc.questionmark.fill")
+                    }
+                    if gridAppearance .gridStyle != .TwoCol {
+                        if gridAppearance.gridStyle == .Large {
+                            ScrollViewList(innerPadding: 0, outerPadding: 8) {
+                                listViews.intersperse {
+                                    Divider().padding(.horizontal)
+                                }
                             }
+                        } else {
+                            largePostViews
                         }
                     } else {
-                        largePostViews
-                    }
-                } else {
-                    ScrollViewList(innerPadding: 0, outerPadding: 4) {
-                        WaterfallVList(columns: 2, spacing: 2) {
-                            doubleColmViews
+                        ScrollViewList(innerPadding: 0, outerPadding: 4) {
+                            WaterfallVList(columns: 2, spacing: 2) {
+                                doubleColmViews
+                            }
                         }
                     }
                 }
-                if viewModel.displayDatas.isEmpty {
-                    ContentUnavailableView("No Posts Found", systemImage: "doc.questionmark.fill")
-                }
-                VStack(alignment: .center) {
-                    if viewModel.canLoadMore {
-                        LoadingIndicator()
-                        Spacer()
-                    }
-                }
-                .frame(height: 70)
-                ._flexible(.horizontal)
+                .padding(.bottom, 100)
+                .equatable(by: viewModel.reloadTag)
+                .animation(.smooth, value: viewModel.displayDatas)
+            }, onLoadMore: {
+                guard await viewModel.loading == false else { return }
+                await viewModel.performFetchMore()
+            })
+            .refreshable {
+                guard !viewModel.loading else { return }
+                viewModel.refreshable(filters: viewModel.queries)
             }
-            .equatable(by: viewModel.reloadTag)
-            .animation(.spring, value: viewModel.loading)
-            .containerRelativeFrame(.horizontal)
-            .allowsHitTesting(!viewModel.loading)
-        }, onLoadMore: {
-            guard await viewModel.loading == false else { return }
-            await viewModel.performFetchMore(filters: viewModel.queries)
-        })
-        .refreshable {
-            guard !viewModel.loading else { return }
-            await viewModel.refreshable(filters: viewModel.queries)
+            ._flexible(.all)
         }
-        .task(id: viewModel.queries, debounceTime: .seconds(0.2), {
-            await viewModel.performFirstFetch(
-                filters: viewModel.queries
-            )
-        })
-        .onSearchSubmit { item in
-            Log(item)
-        }
-        .onChange(of: viewModel.reloadTag) { oldValue, newValue in
-            magicButton.updateAction {
-                print("hahahahaha")
+        .task(id: viewModel.queries, debounceTime: .seconds(0.2)) {
+            await MainActor.run {
+                viewModel.performFirstFetch(filters: viewModel.queries)
             }
-            magicButton.loading(viewModel.loading, action: handleMagicButtonAction)
         }
+        .magicButton(.init(.cameraFilters, .trailing, 34, handleMagicButtonAction))
         .navigationTitle("@explore")
         .overlay(alignment: .bottom) {
             PostExplorerBottomToolbar()
@@ -89,21 +78,17 @@ struct PostsExplorerView: View {
             PostExplorerTopToolbar()
         }
         .alertPresenter($viewModel.alert)
-        .magicButton(.constant(magicButton))
         .makeSearchable(searchDatasource)
         .sheet(isPresented: $viewModel.showPostFilterview) {
-            PostsFilterView(viewModel.queries) { newValue in
-                await self.viewModel.performFirstFetch(filters: newValue)
-            }
+            PostFilterOptionView(quries: $viewModel.queries)
         }
-        .background(Color.systemGroupedBackground)
         .environmentObject(viewModel)
         .environmentObject(gridAppearance)
         .environmentObject(searchDatasource)
         .environmentObject(storage)
     }
     @MainActor
-    private func handleMagicButtonAction() async throws  {
+    private func handleMagicButtonAction() async  {
         viewModel.showPostFilterview = true
     }
     @ViewBuilder private var largePostViews: some View {
@@ -135,6 +120,7 @@ private extension PostsExplorerView {
             .padding(.leading)
             .padding(.vertical, 2)
             ._flexible(.horizontal)
+            .animation(.interactiveSpring, value: viewModel.queries)
             .equatable(by: viewModel.queries)
     }
 }

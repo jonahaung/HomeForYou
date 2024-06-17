@@ -9,9 +9,9 @@ import SwiftUI
 import XUI
 
 struct PersonCell: View {
-
+    
     @StateObject private var model: PersonDetails
-
+    
     init(_ id: String) {
         _model = .init(wrappedValue: PersonDetails(id))
     }
@@ -20,9 +20,9 @@ struct PersonCell: View {
         HStack {
             PersonAvatarView(personInfo: model.person.personInfo, size: 35)
             Text(model.person.name)
-//                ._tapToPush {
-//                    PersonDetailsView(model: model.person.personInfo)
-//                }
+            //                ._tapToPush {
+            //                    PersonDetailsView(model: model.person.personInfo)
+            //                }
         }
     }
 }

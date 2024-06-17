@@ -27,7 +27,8 @@ struct FilterTagsView: View {
                 .overlay(alignment: .topTrailing) {
                     AsyncButton {
                         queries.wrappedValue.forEach { query in
-                            if query == self.selection, let i = queries.firstIndex(where: { $0.wrappedValue == query }) {
+                            if query == self.selection, let i = queries.firstIndex(where: { $0.wrappedValue.key == query.key }) {
+                                selection = nil
                                 queries.wrappedValue.remove(at: i)
                             }
                         }

@@ -33,11 +33,28 @@ struct TimerImageCroursellView: View {
                 } content: {
                     LazyHStack(spacing: 0) {
                         ForEach(Array(attachments.enumerated()), id: \.element.id) { (i, each) in
-                            URLImage(
-                                url: each._url,
-                                imageSize: .medium
-                            )
+                            URLImage(url: each._url) { state in
+                              switch state {
+                              case .empty:
+                                ProgressView()
+                                      .foregroundStyle(Color.secondary)
+                              case .success(let image, _):
+                                image
+                                  .resizable()
+                                  .scaledToFill()
+                              case .failure:
+                                Image(systemName: "photo.fill")
+                                  .imageScale(.large)
+                                  .blendMode(.overlay)
+                              }
+                            }
                             .containerRelativeFrame([.horizontal, .vertical])
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 4)
+                                    .strokeBorder(style: .init(lineWidth: 0.5))
+                                    .foregroundColor(Color.primary.opacity(0.25))
+                            }
                             .scrollTransition(topLeading: .interactive, bottomTrailing: .interactive, transition: { view, phase in
                                 view
                                     .scaleEffect(1-(phase.value < 0 ? -phase.value/2 : phase.value/2), anchor: phase.value < 0 ? .trailing : .leading)
@@ -84,7 +101,6 @@ struct TimerImageCroursellView: View {
             invalidateTimer()
         }
     }
-    
     private func invalidateTimer(_ t: Int = Int.random(in: 3...7)) {
         timer.upstream.connect().cancel()
         timer = Timer.publish(every: TimeInterval(t), on: .main, in: .common).autoconnect()

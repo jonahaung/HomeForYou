@@ -11,7 +11,7 @@ import SwiftyTheme
 
 private struct ThemedNavView<Content: View>: View {
     private let content: Content
-
+    
     init(content: () -> Content) {
         self.content = content()
     }
@@ -23,7 +23,6 @@ private struct ThemedNavView<Content: View>: View {
         .ignoresSafeArea(.keyboard)
     }
 }
-
 private struct EmbeddedInNavigationViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         ThemedNavView {
@@ -31,7 +30,6 @@ private struct EmbeddedInNavigationViewModifier: ViewModifier {
         }
     }
 }
-
 public extension View {
     func embeddedInNavigationView() -> some View {
         ModifiedContent(content: self, modifier: EmbeddedInNavigationViewModifier())

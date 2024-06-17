@@ -10,6 +10,7 @@ import SwiftUI
 struct PostExplorerGridStylePicker: View {
     
     @EnvironmentObject private var gridAppearance: GridAppearance
+    @Binding var reloadTag: Int
     
     var body: some View {
         Picker("Grid Style", selection: $gridAppearance.gridStyle) {
@@ -19,5 +20,8 @@ struct PostExplorerGridStylePicker: View {
             }
         }
         .pickerStyle(.segmented)
+        .onChange(of: gridAppearance.gridStyle, debounceTime: 0.3) { _ in
+            reloadTag += 1
+        }
     }
 }
