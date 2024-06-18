@@ -50,11 +50,6 @@ struct TimerImageCroursellView: View {
                             }
                             .containerRelativeFrame([.horizontal, .vertical])
                             .clipShape(RoundedRectangle(cornerRadius: 4))
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 4)
-                                    .strokeBorder(style: .init(lineWidth: 0.5))
-                                    .foregroundColor(Color.primary.opacity(0.25))
-                            }
                             .scrollTransition(topLeading: .interactive, bottomTrailing: .interactive, transition: { view, phase in
                                 view
                                     .scaleEffect(1-(phase.value < 0 ? -phase.value/2 : phase.value/2), anchor: phase.value < 0 ? .trailing : .leading)

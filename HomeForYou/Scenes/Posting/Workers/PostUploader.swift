@@ -11,17 +11,25 @@ import XUI
 import PhoneNumberKit
 
 struct PostUploader {
-
-    static func post<T: Postable>(_ post: inout T, author: PersonInfo) async throws {
+    
+    private let keywordsFactiory = KeywordsFactory()
+    @Injected(\.currentUser) private var currentUser
+    
+    func post<T: Postable>(_ post: inout T) async throws {
+        guard let model = currentUser.model else { throw XError.user_not_logged_in  }
         guard !post.attachments.isEmpty else {
             throw XError.attachments_isEmpty
         }
-        try sinitize(&post, author)
-        post.attachments = try await upload(attachments: post.attachments, postID: post.id, category: post.category)
+        
+        let keywords = keywordsFactiory.keywords(for: post)
+        post.keywords = keywords.map{ $0.keyValueString }
+        let attachments = try await upload(attachments: post.attachments, postID: post.id, category: post.category)
+        post.attachments = attachments
+        
         try await Repo.shared.async_add(post, false)
     }
-
-    private static func upload(attachments: [XAttachment], postID: String, category: Category) async throws -> [XAttachment] {
+    
+    private func upload(attachments: [XAttachment], postID: String, category: Category) async throws -> [XAttachment] {
         return try await withThrowingTaskGroup(of: XAttachment.self) { group in
             for attachment in attachments {
                 group.addTask {
@@ -42,13 +50,5 @@ struct PostUploader {
             }
             return results
         }
-    }
-
-    static func sinitize<T: Postable>(_ post: inout T, _ author: PersonInfo) throws {
-        var keyWords = PostKey.allCases.map { KeyWord.keyWord(for: $0, to: post)}.flatMap {$0}
-        keyWords = keyWords
-            .compactMap { $0 }
-            .filter { $0.value != "Any" && $0.value != "0" && !$0.value.isWhitespace }.uniqued()
-        post.keywords = keyWords.map { $0.keyValueString }.sorted()
     }
 }

@@ -88,7 +88,7 @@ struct MainTabView: View {
     }
     
     private var homeMagicItem: MagicButtonItem {
-        .init(.houseCircleFill, .bottom) {
+        .init(.houseFill, .bottom) {
             router.tab(to: .home)
         }
     }

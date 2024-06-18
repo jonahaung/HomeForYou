@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct PostUpdateAction {
-    
     typealias Action = @Sendable (ActionType) async -> ()
-    
     enum ActionType {
         typealias Value = any Postable
         case cancel

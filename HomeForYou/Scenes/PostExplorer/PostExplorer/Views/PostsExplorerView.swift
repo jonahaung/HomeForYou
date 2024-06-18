@@ -15,7 +15,6 @@ struct PostsExplorerView: View {
     @StateObject private var viewModel: PostExplorerViewModel
     @StateObject private var searchDatasource = SearchDatasource()
     @StateObject private var storage = PostQueryStorage()
-    @Environment(MagicButtonViewModel.self) private var magicButton
     
     @Injected(\.ui) private var ui
     
@@ -51,9 +50,8 @@ struct PostsExplorerView: View {
                         }
                     }
                 }
-                .padding(.bottom, 100)
+                .padding(.bottom, 50)
                 .equatable(by: viewModel.reloadTag)
-                .animation(.smooth, value: viewModel.displayDatas)
             }, onLoadMore: {
                 guard await viewModel.loading == false else { return }
                 await viewModel.performFetchMore()
@@ -69,7 +67,7 @@ struct PostsExplorerView: View {
                 viewModel.performFirstFetch(filters: viewModel.queries)
             }
         }
-        .magicButton(.init(.cameraFilters, .trailing, 34, handleMagicButtonAction))
+        .magicButton(.init(.cameraFilters, .trailing, handleMagicButtonAction))
         .navigationTitle("@explore")
         .overlay(alignment: .bottom) {
             PostExplorerBottomToolbar()

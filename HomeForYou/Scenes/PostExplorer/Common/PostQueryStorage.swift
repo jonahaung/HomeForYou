@@ -11,10 +11,31 @@ import SwiftUI
 
 class PostQueryStorage: ObservableObject {
     
-    @Published var scope = PostExplorer.PostQueryScope.Accurate
-    @Published var features = [Feature]()
-    @Published var restictions = [Restriction]()
-    @Published var priceRange: ClosedRange<Int> = 0...1000
+    var features = [Feature]() {
+        willSet {
+            objectWillChange.send()
+        }
+        didSet {
+            getPostQuries()
+        }
+    }
+    var restictions = [Restriction]() {
+        willSet {
+            objectWillChange.send()
+        }
+        didSet {
+            getPostQuries()
+        }
+    }
+    var priceRange: ClosedRange<Int> = 0...1000 {
+        willSet {
+            objectWillChange.send()
+        }
+        didSet {
+            getPostQuries()
+        }
+    }
+    @Published var scope = PostExplorer.FilterType.exactMatch
     @Published var quries = [PostQuery]()
     private var cachedValues: [PostKey: String] = [:]
 }
@@ -82,17 +103,17 @@ extension PostQueryStorage {
     }
     func clearQueries() {
         switch scope {
-        case .Accurate:
+        case .exactMatch:
             cachedValues.forEach { key, value in
                 cachedValues[key] = ""
             }
-        case .Possibilities:
+        case .keywords:
             cachedValues.forEach { key, value in
                 cachedValues[key] = ""
             }
             restictions.removeAll()
             features.removeAll()
-        case .Price:
+        case .priceRange:
             priceRange = 0...1000
         }
         getPostQuries()
@@ -100,17 +121,19 @@ extension PostQueryStorage {
     private func getPostQuries() {
         var results  = [PostQuery]()
         switch scope {
-        case .Accurate:
+        case .exactMatch:
             for (key, value) in cachedValues {
                 results.append(.init(key, value))
             }
-        case .Possibilities:
+        case .keywords:
             for (_, value) in cachedValues {
                 results.append(.init(.keywords, value))
             }
-            results = features.map{ PostQuery(.keywords, $0.rawValue)}
-            results.append(contentsOf: restictions.map{ PostQuery(.keywords, $0.rawValue)})
-        case .Price:
+            let featureStrings = features.map{ KeyWord(.features, $0.rawValue) }
+            let restictionStrings = restictions.map{ KeyWord(.features, $0.rawValue) }
+            let strings = (featureStrings + restictionStrings + results.map{ KeyWord($0.key, $0.value)}).map{ $0.keyValueString }.joined(separator: "|")
+            results = [.init(.keywords, strings)]
+        case .priceRange:
             let query = PostQuery(.price, "\(priceRange.lowerBound)-\(priceRange.upperBound)")
             results.append(query)
         }

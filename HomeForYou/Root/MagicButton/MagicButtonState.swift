@@ -15,22 +15,20 @@ struct MagicButtonItem {
     var symbol: SFSymbol?
     var action: (@MainActor() async -> Void)?
     var alignment: Alignment
-    var size: CGFloat
+    let size: CGFloat = 50
     var animations: [PhaseAnimationType] = []
     
-    init(_ symbol: SFSymbol?, _ alignment: Alignment, _ size: CGFloat = 34.scaled, _ action: (@MainActor () async -> Void)? = nil) {
+    init(_ symbol: SFSymbol?, _ alignment: Alignment, _ action: (@MainActor () async -> Void)? = nil) {
         self.symbol = symbol
         self.action = action
         self.alignment = alignment
-        self.size = size
     }
 }
 extension MagicButtonItem {
-    mutating func update(symbol: SFSymbol? = nil, alignment: Alignment? = nil, size: CGFloat? = nil, animations: [PhaseAnimationType] = [], action: (() async -> Void)?) {
+    mutating func update(symbol: SFSymbol? = nil, alignment: Alignment? = nil, animations: [PhaseAnimationType] = [], action: (() async -> Void)?) {
         var weakSelf = self
         weakSelf.symbol = symbol ?? self.symbol
         weakSelf.alignment = alignment ?? self.alignment
-        weakSelf.size = size ?? self.size
         weakSelf.action = action
         weakSelf.animations = animations
         self = weakSelf
@@ -38,9 +36,8 @@ extension MagicButtonItem {
     mutating
     func loading(_ isLoading: Bool, action: @escaping (@MainActor () async -> Void)) {
         let symbol = isLoading ? SFSymbol.arrowTriangle2CirclepathCircleFill : .line3HorizontalDecreaseCircleFill
-        let size = isLoading ? CGFloat(34) : 38
         let alignment = isLoading ? Alignment.center : .trailing
-        self.update(symbol: symbol, alignment: alignment, size: size, animations: isLoading ? [.rotate(.north), .rotate(.north_360)] : [.scale(0.9), .scale(1)], action: action)
+        self.update(symbol: symbol, alignment: alignment, animations: isLoading ? [.rotate(.north), .rotate(.north_360)] : [.scale(0.9), .scale(1)], action: action)
     }
 }
 extension MagicButtonItem {
@@ -51,7 +48,7 @@ extension MagicButtonItem {
         }
     }()
     static let explorer: MagicButtonItem = {
-        .init(.signpostRightAndLeft, .bottom, 50.scaled) {
+        .init(.signpostRightAndLeftFill, .bottom) {
             @Injected(\.router) var router
             router.push(to: SceneItem(.postCollection, data: [] as [PostQuery]))
         }

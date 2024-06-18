@@ -12,7 +12,7 @@ struct HomeCategorySection: View {
     var body: some View {
         InsetGroupSection(16) {
             CategoryPicker()
-                .pickerStyle(.segmented)
+                .pickerStyle(.inline)
         } footer: {
             Text(Home.Category_Text)
         }

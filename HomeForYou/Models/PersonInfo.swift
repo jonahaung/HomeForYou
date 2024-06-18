@@ -13,18 +13,20 @@ struct PersonInfo: Codable, Sendable, Equatable, Hashable, Identifiable {
     let name: String?
     let email: String?
     let photoURL: String?
+    var phoneNumber: String?
 
-    init(id: String, name: String?, email: String?, photoURL: String?) {
+    init(id: String, name: String?, phoneNumber: String?, email: String?, photoURL: String?) {
         self.id = id
         self.name = name
         self.email = email
         self.photoURL = photoURL
+        self.phoneNumber = phoneNumber
     }
     init(model: Person) {
-        self.init(id: model.id, name: model.name, email: model.email, photoURL: model.photoURL)
+        self.init(id: model.id, name: model.name, phoneNumber: model.phoneNumber, email: model.email, photoURL: model.photoURL)
     }
     init(user: User) {
-        self.init(id: user.uid, name: user.displayName, email: user.email, photoURL: user.photoURL?.absoluteString)
+        self.init(id: user.uid, name: user.displayName, phoneNumber: user.phoneNumber, email: user.email, photoURL: user.photoURL?.absoluteString)
     }
 }
 extension Person {

@@ -65,10 +65,10 @@ extension Postable {
         self.init(category: .current, author: .init())
     }
     init(category: Category, author: Person) {
-        self.init(category: category, authorInfo: PersonInfo(id: author.id, name: author.name, email: author.email, photoURL: author.photoURL))
+        self.init(category: category, authorInfo: PersonInfo(id: author.id, name: author.name, phoneNumber: author.phoneNumber, email: author.email, photoURL: author.photoURL))
     }
     init(category: Category, author: Person, location: LocationInfo) {
-        self.init(category: category, authorInfo: PersonInfo(id: author.id, name: author.name, email: author.email, photoURL: author.photoURL), location: location)
+        self.init(category: category, authorInfo: PersonInfo(id: author.id, name: author.name, phoneNumber: author.phoneNumber, email: author.email, photoURL: author.photoURL), location: location)
     }
     init(category: Category, authorInfo: PersonInfo, location: LocationInfo) {
         self.init(category: category, authorInfo: authorInfo)

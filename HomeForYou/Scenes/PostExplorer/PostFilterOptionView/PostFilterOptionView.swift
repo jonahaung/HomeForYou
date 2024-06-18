@@ -24,8 +24,8 @@ struct PostFilterOptionView: View {
                 
             } header: {
                 Picker("", selection: $storage.scope) {
-                    ForEach(PostExplorer.PostQueryScope.allCases) { each in
-                        Text(each.rawValue)
+                    ForEach(PostExplorer.FilterType.allCases) { each in
+                        Text(each.title)
                             .tag(each)
                     }
                 }
@@ -33,7 +33,7 @@ struct PostFilterOptionView: View {
             }
             
             switch storage.scope {
-            case .Accurate:
+            case .exactMatch:
                 Section {
                     listCell(for: .area)
                     listCell(for: .mrt)
@@ -54,7 +54,7 @@ struct PostFilterOptionView: View {
                     .labelsHidden()
                 }
                 .listRowBackground(Color.clear)
-            case .Possibilities:
+            case .keywords:
                 Section("Features") {
                     GridMultiPicker(source: Feature.allCases, selection: $storage.features)
                 }
@@ -85,7 +85,7 @@ struct PostFilterOptionView: View {
                     .labelsHidden()
                 }
                 .listRowBackground(Color.clear)
-            case .Price:
+            case .priceRange:
                 RangedSliderView(value: $storage.priceRange, bounds: 0...1000, step: 100)
                     .padding(.horizontal)
                     .listRowInsets(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))

@@ -20,41 +20,64 @@ struct SearchResultsView: View {
                 switch datasource.result {
                 case .suggestions:
                     Section {
-                        AsyncButton {
-                            locationReceiver.start()
-                        } label: {
-                            Label("Use my current location", systemSymbol: .location)
+                        _Label {
+                            SystemImage(.locationFill)
+                                .foregroundStyle(.secondary)
+                        } right: {
+                            AsyncButton {
+                                locationReceiver.start()
+                            } label: {
+                                Text("Use my current location")
+                            }
                         }
-                        AsyncButton {
-                            datasource.canPresentOnAppear = true
-                            await onSearchAction?(.locationPickerMap)
-                        } label: {
-                            Label("Select location on map", systemSymbol: .mapCircle)
+                        
+                        _Label {
+                            SystemImage(.mapCircle)
+                                .foregroundStyle(.secondary)
+                        } right: {
+                            AsyncButton {
+                                datasource.canPresentOnAppear = true
+                                await onSearchAction?(.locationPickerMap)
+                            } label: {
+                                Text("Select location on map")
+                            }
                         }
-                        AsyncButton {
-                            datasource.canPresentOnAppear = true
-                            await onSearchAction?(.areaMap)
-                        } label: {
-                            Label("Set area on map", systemSymbol: .mappinAndEllipse)
+                        _Label {
+                            SystemImage(.mappinAndEllipse)
+                                .foregroundStyle(.secondary)
+                        } right: {
+                            AsyncButton {
+                                datasource.canPresentOnAppear = true
+                                await onSearchAction?(.areaMap)
+                            } label: {
+                                Text("Set area on map")
+                            }
                         }
-                        AsyncButton {
-                            datasource.canPresentOnAppear = true
-                            await onSearchAction?(.mrtMap)
-                        } label: {
-                            Label("Select from MRT map", systemSymbol: .mappinSquare)
+                        _Label {
+                            SystemImage(.mappinSquare)
+                                .foregroundStyle(.secondary)
+                        } right: {
+                            AsyncButton {
+                                datasource.canPresentOnAppear = true
+                                await onSearchAction?(.mrtMap)
+                            } label: {
+                                Text("Select from MRT map")
+                            }
                         }
                     } header: {
                         Text("Advanced searches")
                     }
+                    
                     Section {
-                        AsyncButton {
-                            datasource.canPresentOnAppear = true
-                            await onSearchAction?(.exploreAllPost)
-                        } label: {
-                            HStack {
-                                Label("Explore all posts", systemSymbol: .docTextMagnifyingglass)
-                                Spacer()
-                                SystemImage(.chevronForward)
+                        _Label {
+                            SystemImage(.docTextMagnifyingglass)
+                                .foregroundStyle(.secondary)
+                        } right: {
+                            AsyncButton {
+                                datasource.canPresentOnAppear = true
+                                await onSearchAction?(.exploreAllPost)
+                            } label: {
+                                Text("Explore all posts")
                             }
                         }
                     }
@@ -125,6 +148,7 @@ struct SearchResultsView: View {
                     }
                 }
             }
+            .imageScale(.large)
             .animation(.bouncy, value: datasource.result)
             .onChange(of: locationReceiver.coordinate, {
                 if let newValue = locationReceiver.coordinate {

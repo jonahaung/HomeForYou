@@ -10,6 +10,10 @@ import XUI
 
 struct MRTPickerView: View {
     
+    enum Mode: String, CaseIterable {
+        case MRTs, Selections
+    }
+    
     @Binding var selections: [MRT]
     let allowMultiple: Bool
     @State private var selected: MRT?
@@ -21,10 +25,6 @@ struct MRTPickerView: View {
     @Environment(\.dismiss) private var dismiss
     private var currentItems: [MRT] {
         return searchText.isWhitespace ? (currentMode == .Selections ? selectedItems() : allItems) : MRT.allValues.filter { $0.name.lowercased().contains(searchText.lowercased()) }
-    }
-    
-    enum Mode: String, CaseIterable {
-        case MRTs, Selections
     }
     @State private var currentMode = Mode.MRTs
     
@@ -133,7 +133,6 @@ struct MRTPickerView: View {
         } label: {
             Text("Done")
         }
-        .disabled(allowMultiple ? selections.isEmpty : selected == nil)
     }
     
     private func selectedItems() -> [MRT] {
@@ -164,7 +163,6 @@ struct MRTPickerView: View {
             }
         } else {
             selected = selected == newValue ? nil : newValue
-            
         }
     }
 }

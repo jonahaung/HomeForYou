@@ -36,10 +36,11 @@ struct FireQueryBuilder {
                     PostKey.price.rawValue,
                     isLessThanOrEqualTo: max
                 )
-        case .features, .restrictions, .keywords:
+        case .keywords:
             let values = value.components(
                 separatedBy: "|"
             )
+            print(values)
             quiche = quiche
                 .whereReference(
                     PostKey.keywords.rawValue,

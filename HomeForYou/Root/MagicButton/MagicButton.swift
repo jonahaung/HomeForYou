@@ -20,8 +20,8 @@ struct MagicButton: View {
                 Image(systemName: "circle.fill")
                     .resizable()
                     .equatable(by: viewModel.item.alignment)
-                    .animation(.smooth(duration: 0.3), value: viewModel.item.alignment)
-                    .foregroundStyle(.tint)
+                    .animation(.snappy(duration: 0.3), value: viewModel.item.alignment)
+                    .foregroundStyle(Color.accentColor.gradient)
                     .onChange(of: viewModel.item) { _, newValue in
                         symbolName = nil
                         DispatchQueue.delay {
@@ -32,9 +32,9 @@ struct MagicButton: View {
                     Image(systemName: symbolName)
                         .resizable()
                         .scaledToFill()
+                        .symbolRenderingMode(.palette)
                         .phaseAnimation(viewModel.item.animations)
-                        .symbolRenderingMode(.multicolor)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Color(uiColor: .systemBackground).gradient)
                         .frame(square: viewModel.item.size/2)
                 }
             }
@@ -42,6 +42,7 @@ struct MagicButton: View {
         .buttonStyle(.plain)
         .offset(y: viewModel.item.alignment == .bottom ? -30 : 0)
         .frame(square: viewModel.item.size)
+        .zIndex(5)
         .padding(.horizontal)
     }
 }

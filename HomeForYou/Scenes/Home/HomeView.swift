@@ -86,7 +86,6 @@ struct HomeView: View {
         }
     }
     
-    // Decalared as "let" so that the view prevent from unnecessary reloading
     private let lottieView: some View = LottieView(
         lottieFile: "landscape",
         loopMode: .loop,
