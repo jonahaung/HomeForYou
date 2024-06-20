@@ -8,6 +8,7 @@
 import Foundation
 
 enum Tenure: String, StringViewRepresentable {
+    static var empty: Self { .Any }
     case `Any`
     case Freehold
     case ninty_nine = "99-year Leasehold"

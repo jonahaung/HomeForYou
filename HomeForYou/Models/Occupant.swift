@@ -8,6 +8,7 @@
 import SwiftUI
 import XUI
 enum Occupant: String, StringViewRepresentable, XPickable {
+    static var empty: Self { .Any }
     case single_male = "Single Male"
     case single_female = "Single Female"
     case two_female = "Two Female"

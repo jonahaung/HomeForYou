@@ -16,30 +16,29 @@ struct PostFilterOptionView: View {
     @Injected(\.ui) private var ui
     @Injected(\.utils) private var utils
     
-    private let allowedQueries = [PostKey.propertyType, .roomType, .furnishing, .baths, .beds, .floorLevel, .tenantType, .leaseTerm, .tenure]
-    
     var body: some View {
         Form {
             Section {
-                
-            } header: {
-                Picker("", selection: $storage.scope) {
-                    ForEach(PostExplorer.FilterType.allCases) { each in
+                Picker("", selection: $storage.query.queryType) {
+                    ForEach(CompoundQuery.QueryType.allCases) { each in
                         Text(each.title)
                             .tag(each)
                     }
                 }
                 .pickerStyle(.segmented)
             }
+            .listRowInsets(.init())
+            .listRowInsets(.init())
+            .listRowBackground(Color.clear)
             
-            switch storage.scope {
-            case .exactMatch:
+            switch storage.query.queryType {
+            case .accurate:
                 Section {
                     listCell(for: .area)
                     listCell(for: .mrt)
                 }
                 Section {
-                    ForEach(allowedQueries) { each in
+                    ForEach(storage.allowedQueries) { each in
                         listCell(for: each)
                     }
                 }
@@ -56,12 +55,12 @@ struct PostFilterOptionView: View {
                 .listRowBackground(Color.clear)
             case .keywords:
                 Section("Features") {
-                    GridMultiPicker(source: Feature.allCases, selection: $storage.features)
+                    GridMultiPicker(source: Feature.allCases.filter{ $0 != .Any }, selection: storage.features)
                 }
                 .listRowInsets(.init())
                 .listRowBackground(Color.clear)
                 Section("Restrictions") {
-                    GridMultiPicker(source: Restriction.allCases, selection: $storage.restictions)
+                    GridMultiPicker(source: Restriction.allCases.filter{ $0 != .Any }, selection: storage.restictions)
                 }
                 .listRowInsets(.init())
                 .listRowBackground(Color.clear)
@@ -70,7 +69,7 @@ struct PostFilterOptionView: View {
                     listCell(for: .mrt)
                 }
                 Section {
-                    ForEach(allowedQueries) { each in
+                    ForEach(storage.allowedQueries) { each in
                         listCell(for: each)
                     }
                 }
@@ -93,7 +92,8 @@ struct PostFilterOptionView: View {
                     .listRowBackground(EmptyView())
             }
         }
-        .animation(.interactiveSpring(), value: storage.scope)
+        .navigationBarTitleDisplayMode(.inline)
+        .animation(.interactiveSpring, value: storage.query)
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 HStack {
@@ -102,15 +102,11 @@ struct PostFilterOptionView: View {
                     } label: {
                         Text("Clear")
                     }
-                    .disabled(query == storage.query)
                 }
             }
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 AsyncButton {
                     self.query = storage.query
-//                    let queries = storage.quries
-//                    storage.clearQueries()
-//                    self.quries = queries
                 } label: {
                     Text("Done")
                 } onFinish: {
@@ -118,23 +114,21 @@ struct PostFilterOptionView: View {
                 }
             }
         }
+        .taskOnce(id: query, { newValue in
+            await MainActor.run {
+                self.storage.query = query
+            }
+        })
         .navigationBarTitleDisplayMode(.inline)
         .embeddedInNavigationView()
-        .onAppear {
-            storage.updateQueries(query: query)
-        }
         .presentationDetents([.medium, .large])
         .interactiveDismissDisabled(true)
     }
     
     private func listCell(for key: PostKey) -> some View {
         HStack {
-            SystemImage(key.symbol, 22)
-                .fontWeight(.bold)
-                .foregroundStyle(Color.primary.gradient)
+            CircleSystemImage(key.symbol, Color.secondary)
                 .padding(.trailing, 8)
-                .imageScale(.large)
-                .foregroundStyle(.secondary)
             XNavPickerBar(key.typeName, storage.allCases(for: key), storage.bindableValue(for: key))
         }
     }

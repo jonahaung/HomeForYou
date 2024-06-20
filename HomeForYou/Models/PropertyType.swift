@@ -8,5 +8,6 @@
 import Foundation
 
 enum PropertyType: String, StringViewRepresentable {
+    static var empty: Self { .Any }
     case `Any`, HDB, Condo, Landed, Other
 }

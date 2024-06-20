@@ -20,8 +20,9 @@ struct FireQueryBuilder {
             category.rawValue
         ) as Query
         var quiche = Quiche<Post>.init(reference)
-        switch query {
-        case .exactMatch(let array):
+        switch query.queryType {
+        case .accurate:
+            let array = query.values
             array.sorted().forEach { each in
                 quiche = quiche
                     .whereReference(
@@ -29,24 +30,29 @@ struct FireQueryBuilder {
                         isEqualTo: each.value
                     )
             }
-        case .keywords(let array):
-            let values = array.map { $0.keyValueString }
-            quiche = quiche
-                .whereReference(
-                    PostKey.keywords.rawValue,
-                    arrayContainsAny: values
-                )
-        case .priceRange(let priceRange):
-            let min = priceRange.range.lowerBound
-            let max = priceRange.range.upperBound
+        case .keywords:
+            let array = query.values
+            if !array.isEmpty {
+                let values = array.map { KeyWord($0.key, $0.value) }.map { $0.keyValueString }.uniqued().sorted()
+                quiche = quiche
+                    .whereReference(
+                        PostKey.keywords.rawValue,
+                        arrayContainsAny: values
+                    )
+            }
+        case .priceRange:
+            guard let first = query.values.first(where: { $0.key == .price }) else { return quiche.bake() }
+            let valueString = first.value
+            let strings = valueString.components(separatedBy: "")
+            guard let lowerBound = strings.first?.parseToInt(), let upperBound = strings.last?.parseToInt() else { return quiche.bake() }
             quiche = quiche
                 .whereReference(
                     PostKey.price.rawValue,
-                    isGreaterThanOrEqualTo: min
+                    isGreaterThanOrEqualTo: lowerBound
                 )
                 .whereReference(
                     PostKey.price.rawValue,
-                    isLessThanOrEqualTo: max
+                    isLessThanOrEqualTo: upperBound
                 )
         }
         

@@ -8,5 +8,6 @@
 import Foundation
 
 enum FloorLevel: String, StringViewRepresentable {
+    static var empty: Self { .Any }
     case `Any`, Basement, Ground, Low, Mid, High, Penthouse
 }

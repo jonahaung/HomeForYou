@@ -46,7 +46,7 @@ class PostExplorerViewModel: ObservableObject, ViewModel {
             .store(in: cancelBag)
         self.$query
             .removeDuplicates()
-            .debounce(for: 0.1, scheduler: RunLoop.current)
+            .debounce(for: 0.5, scheduler: RunLoop.current)
             .asyncSink { [weak self] value in
                 guard let self else { return }
                 await self.performFirstFetch(query: value)

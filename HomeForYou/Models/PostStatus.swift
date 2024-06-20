@@ -8,5 +8,6 @@
 import Foundation
 
 enum PostStatus: String, StringViewRepresentable {
+    static var empty: Self { .Any }
     case `Any`, Available, Hidden, Sold
 }

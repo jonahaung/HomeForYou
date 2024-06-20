@@ -40,7 +40,7 @@ struct PostForm_Address<T: Postable>: View {
                             .keyboardType(.numberPad)
                             .textContentType(.postalCode)
                             .focused($focused, equals: .postalCode)
-                            .onChange(of: viewModel.searchText, debounceTime: .seconds(0.5)) { newValue in
+                            .onChange(of: viewModel.searchText, debounceTime: .seconds(0.5)) { _, newValue in
                                 if newValue.count == 6 && Int(newValue) != nil {
                                     Task {
                                         await viewModel.handlePostalCode(postalCode: newValue)

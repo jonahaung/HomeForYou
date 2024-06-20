@@ -8,5 +8,6 @@
 import Foundation
 
 enum Furnishing: String, StringViewRepresentable {
+    static var empty: Self { .Any }
     case `Any`, Unfurnished, Partially_Furnished, Fully_Furnished
 }

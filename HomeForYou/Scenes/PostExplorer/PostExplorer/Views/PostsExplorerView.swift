@@ -16,18 +16,15 @@ struct PostsExplorerView: View {
     @StateObject private var searchDatasource = SearchDatasource()
     @StateObject private var storage = PostQueryStorage()
     
-    @State private var magicButtonItem = MagicButtonItem(.cameraFilters, .trailing, size: 42)
+    @State private var magicButtonItem = MagicButtonItem(.cameraFilters, .trailing, size: 44)
     @Injected(\.ui) private var ui
     
-//    init(queries: [PostQuery]) {
-//        _viewModel = .init(wrappedValue: .init(.exactMatch(queries)))
-//    }
     init(query: CompoundQuery) {
         _viewModel = .init(wrappedValue: .init(query))
     }
     
     var body: some View {
-        LodableScrollView(.vertical, showsIndicators: true, namespace: Self.typeName, content: {
+        LodableScrollView(.vertical, showsIndicators: false, namespace: Self.typeName, content: {
             LazyVStack(alignment: .leading, spacing: 0) {
                 filteredTagsGroup
                 if viewModel.displayData.isEmpty && !viewModel.loading {
@@ -84,6 +81,7 @@ private extension PostsExplorerView {
                 PostSingleColumnLargeCell(data: data)
             }
             .equatable(by: data)
+            .transition(.blurReplace.animation(.linear))
         }
     }
     @ViewBuilder private var listViews: some View {
@@ -109,12 +107,10 @@ private extension PostsExplorerView {
 }
 private extension PostsExplorerView {
     private var filteredTagsGroup: some View {
-        FilterTagsView(query: $viewModel.query)
+        FilterTagsView(items: $viewModel.query.values)
             .padding(.leading)
             .padding(.vertical, 2)
             ._flexible(.horizontal)
-            .animation(.interactiveSpring, value: viewModel.query)
-            .equatable(by: viewModel.query)
     }
 }
 private extension PostsExplorerView {
@@ -122,5 +118,21 @@ private extension PostsExplorerView {
     private func handleMagicButtonOnTap() async  {
         viewModel.showPostFilterview = true
         viewModel.reloadUI()
+    }
+}
+struct MyTransition: ViewModifier {
+    let rotation: Angle
+    func body(content: Content) -> some View {
+        content
+            .rotationEffect(rotation)
+    }
+}
+
+extension AnyTransition {
+    static var rotation: AnyTransition {
+        AnyTransition.modifier(
+            active: MyTransition(rotation: .degrees(360)),
+            identity: MyTransition(rotation: .zero)
+        )
     }
 }

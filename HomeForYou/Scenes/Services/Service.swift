@@ -11,9 +11,10 @@ import SFSafeSymbols
 import SwiftUI
 
 enum Service: String, CaseIterable, XPickable {
+    static var empty: Self { .Any }
     var id: String { rawValue }
     
-    case planningAreaMap, roomCapture, mrtMap, post, appearanceSeetings, myItems, settings, myFavourites, seenPosts, myListigs,
+    case `Any`, planningAreaMap, roomCapture, mrtMap, post, appearanceSeetings, myItems, settings, myFavourites, seenPosts, myListigs,
          searchHistory, search, nearMe, rental, selling, looking
     
     var title: String { rawValue.camelCaseToWords() }
@@ -52,6 +53,8 @@ enum Service: String, CaseIterable, XPickable {
             return .signature
         case .looking:
             return .facemaskFill
+        case .Any:
+            return .circle
         }
     }
 }
@@ -70,11 +73,12 @@ extension Service {
     }
 }
 enum ServicesGroup: String, CaseIterable, XPickable, Identifiable, Hashable {
+    static var empty: Self { .Any }
     var title: String { rawValue }
     
     var id: String { rawValue }
     
-    case tools, posting, currentUser, explorer, settings
+    case `Any`, tools, posting, currentUser, explorer, settings
     
     var services: [Service] {
         switch self {
@@ -88,6 +92,8 @@ enum ServicesGroup: String, CaseIterable, XPickable, Identifiable, Hashable {
             return [.roomCapture, .nearMe, .post]
         case .settings:
             return [.planningAreaMap, .roomCapture, .nearMe, .post, .settings]
+        case .Any:
+            return []
         }
     }
     var tag: Int {
@@ -102,6 +108,8 @@ enum ServicesGroup: String, CaseIterable, XPickable, Identifiable, Hashable {
             return 4
         case .settings:
             return 5
+        case .Any:
+            return 0
         }
     }
 }

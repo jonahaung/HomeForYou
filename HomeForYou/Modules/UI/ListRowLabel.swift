@@ -23,24 +23,11 @@ public struct ListRowLabel: View {
     }
     
     private func image(_ icon: SFSymbol) -> some View {
-        SystemImage(icon, 18)
-            .imageScale(.small)
-            .aspectRatio(1, contentMode: .fit)
-            .foregroundColor(Color(uiColor: .systemBackground))
-            .padding(6)
-            .background {
-                LinearGradient(
-                    colors: [Color.random(seed: icon.rawValue), Color.gray, Color.random(seed: icon.rawValue)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .opacity(0.8)
-                .clipShape(.containerRelative)
-            }
-            .background(.fill.tertiary)
-            .containerShape(.circle)
-            .compositingGroup()
-            .symbolVariant(.fill)
+        CircleSystemImage(icon, LinearGradient(
+            colors: [Color.random(seed: icon.rawValue), Color.gray, Color.random(seed: icon.rawValue)],
+            startPoint: .top,
+            endPoint: .bottom
+        ))
     }
     
     private func text(_ text: String) -> some View {

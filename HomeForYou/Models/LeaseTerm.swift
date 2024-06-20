@@ -7,5 +7,6 @@
 
 import Foundation
 enum LeaseTerm: String, StringViewRepresentable {
+    static var empty: Self { .Any }
     case `Any`, One_year, Two_years, Three_or_more_years, Short_Term, Flexible
 }

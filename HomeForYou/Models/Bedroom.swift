@@ -8,6 +8,7 @@
 import Foundation
 
 enum Bedroom: String, StringViewRepresentable {
+    static var empty: Self { .Any }
     case `Any`, Studio, One, Two, Three, Four
     case Five_Plus = "5+"
 

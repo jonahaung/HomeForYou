@@ -39,7 +39,7 @@ private struct TaskOnceModifier<T: Equatable & Sendable>: ViewModifier {
                 self.task?.cancel()
                 self.task = nil
             }
-            .onChange(of: self.id, debounceTime: .seconds(0.2)) { newValue in
+            .onChange(of: self.id, debounceTime: .seconds(0.2)) { _, newValue in
                 self.task?.cancel()
                 self.task = Task(priority: priority) {
                     await action(newValue)

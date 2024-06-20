@@ -20,7 +20,7 @@ struct PostExplorerGridStylePicker: View {
             }
         }
         .pickerStyle(.segmented)
-        .onChange(of: gridAppearance.gridStyle, debounceTime: 0.3) { _ in
+        .onChange(of: gridAppearance.gridStyle, debounceTime: 0.3) { _,_  in
             reloadTag += 1
         }
     }

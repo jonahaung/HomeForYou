@@ -1,5 +1,5 @@
 {
-  "originHash" : "18847349347425c74436d75866dad6c6e6ccadcfe7b68892c01f0bc75e8e9c08",
+  "originHash" : "cb52c703f179d22eb85b01529572ec5f4dcbac70aa77286e6a405fe2ad327dde",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
-        "revision" : "8bcaf973b1d84e119b7c7c119abad72ed460979f",
-        "version" : "10.27.0"
+        "revision" : "03189348b7798fe94b892a35883f1dc745814fe0",
+        "version" : "10.28.0"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "70df02431e216bed98dd461e0c4665889245ba70",
-        "version" : "10.27.0"
+        "revision" : "fe727587518729046fc1465625b9afd80b5ab361",
+        "version" : "10.28.0"
       }
     },
     {
@@ -123,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/marmelroy/PhoneNumberKit",
       "state" : {
-        "revision" : "ee5d7114934e60812c9b47c333f01b67d002be2d",
-        "version" : "3.7.10"
+        "revision" : "0a025521711539e3a6e0e725ac868ac84a4983e1",
+        "version" : "3.7.11"
       }
     },
     {
