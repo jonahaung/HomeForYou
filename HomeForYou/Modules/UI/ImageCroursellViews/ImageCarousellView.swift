@@ -23,7 +23,7 @@ public struct ImageCarousellView: View {
     
     public var body: some View {
         PagerScrollView(attachments, id: \.id, selection: $selection) { item in
-            URLImage(url: item._url) { state in
+            URLImage(url: item._url, quality: .resized(K.Image.thumbnilImageWidth)) { state in
                 switch state {
                 case .empty:
                     ProgressView()
@@ -33,13 +33,10 @@ public struct ImageCarousellView: View {
                         .resizable()
                         .scaledToFill()
                 case .failure:
-                    Image(systemName: "photo.fill")
-                        .imageScale(.large)
-                        .blendMode(.overlay)
+                    Color.clear
                 }
             }
             .containerRelativeFrame([.horizontal, .vertical])
-            .clipShape(RoundedRectangle(cornerRadius: 4))
             .scrollTransition(topLeading: .interactive, bottomTrailing: .interactive, transition: { view, phase in
                 view
                     .scaleEffect(1-(phase.value < 0 ? -phase.value/2 : phase.value/2), anchor: phase.value < 0 ? .trailing : .leading)

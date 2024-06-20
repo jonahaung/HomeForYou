@@ -18,10 +18,11 @@ struct PostExplorerBottomToolbar: View {
 //            PostExplorerGridStylePicker(reloadTag: $viewModel.reloadTag)
 //                .transition(.move(edge: .bottom).combined(with: .blurReplace))
             HStack {
-                SystemImage(.mapCircle, 22)
+                SystemImage(.mapCircle)
+                    .imageScale(.large)
                     .padding(.horizontal)
                     ._presentSheet {
-                        LocationMap(viewModel.displayDatas.map{ $0.post.locationMapItem })
+                        LocationMap(viewModel.displayData.map{ $0.post.locationMapItem })
                             .embeddedInNavigationView()
                             .environmentObject(viewModel)
                     }
@@ -30,7 +31,8 @@ struct PostExplorerBottomToolbar: View {
                 AsyncButton {
                     searchDatasource.isPresented = true
                 } label: {
-                    SystemImage(.textMagnifyingglass, 22)
+                    SystemImage(.textMagnifyingglass)
+                        .imageScale(.large)
                         .padding(.horizontal)
                 }
             }
@@ -39,7 +41,7 @@ struct PostExplorerBottomToolbar: View {
         .padding(.horizontal)
         .padding(.vertical, 8)
         .ignoresSafeArea(edges: .bottom)
-        .background(.thinMaterial)
+        .background(.bar)
         ._flexible(.horizontal)
         .transition(.move(edge: .bottom).combined(with: .blurReplace))
     }

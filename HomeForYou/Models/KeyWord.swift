@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct KeyWord: Codable, Hashable, Identifiable, CaseIterable, RawRepresentable {
+struct KeyWord: Hashable, Identifiable, CaseIterable, RawRepresentable {
     
     var id: String { keyValueString }
     let key: PostKey

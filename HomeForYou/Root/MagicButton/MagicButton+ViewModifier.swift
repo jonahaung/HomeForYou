@@ -11,18 +11,18 @@ import XUI
 private struct MagicButtonStateModifier: ViewModifier {
     
     @Environment(MagicButtonViewModel.self) private var viewModel
-    var item: MagicButtonItem
+    @Binding var item: MagicButtonItem
     
     func body(content: Content) -> some View {
         content
-            ._onAppear(after: 0.5) {
+            .task(id: item) {
                 viewModel.item = item
             }
     }
 }
 
 extension View {
-    func magicButton(_ item: MagicButtonItem) -> some View {
+    func magicButton(_ item: Binding<MagicButtonItem>) -> some View {
         modifier(MagicButtonStateModifier(item: item))
     }
 }

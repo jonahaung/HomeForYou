@@ -23,23 +23,23 @@ struct MainTabView: View {
                     case .myItems:
                         MyItemsView()
                             .navigationTitle(L10n_.Navigation.Title.my_stuffs)
-                            .magicButton(homeMagicItem)
+                            .magicButton(.constant(homeMagicItem))
                     case .createPost:
                         PostingMenuView()
                             .navigationTitle(L10n_.Navigation.Title.post)
-                            .magicButton(homeMagicItem)
+                            .magicButton(.constant(homeMagicItem))
                     case .home:
                         HomeView()
                             .navigationTitle(L10n_.Navigation.Title.home)
-                            .magicButton(.explorer)
+                            .magicButton(.constant(.explorer))
                     case .more:
                         ServicesView()
                             .navigationTitle(L10n_.Navigation.Title.services)
-                            .magicButton(homeMagicItem)
+                            .magicButton(.constant(homeMagicItem))
                     case .settings:
                         SettingsView()
                             .navigationTitle(L10n_.Navigation.Title.settings)
-                            .magicButton(homeMagicItem)
+                            .magicButton(.constant(homeMagicItem))
                     }
                 }
                 .tabItem {

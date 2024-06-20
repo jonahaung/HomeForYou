@@ -15,13 +15,17 @@ struct MagicButtonItem {
     var symbol: SFSymbol?
     var action: (@MainActor() async -> Void)?
     var alignment: Alignment
-    let size: CGFloat = 50
+    var size: CGFloat = 50
     var animations: [PhaseAnimationType] = []
     
-    init(_ symbol: SFSymbol?, _ alignment: Alignment, _ action: (@MainActor () async -> Void)? = nil) {
+    init(_ symbol: SFSymbol?, _ alignment: Alignment, size: CGFloat? = nil, animations: [PhaseAnimationType] = [], _ action: (@MainActor () async -> Void)? = nil) {
         self.symbol = symbol
         self.action = action
         self.alignment = alignment
+        if let size {
+            self.size = size
+        }
+        self.animations = animations
     }
 }
 extension MagicButtonItem {
@@ -33,12 +37,6 @@ extension MagicButtonItem {
         weakSelf.animations = animations
         self = weakSelf
     }
-    mutating
-    func loading(_ isLoading: Bool, action: @escaping (@MainActor () async -> Void)) {
-        let symbol = isLoading ? SFSymbol.arrowTriangle2CirclepathCircleFill : .line3HorizontalDecreaseCircleFill
-        let alignment = isLoading ? Alignment.center : .trailing
-        self.update(symbol: symbol, alignment: alignment, animations: isLoading ? [.rotate(.north), .rotate(.north_360)] : [.scale(0.9), .scale(1)], action: action)
-    }
 }
 extension MagicButtonItem {
     static let backButton: MagicButtonItem = {
@@ -48,7 +46,7 @@ extension MagicButtonItem {
         }
     }()
     static let explorer: MagicButtonItem = {
-        .init(.signpostRightAndLeftFill, .bottom) {
+        .init(.signpostRightAndLeftFill, .bottom, size: 55, animations: [.scale(0.7), .scale(1)]) {
             @Injected(\.router) var router
             router.push(to: SceneItem(.postCollection, data: [] as [PostQuery]))
         }
@@ -58,7 +56,7 @@ extension MagicButtonItem {
     }()
 }
 extension MagicButtonItem: Hashable, Identifiable {
-    var id: String { symbol?.rawValue ?? "" }
+    var id: String { symbol?.rawValue ?? "" + animations.count.description}
     static func == (lhs: MagicButtonItem, rhs: MagicButtonItem) -> Bool {
         lhs.id == rhs.id && lhs.alignment == rhs.alignment && lhs.animations == rhs.animations
     }

@@ -15,7 +15,7 @@ struct PostExplorerTopToolbar: ToolbarContent {
     
     var body: some ToolbarContent {
         ToolbarItemGroup(placement: .topBarTrailing) {
-            EditButton()
+            
         }
     }
 }

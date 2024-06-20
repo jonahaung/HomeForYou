@@ -52,11 +52,19 @@ struct PostDetailsView: View {
         .task(id: post, priority: .background) {
             await updateHasSeenIfNeeded(post)
         }
-        .magicButton(.init(post.author.id == currentUser.uid ? .pencilCircleFill : .arrowshapeTurnUpLeftCircle, .bottomTrailing) {
-            router.presentFullScreen(SceneItem(.createPost, data: post))
-        })
+        .magicButton(.constant(
+            .init(isCurrentUser ? .init(rawValue: "pencil.and.scribble") : .arrowshapeLeftFill, isCurrentUser ? .bottomTrailing : .bottomLeading) {
+                if isCurrentUser {
+                    router.presentFullScreen(SceneItem(.createPost, data: post))
+                } else {
+                    router.currentNavRouter?.pop()
+                }
+            }
+        ))
     }
-    
+    private var isCurrentUser: Bool {
+        post.author.id == currentUser.uid
+    }
     private func updateHasSeenIfNeeded(_ post: Post) async {
         guard currentUser.isLoggedIn else { return }
         

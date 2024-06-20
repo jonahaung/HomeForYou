@@ -11,7 +11,7 @@ import XUI
 struct MagicButton: View {
     
     @Environment(MagicButtonViewModel.self) private var viewModel
-    @State private var symbolName: String?
+    
     var body: some View {
         AsyncButton(actionOptions: []) {
             await viewModel.item.action?()
@@ -22,17 +22,13 @@ struct MagicButton: View {
                     .equatable(by: viewModel.item.alignment)
                     .animation(.snappy(duration: 0.3), value: viewModel.item.alignment)
                     .foregroundStyle(Color.accentColor.gradient)
-                    .onChange(of: viewModel.item) { _, newValue in
-                        symbolName = nil
-                        DispatchQueue.delay {
-                            symbolName = newValue.symbol?.rawValue
-                        }
-                    }
-                if let symbolName {
+                    .shadow(color: .secondary.opacity(0.4), radius: 2)
+                if let symbolName = viewModel.item.symbol?.rawValue {
                     Image(systemName: symbolName)
                         .resizable()
                         .scaledToFill()
-                        .symbolRenderingMode(.palette)
+                        .symbolEffect(.bounce, value: viewModel.item.animations.count)
+                        .symbolRenderingMode(.monochrome)
                         .phaseAnimation(viewModel.item.animations)
                         .foregroundStyle(Color(uiColor: .systemBackground).gradient)
                         .frame(square: viewModel.item.size/2)

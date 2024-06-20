@@ -55,7 +55,7 @@ extension SceneItem {
             }
         case .postCollection:
             let filters = data as? [PostQuery] ?? []
-            PostsExplorerView(queries: filters)
+            PostsExplorerView(query: .exactMatch(filters))
         case .mrtMap(let onSelect):
             MRTMapView(onSelect: onSelect)
         case .roomCapture:

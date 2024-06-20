@@ -19,7 +19,7 @@ struct SettingsCurrentUserSection: View {
             if currentUser.isLoggedIn {
                 Section {
                     AlignedStack(.center) {
-                        URLImage(url: .init(string: currentUser.photoURL))
+                        URLImage(url: .init(string: currentUser.photoURL), quality: .resized(200))
                             .frame(square: 220)
                             .clipShape(Circle())
                             ._presentSheet {

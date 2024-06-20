@@ -11,7 +11,7 @@ import XUI
 struct PostFilterOptionView: View {
     
     @EnvironmentObject private var storage: PostQueryStorage
-    @Binding var quries: [PostQuery]
+    @Binding var query: CompoundQuery
     @Environment(\.dismiss) private var dismiss
     @Injected(\.ui) private var ui
     @Injected(\.utils) private var utils
@@ -102,14 +102,15 @@ struct PostFilterOptionView: View {
                     } label: {
                         Text("Clear")
                     }
-                    .disabled(quries == storage.quries)
+                    .disabled(query == storage.query)
                 }
             }
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 AsyncButton {
-                    let queries = storage.quries
-                    storage.clearQueries()
-                    self.quries = queries
+                    self.query = storage.query
+//                    let queries = storage.quries
+//                    storage.clearQueries()
+//                    self.quries = queries
                 } label: {
                     Text("Done")
                 } onFinish: {
@@ -120,7 +121,7 @@ struct PostFilterOptionView: View {
         .navigationBarTitleDisplayMode(.inline)
         .embeddedInNavigationView()
         .onAppear {
-            storage.updateQueries(queries: self.quries)
+            storage.updateQueries(query: query)
         }
         .presentationDetents([.medium, .large])
         .interactiveDismissDisabled(true)

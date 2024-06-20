@@ -22,7 +22,7 @@ struct HomeView: View {
             headerHeight: Home.Stretchy_Header_Height,
             multipliter: 1
         ) {
-            VStack {
+            LazyVStack {
                 HomeLogoStretchSection()
                 if datasource.loading {
                     LoadingIndicator()

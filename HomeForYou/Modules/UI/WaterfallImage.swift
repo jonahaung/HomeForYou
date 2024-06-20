@@ -13,7 +13,7 @@ struct WaterfallImage: View {
     let urlString: String?
     @State private var aspectRatio = CGFloat(1)
     var body: some View {
-        URLImage(url: URL(string: urlString.str), transaction: .init(animation: .bouncy)) { state in
+        URLImage(url: URL(string: urlString.str), quality: .resized(K.Image.thumbnilImageWidth), transaction: .init(animation: .bouncy)) { state in
           switch state {
           case .empty:
             ProgressView()

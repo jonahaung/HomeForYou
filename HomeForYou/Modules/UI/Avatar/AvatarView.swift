@@ -13,7 +13,7 @@ struct AvatarView: View {
     let urlString: String
     let size: CGFloat
     var body: some View {
-        URLImage(url: .init(string: urlString))
+        URLImage(url: .init(string: urlString), quality: .resized(50))
             .frame(square: size)
             .clipShape(Circle())
     }

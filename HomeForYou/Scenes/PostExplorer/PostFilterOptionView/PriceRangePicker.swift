@@ -17,14 +17,14 @@ struct PriceRangePicker: View {
             _NumberTextField(value: .init(get: {
                 return Int(range.range.lowerBound)
             }, set: { new in
-                range = .init(range: new.double...range.range.upperBound)
+                range = .init(range: new...range.range.upperBound)
             }), title: "Max", delima: "$")
             Divider()
             TextField("Min Price", text: .constant("\(range)"))
             _NumberTextField(value: .init(get: {
                 return Int(range.range.upperBound)
             }, set: { new in
-                range = .init(range: range.range.lowerBound...new.double)
+                range = .init(range: range.range.lowerBound...new)
             }), title: "Max", delima: "$")
         }
         .keyboardType(.numberPad)

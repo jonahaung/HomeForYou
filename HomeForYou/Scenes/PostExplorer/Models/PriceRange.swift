@@ -8,11 +8,11 @@
 import Foundation
 import XUI
 
-struct PriceRange {
-    var range: ClosedRange<Double> = 50000...10000000
+struct PriceRange: Hashable, Sendable {
+    var range: ClosedRange<Int> = 50000...10000000
     static func defaultRange(
         for category: Category
-    ) -> ClosedRange<Double> {
+    ) -> ClosedRange<Int> {
         switch category {
         case .selling:
             return 50000...10000000
@@ -35,7 +35,7 @@ struct PriceRange {
     }
 
     static func integerRange(
-        for doubleRange: ClosedRange<Double>
+        for doubleRange: ClosedRange<Int>
     ) -> ClosedRange<Int> {
         Int(
             doubleRange.lowerBound

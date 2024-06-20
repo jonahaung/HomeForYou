@@ -15,6 +15,7 @@ enum K {
     struct Image {
         static let imageUploadWidth = 600.0
         static let imageUploadQuality = 0.5
+        static let thumbnilImageWidth: CGFloat = 400
     }
     
     enum Defaults: String {

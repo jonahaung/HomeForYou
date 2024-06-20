@@ -11,7 +11,6 @@ import FirebaseFirestore
 import FirebaseStorage
 
 enum FirebaseProvider {
-
     enum Collection {
         static let persons = "users"
         static let appConfigs = Firestore.firestore().collection("appConfigs")

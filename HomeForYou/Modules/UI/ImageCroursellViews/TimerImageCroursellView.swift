@@ -33,7 +33,7 @@ struct TimerImageCroursellView: View {
                 } content: {
                     LazyHStack(spacing: 0) {
                         ForEach(Array(attachments.enumerated()), id: \.element.id) { (i, each) in
-                            URLImage(url: each._url) { state in
+                            URLImage(url: each._url, quality: .resized(K.Image.thumbnilImageWidth)) { state in
                               switch state {
                               case .empty:
                                 ProgressView()
