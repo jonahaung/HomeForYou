@@ -10,7 +10,7 @@ import XUI
 
 struct PostFilterOptionView: View {
     
-    @EnvironmentObject private var storage: PostQueryStorage
+    @EnvironmentObject private var storage: FirebasePostQueryStorage
     @Binding var query: CompoundQuery
     @Environment(\.dismiss) private var dismiss
     @Injected(\.ui) private var ui
@@ -85,7 +85,7 @@ struct PostFilterOptionView: View {
                 }
                 .listRowBackground(Color.clear)
             case .priceRange:
-                RangedSliderView(value: $storage.priceRange, bounds: 0...1000, step: 100)
+                RangedSliderView(value: $storage.priceRange, bounds: PriceRange.defaultRange(for: .current), step: Float(PriceRange.defaultSteps(for: .current)))
                     .padding(.horizontal)
                     .listRowInsets(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
                     .padding(.vertical)
@@ -121,7 +121,7 @@ struct PostFilterOptionView: View {
         })
         .navigationBarTitleDisplayMode(.inline)
         .embeddedInNavigationView()
-        .presentationDetents([.medium, .large])
+//        .presentationDetents([.medium, .large])
         .interactiveDismissDisabled(true)
     }
     

@@ -49,7 +49,6 @@ actor PostExplorerDatasource {
         let results = documents.compactMap{ try? $0.decode(as: Post.self) }.uniqued()
         currentPostCount += documents.count
         let data = results.map{ PostCellDisplayData($0) }
-        print(data.count)
         loadMoreSubject.send(data)
         if let lastSnapshot = documents.last {
             self.nextQuery = nextQuery.start(afterDocument: lastSnapshot)

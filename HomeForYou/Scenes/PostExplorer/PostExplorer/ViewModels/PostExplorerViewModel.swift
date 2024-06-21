@@ -66,7 +66,7 @@ class PostExplorerViewModel: ObservableObject, ViewModel {
         task?.cancel()
         task = Task(priority: .background) {
             if Task.isCancelled == true { return }
-            let query = FireQueryBuilder.build(from: query, category: .current)
+            let query = FirebaseQueryBuilder.build(from: query, category: .current)
             do {
                 let loadingTask = Task { @MainActor in
                     if Task.isCancelled { return }

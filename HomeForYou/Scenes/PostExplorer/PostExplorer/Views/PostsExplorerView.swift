@@ -14,7 +14,7 @@ struct PostsExplorerView: View {
     @StateObject private var gridAppearance = GridAppearance()
     @StateObject private var viewModel: PostExplorerViewModel
     @StateObject private var searchDatasource = SearchDatasource()
-    @StateObject private var storage = PostQueryStorage()
+    @StateObject private var storage = FirebasePostQueryStorage()
     
     @State private var magicButtonItem = MagicButtonItem(.cameraFilters, .trailing, size: 44)
     @Injected(\.ui) private var ui
@@ -44,7 +44,6 @@ struct PostsExplorerView: View {
             .padding(.bottom, 50)
             .equatable(by: viewModel.reloadTag)
         }, onLoadMore: {
-            guard await viewModel.loading == false else { return }
             await viewModel.performFetchMore()
         })
         .background(Color.systemGroupedBackground)
@@ -80,8 +79,6 @@ private extension PostsExplorerView {
             ScrollViewList(innerPadding: 0, outerPadding: 8) {
                 PostSingleColumnLargeCell(data: data)
             }
-            .equatable(by: data)
-            .transition(.blurReplace.animation(.linear))
         }
     }
     @ViewBuilder private var listViews: some View {
@@ -118,21 +115,5 @@ private extension PostsExplorerView {
     private func handleMagicButtonOnTap() async  {
         viewModel.showPostFilterview = true
         viewModel.reloadUI()
-    }
-}
-struct MyTransition: ViewModifier {
-    let rotation: Angle
-    func body(content: Content) -> some View {
-        content
-            .rotationEffect(rotation)
-    }
-}
-
-extension AnyTransition {
-    static var rotation: AnyTransition {
-        AnyTransition.modifier(
-            active: MyTransition(rotation: .degrees(360)),
-            identity: MyTransition(rotation: .zero)
-        )
     }
 }

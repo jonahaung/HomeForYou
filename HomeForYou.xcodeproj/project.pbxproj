@@ -270,8 +270,8 @@
 		47B716EE2C01CE7C00A9932A /* SwiftyTheme in Frameworks */ = {isa = PBXBuildFile; productRef = 47B716ED2C01CE7C00A9932A /* SwiftyTheme */; };
 		47BC14D02C1B451F00106BAA /* PostQuery+URLQueryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC14CF2C1B451F00106BAA /* PostQuery+URLQueryItem.swift */; };
 		47BC14D22C1B479800106BAA /* PostQueryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC14D12C1B479800106BAA /* PostQueryable.swift */; };
-		47BC14DC2C1B523A00106BAA /* FireQueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC14DB2C1B523A00106BAA /* FireQueryBuilder.swift */; };
-		47BC14E22C1B555C00106BAA /* PostQueryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC14E12C1B555C00106BAA /* PostQueryStorage.swift */; };
+		47BC14DC2C1B523A00106BAA /* FirebaseQueryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC14DB2C1B523A00106BAA /* FirebaseQueryBuilder.swift */; };
+		47BC14E22C1B555C00106BAA /* FirebasePostQueryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC14E12C1B555C00106BAA /* FirebasePostQueryStorage.swift */; };
 		47BF10CF2C1245E100889DB8 /* FireAuthManager in Frameworks */ = {isa = PBXBuildFile; productRef = 47BF10CE2C1245E100889DB8 /* FireAuthManager */; };
 		47BF10D12C12483500889DB8 /* MRTMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BF10D02C12483500889DB8 /* MRTMapView.swift */; };
 		47C67E282C04375700C498F8 /* CurrentLocationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C67E272C04375700C498F8 /* CurrentLocationPublisher.swift */; };
@@ -557,8 +557,8 @@
 		47B715E12C01CD0400A9932A /* WaterfallImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallImage.swift; sourceTree = "<group>"; };
 		47BC14CF2C1B451F00106BAA /* PostQuery+URLQueryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostQuery+URLQueryItem.swift"; sourceTree = "<group>"; };
 		47BC14D12C1B479800106BAA /* PostQueryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostQueryable.swift; sourceTree = "<group>"; };
-		47BC14DB2C1B523A00106BAA /* FireQueryBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireQueryBuilder.swift; sourceTree = "<group>"; };
-		47BC14E12C1B555C00106BAA /* PostQueryStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostQueryStorage.swift; sourceTree = "<group>"; };
+		47BC14DB2C1B523A00106BAA /* FirebaseQueryBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseQueryBuilder.swift; sourceTree = "<group>"; };
+		47BC14E12C1B555C00106BAA /* FirebasePostQueryStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebasePostQueryStorage.swift; sourceTree = "<group>"; };
 		47BF10D02C12483500889DB8 /* MRTMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRTMapView.swift; sourceTree = "<group>"; };
 		47C67E272C04375700C498F8 /* CurrentLocationPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationPublisher.swift; sourceTree = "<group>"; };
 		47DA40892C17A92000B385B9 /* PostUpdateAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostUpdateAction.swift; sourceTree = "<group>"; };
@@ -792,6 +792,9 @@
 		47B714A82C01CD0400A9932A /* PostQuery */ = {
 			isa = PBXGroup;
 			children = (
+				47BC14DB2C1B523A00106BAA /* FirebaseQueryBuilder.swift */,
+				47BC14E12C1B555C00106BAA /* FirebasePostQueryStorage.swift */,
+				47A1A4642C239B5D0010CAA7 /* CompoundQuery.swift */,
 				47B714A62C01CD0400A9932A /* PostQuery.swift */,
 				47BC14D12C1B479800106BAA /* PostQueryable.swift */,
 				47BC14CF2C1B451F00106BAA /* PostQuery+URLQueryItem.swift */,
@@ -1265,6 +1268,7 @@
 		47B7155E2C01CD0400A9932A /* CodableFirestore */ = {
 			isa = PBXGroup;
 			children = (
+				47B7155F2C01CD0400A9932A /* EncodableExtensions.swift */,
 				47B715582C01CD0400A9932A /* Decoder.swift */,
 				47B715592C01CD0400A9932A /* Encoder.swift */,
 				47B7155A2C01CD0400A9932A /* FirebaseDecoder.swift */,
@@ -1280,12 +1284,9 @@
 			children = (
 				47E1F0D82C1AF14F000C0E99 /* Quiche */,
 				47B7155E2C01CD0400A9932A /* CodableFirestore */,
-				47B7155F2C01CD0400A9932A /* EncodableExtensions.swift */,
 				47B715602C01CD0400A9932A /* FirebaseProvider.swift */,
 				47B715612C01CD0400A9932A /* SnapshotExtension.swift */,
-				47BC14DB2C1B523A00106BAA /* FireQueryBuilder.swift */,
-				47BC14E12C1B555C00106BAA /* PostQueryStorage.swift */,
-				47A1A4642C239B5D0010CAA7 /* CompoundQuery.swift */,
+				47B714A82C01CD0400A9932A /* PostQuery */,
 			);
 			path = FireStore;
 			sourceTree = "<group>";
@@ -1614,7 +1615,6 @@
 		47BC14DE2C1B534800106BAA /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				47B714A82C01CD0400A9932A /* PostQuery */,
 				47B714C72C01CD0400A9932A /* PriceRange.swift */,
 				47B714D82C01CD0400A9932A /* GridAppearance.swift */,
 				479F725D2C0DC0C100F4452E /* PostCellDisplayData.swift */,
@@ -1967,7 +1967,7 @@
 				47B716962C01CD0400A9932A /* Injected.swift in Sources */,
 				47B716B42C01CD0400A9932A /* DrawParameters.swift in Sources */,
 				47B715FA2C01CD0400A9932A /* PostStatus.swift in Sources */,
-				47BC14E22C1B555C00106BAA /* PostQueryStorage.swift in Sources */,
+				47BC14E22C1B555C00106BAA /* FirebasePostQueryStorage.swift in Sources */,
 				47B715F32C01CD0400A9932A /* Furnishing.swift in Sources */,
 				47B716B92C01CD0400A9932A /* RoomCaptureRepresentable.swift in Sources */,
 				47B715F42C01CD0400A9932A /* GeoLocation.swift in Sources */,
@@ -2083,7 +2083,7 @@
 				47B7168B2C01CD0400A9932A /* FireImageUploader.swift in Sources */,
 				47B716B52C01CD0400A9932A /* FloorPlanObject.swift in Sources */,
 				47BC14D02C1B451F00106BAA /* PostQuery+URLQueryItem.swift in Sources */,
-				47BC14DC2C1B523A00106BAA /* FireQueryBuilder.swift in Sources */,
+				47BC14DC2C1B523A00106BAA /* FirebaseQueryBuilder.swift in Sources */,
 				47B716CF2C01CD0400A9932A /* GridMultiPicker.swift in Sources */,
 				47B716622C01CD0400A9932A /* MainNavView.swift in Sources */,
 				47B7163C2C01CD0400A9932A /* PostUploader.swift in Sources */,

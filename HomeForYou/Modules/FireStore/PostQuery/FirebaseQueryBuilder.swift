@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import XUI
 
-struct FireQueryBuilder {
+struct FirebaseQueryBuilder {
     
     static func build(
         from query: CompoundQuery,

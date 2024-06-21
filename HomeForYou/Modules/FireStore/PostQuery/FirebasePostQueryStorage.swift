@@ -9,14 +9,14 @@ import Foundation
 import XUI
 import SwiftUI
 
-class PostQueryStorage: ObservableObject {
+class FirebasePostQueryStorage: ObservableObject {
     
-    @Published var priceRange: ClosedRange<Int> = 0...1000
+    @Published var priceRange: ClosedRange<Int> = PriceRange.defaultRange(for: .current)
     @Published var query: CompoundQuery = .init(.accurate, [])
     
     let allowedQueries = [PostKey.propertyType, .roomType, .furnishing, .baths, .beds, .floorLevel, .tenantType, .leaseTerm, .tenure]
 }
-extension PostQueryStorage {
+extension FirebasePostQueryStorage {
     
     func bindableValue(for key: PostKey) -> Binding<String> {
         return .init {
@@ -89,7 +89,7 @@ extension PostQueryStorage {
         }
     }
 }
-extension PostQueryStorage {
+extension FirebasePostQueryStorage {
     
     func configure(query: CompoundQuery) {
         self.query = query

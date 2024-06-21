@@ -28,7 +28,7 @@ struct PriceRange: Hashable, Sendable {
         case .selling:
             return 10000
         case .rental_flat:
-            return 300
+            return 100
         case .rental_room:
             return 100
         }
