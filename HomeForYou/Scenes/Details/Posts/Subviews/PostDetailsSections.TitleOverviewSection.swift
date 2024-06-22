@@ -66,7 +66,7 @@ extension PostDetailsSections {
             }
             .listRowInsets(.init())
             .listRowSeparator(.hidden)
-            .listRowBackground(EmptyView())
+            .listRowBackground(Color.clear.hidden())
         }
     }
 }

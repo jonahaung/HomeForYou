@@ -14,19 +14,19 @@ struct HomeLatestPostsSection: View {
     
     var body: some View {
         InsetGroupSection(4) {
-            WaterfallVList(columns: 2, spacing: 3) {
-                ForEach(datasource.latestPosts) { each in
-                    PostDoubleColumnCell()
-                        .environmentObject(each)
-                    
-                }
-            }
-//            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 0) {
+//            WaterfallVList(columns: 2, spacing: 3) {
 //                ForEach(datasource.latestPosts) { each in
 //                    PostDoubleColumnCell()
 //                        .environmentObject(each)
+//                    
 //                }
 //            }
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 0) {
+                ForEach(datasource.latestPosts) { each in
+                    PostDoubleColumnCell()
+                        .environmentObject(each)
+                }
+            }
         } header: {
             HomeSectionHeaderView("Latest Listings", .clockFill, [])
         }

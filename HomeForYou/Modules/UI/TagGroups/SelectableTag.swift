@@ -18,7 +18,7 @@ struct SelectableTag: View {
         _Tag(color: isSelected ? .secondary : ui.colors.tertiaryLabel) {
             Text(title)
         }
-        .font(.footnote.lowercaseSmallCaps())
+        .font(ui.fonts.footnote.lowercaseSmallCaps())
         .fontDesign(.serif)
         .foregroundStyle(isSelected ? .primary : .tertiary)
         .onTapGesture {

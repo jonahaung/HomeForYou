@@ -34,8 +34,8 @@ struct FavouriteButton: View {
             }
             try await Repo.shared.async_add(post)
         } label: {
-            SystemImage(isFavourite ? .handThumbsupFill : .handThumbsup, isFavourite ? 34 : 25)
-                .foregroundStyle(isFavourite ? Color.accentColor.gradient : Color.secondary.gradient)
+            SystemImage(.handThumbsupFill, isFavourite ? 34 : 25)
+                .foregroundStyle(isFavourite ? Color.accentColor : Color.gray)
                 .padding()
         }
         .withReactionAnimation(isFavourite)

@@ -14,14 +14,13 @@ import Contacts
 class PostExplorerViewModel: ObservableObject, ViewModel {
     
     var reloadTag = 0
-    var showPostFilterview = false
+    @Published var showPostFilterview = false
     @Published var query: CompoundQuery
-    
+    var scrollPositionID: String?
     var alert: XUI._Alert?
     var loading = true
     var displayData = [PostCellDisplayData]()
-    var canLoadMore: Bool = true
-    
+    var totalItems = Int.zero
     private let postFetcher = PostExplorerDatasource()
     private let cancelBag = CancelBag()
     
@@ -32,7 +31,12 @@ class PostExplorerViewModel: ObservableObject, ViewModel {
             .debounce(for: 0.1, scheduler: RunLoop.current)
             .asyncSink { [weak self] data in
                 guard let self else { return }
+                await MainActor.run {
+                    self.scrollPositionID = FilterTagsView.typeName
+                }
+                try? await Task.sleep(seconds: 0.3)
                 await self.setPosts(data)
+                totalItems = await postFetcher.totalPostCount
             }
             .store(in: cancelBag)
         postFetcher.loadMoreSubject
@@ -58,24 +62,22 @@ class PostExplorerViewModel: ObservableObject, ViewModel {
         Log("Deinit")
     }
     func refreshable(query: CompoundQuery) async {
+        await setPosts([])
         await performFirstFetch(query: query)
     }
-    
     private func performFirstFetch(query: CompoundQuery) async {
         await postFetcher.reset()
-        task?.cancel()
         task = Task(priority: .background) {
             if Task.isCancelled == true { return }
             let query = FirebaseQueryBuilder.build(from: query, category: .current)
             do {
                 let loadingTask = Task { @MainActor in
-                    if Task.isCancelled { return }
+                    if Task.isCancelled == true { return }
                     setLoading(true)
                 }
                 if Task.isCancelled == true { return }
                 try await postFetcher.performFetch(query: query)
                 loadingTask.cancel()
-                canLoadMore = true
             } catch {
                 await showAlert(.init(error: error))
             }
@@ -83,38 +85,39 @@ class PostExplorerViewModel: ObservableObject, ViewModel {
     }
     
     func performFetchMore() async {
-        guard canLoadMore else { return }
+        guard await postFetcher.canLoadMore() else { return }
         guard task == nil else {
             await task?.value
             return
         }
         task = Task(priority: .background) {
             if Task.isCancelled == true { return }
-            let loadingTask = Task { @MainActor in
-                if Task.isCancelled { return }
-                setLoading(true)
-            }
             do {
+                let loadingTask = Task { @MainActor in
+                    if Task.isCancelled { return }
+                    setLoading(true)
+                }
                 if Task.isCancelled == true { return }
                 try await postFetcher.fetchMore()
                 loadingTask.cancel()
             } catch {
-                loadingTask.cancel()
+                
                 await setError(error)
             }
         }
     }
     @MainActor
     private func setPosts(_ posts: [PostCellDisplayData]) {
-        displayData = posts
         task?.cancel()
         task = nil
+        scrollPositionID = nil
+        displayData = posts
         setLoading(false)
     }
     
     @MainActor func reloadUI() {
-        reloadTag += 1
-        objectWillChange.send()
+        self.reloadTag += 1
+        self.objectWillChange.send()
     }
     func showAlert(_ alert: _Alert) {
         self.alert = alert
@@ -127,10 +130,9 @@ class PostExplorerViewModel: ObservableObject, ViewModel {
             switch error {
             case .noMorePosts:
                 setLoading(false)
-                canLoadMore = false
             case .currentlyLoading:
                 print("currently Loading")
-                break
+                setLoading(true)
             }
         } else {
             showAlert(.init(error: error))

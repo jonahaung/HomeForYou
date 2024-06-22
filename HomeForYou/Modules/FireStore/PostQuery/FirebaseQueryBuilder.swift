@@ -41,9 +41,13 @@ struct FirebaseQueryBuilder {
                     )
             }
         case .priceRange:
-            guard let first = query.values.first(where: { $0.key == .price }) else { return quiche.bake() }
+            guard 
+                let first = query.values.last(where: { $0.key == .price })
+            else {
+                return quiche.bake()
+            }
             let valueString = first.value
-            let strings = valueString.components(separatedBy: "")
+            let strings = valueString.components(separatedBy: "-")
             guard let lowerBound = strings.first?.parseToInt(), let upperBound = strings.last?.parseToInt() else { return quiche.bake() }
             quiche = quiche
                 .whereReference(

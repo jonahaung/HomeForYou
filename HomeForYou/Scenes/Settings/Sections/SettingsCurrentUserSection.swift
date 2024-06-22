@@ -28,7 +28,7 @@ struct SettingsCurrentUserSection: View {
                     }
                     .padding()
                 }
-                .listRowBackground(EmptyView())
+                .listRowBackground(Color.clear.hidden())
             }
             Section {
                 if currentUser.isLoggedIn {

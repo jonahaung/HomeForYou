@@ -37,7 +37,7 @@ extension PostDetailsSections {
                 .padding(.top)
             }
             .listRowInsets(.init())
-            .listRowBackground(EmptyView())
+            .listRowBackground(Color.clear.hidden())
         }
     }
 }

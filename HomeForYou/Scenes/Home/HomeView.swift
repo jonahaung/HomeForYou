@@ -59,9 +59,11 @@ struct HomeView: View {
             await nearbyLocationHandler.onUpdateCategory($0)
         }
         .onSearchSubmit { item in
+            @Injected(\.router) var router
             switch item {
             case .areaMap:
                 await router.presentFullScreen(.init(.planningAreaMap({ area in
+                    @Injected(\.router) var router
                     let item = SceneItem(.postCollection, data: [PostQuery(.area, area.area.rawValue)])
                     await router.push(to: item)
                 })))
@@ -69,6 +71,7 @@ struct HomeView: View {
             case .mrtMap:
                 await router.presentFullScreen(.init(
                     .mrtMap({ mrt in
+                        @Injected(\.router) var router
                         let item = SceneItem(.postCollection, data: [PostQuery(.mrt, mrt.name)])
                         await router.push(to: item)
                     })
@@ -79,6 +82,7 @@ struct HomeView: View {
                 await router.push(to: .init(.postCollection, data: filters))
             case .locationPickerMap:
                 await router.presentFullScreen(.init(.locationPickerMap({ locaion in
+                    @Injected(\.router) var router
                     let item = SceneItem(.postCollection, data: [PostQuery(.keywords, KeyWord(.postal, locaion.address.postal).keyValueString)])
                     await router.push(to: item)
                 })))

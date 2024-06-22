@@ -24,7 +24,7 @@ struct PostingMenuView: View {
                     .aspectRatio(1.5, contentMode: .fit)
             }
             .listRowSeparator(.hidden)
-            .listRowBackground(EmptyView())
+            .listRowBackground(Color.clear.hidden())
             .listRowInsets(.init())
 
             if let user = currentUser.model {
@@ -82,7 +82,7 @@ struct PostingMenuView: View {
                 .imageScale(.large)
             }
             .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
+            .listRowBackground(Color.clear.hidden())
         }
         .navigationBarItems(leading: leadingItem, trailing: trailingItem)
     }

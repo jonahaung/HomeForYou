@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CompoundQuery: Hashable, Sendable {
-    
+      
     var queryType: QueryType
     var values: [PostQuery]
     

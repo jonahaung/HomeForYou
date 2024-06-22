@@ -13,7 +13,7 @@ enum Feature: String, StringViewRepresentable {
     static var empty: Feature { .Any }
     
     case `Any`, Aircon, Internet, Cooking, Fridge, Sofa, TV, Study_Dask, Cleaning_Service,
-         Aircon_Servicing, Hight_Floor, New_Flat, Friendly_Neighbors, Washer
+         Aircon_Servicing, Hight_Floor, New_Flat, Friendly_Neighbors, Washer, Bed
     func keyword() -> KeyWord {
         .init(.features, rawValue)
     }
@@ -47,6 +47,8 @@ enum Feature: String, StringViewRepresentable {
             return .washerFill
         case .Any:
             return .circle
+        case .Bed:
+            return .bedDoubleFill
         }
     }
 }

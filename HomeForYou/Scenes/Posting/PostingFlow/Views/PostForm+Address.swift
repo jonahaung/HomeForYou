@@ -32,7 +32,7 @@ struct PostForm_Address<T: Postable>: View {
                     Text("Enter the postal code of your property")
                         .font(.headline)
                         .showLoading(viewModel.loading)
-                        .listRowBackground(Color.clear)
+                        .listRowBackground(Color.clear.hidden())
                 }
                 Section {
                     HStack {
@@ -93,7 +93,7 @@ struct PostForm_Address<T: Postable>: View {
                         MapSnapshotView(location: viewModel.location.geoInfo.coordinate)
                             .frame(height: 250)
                             .listRowInsets(EdgeInsets())
-                            .listRowBackground(Color.clear)
+                            .listRowBackground(Color.clear.hidden())
                             ._onAppear(after: 0.5) {
                                 focused = nil
                             }
@@ -112,7 +112,7 @@ struct PostForm_Address<T: Postable>: View {
             }
             
             Spacer(minLength: 100)
-                .listRowBackground(Color.clear)
+                .listRowBackground(Color.clear.hidden())
         }
         .alertPresenter($viewModel.alert)
         .scrollDismissesKeyboard(.interactively)

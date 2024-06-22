@@ -27,15 +27,28 @@ struct PostForm_Attachmments<T: Postable>: View {
     @MainActor
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            VStack(alignment: .leading, spacing: 0) {
-                Text("Add photos, videos or RoomPlan 3D data")
-                    .font(.headline)
-                Section {
+            Text("Add photos, videos or RoomPlan 3D data")
+                .font(.headline)
+            LazyVStack(alignment: .leading, spacing: 0) {
+                InsetGroupSection {
                     WaterfallVList(columns: calculateNoOfColumns(), spacing: 3) {
                         ReorderableForEach($attachments, allowReordering: .constant(true)) { item, isDragged in
                             ZStack(alignment: .topTrailing) {
                                 if item.type == .photo {
-                                    WaterfallImage(urlString: item.url)
+                                    AsyncImage(url: item._url) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            Color.clear
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                        case .failure(_):
+                                            Color.red
+                                        @unknown default:
+                                            Color.red
+                                        }
+                                    }
                                 } else if item.type == .video, let url = item._url {
                                     VideoPlayer(player: AVPlayer(url: url))
                                         .frame(minHeight: 150)
@@ -60,10 +73,10 @@ struct PostForm_Attachmments<T: Postable>: View {
                     Text("\(Image(systemSymbol: .photoStack)) Select from Photo Library")
                         ._presentFullScreen {
                             _PhotoPicker(attachments: $attachments, multipleSelection: true)
-                                .selectionLimit(K.Posting.Number_Of_Max_Attachments_Allowed)
+                                .selectionLimit(K.Posting.Number_Of_Max_Attachments_Allowed - self.attachments.count)
+                                .preselectedAssetIdentifiers(attachments.compactMap{ $0.identifier })
                                 .edgesIgnoringSafeArea(.all)
                         }
-                        ._hidable(attachments.count >= K.Posting.Number_Of_Max_Attachments_Allowed)
                     Divider().padding(.trailing)
                     HStack {
                         Text("Capture \(Image(systemSymbol: .rotate3d)) RoomPlan 3D")
@@ -75,11 +88,10 @@ struct PostForm_Attachmments<T: Postable>: View {
                     }
                 }
             }
+            .animation(.default, value: editing)
+            .animation(.interactiveSpring(), value: selections)
         }
-        .safeAreaPadding(4)
-        .animation(.default, value: editing)
-        .animation(.interactiveSpring(), value: selections)
-        .scrollContentBackground(.hidden)
+        
         .background(ui.colors.systemGroupedBackground)
         .navigationTitle("@attachments")
         .toolbar {

@@ -21,7 +21,7 @@ struct MyItemsView: View {
                     .aspectRatio(1.3, contentMode: .fill)
             }
             .listRowSeparator(.hidden)
-            .listRowBackground(EmptyView())
+            .listRowBackground(Color.clear.hidden())
             .listRowInsets(.init())
 
             if let person = currentUser.model {

@@ -20,7 +20,7 @@ struct PostUploader {
         guard !post.attachments.isEmpty else {
             throw XError.attachments_isEmpty
         }
-        
+        post.author = model.personInfo
         let keywords = keywordsFactiory.keywords(for: post)
         post.keywords = keywords.map{ $0.keyValueString }
         let attachments = try await upload(attachments: post.attachments, postID: post.id, category: post.category)

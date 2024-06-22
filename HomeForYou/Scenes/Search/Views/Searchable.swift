@@ -35,7 +35,6 @@ private struct SearchableViewModifier: ViewModifier {
             ) { token in
                 Text(token.value.title)
             }
-            .searchPresentationToolbarBehavior(.automatic)
             .searchScopes(
                 $datasource.searchScope,
                 activation: .onSearchPresentation

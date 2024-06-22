@@ -16,7 +16,6 @@ struct PostsExplorerView: View {
     @StateObject private var searchDatasource = SearchDatasource()
     @StateObject private var storage = FirebasePostQueryStorage()
     
-    @State private var magicButtonItem = MagicButtonItem(.cameraFilters, .trailing, size: 44)
     @Injected(\.ui) private var ui
     
     init(query: CompoundQuery) {
@@ -24,12 +23,15 @@ struct PostsExplorerView: View {
     }
     
     var body: some View {
-        LodableScrollView(.vertical, showsIndicators: false, namespace: Self.typeName, content: {
-            LazyVStack(alignment: .leading, spacing: 0) {
+        LodableScrollView(.vertical, scrollPositionID: $viewModel.scrollPositionID, showsIndicators: false, namespace: Self.typeName, content: {
+            LazyVStack(alignment: .center, spacing: 5) {
                 filteredTagsGroup
-                if viewModel.displayData.isEmpty && !viewModel.loading {
-                    ScrollViewList {
-                        ContentUnavailableView("No Posts Found", systemImage: "doc.questionmark.fill")
+                    .id(FilterTagsView.typeName)
+                if viewModel.displayData.isEmpty {
+                    if !viewModel.loading {
+                        ScrollViewList {
+                            ContentUnavailableView("No posts found", systemImage: SFSymbol.rectangleAndTextMagnifyingglass.rawValue, description: Text(Lorem.paragraph))
+                        }
                     }
                 }
                 switch gridAppearance.gridStyle {
@@ -40,19 +42,25 @@ struct PostsExplorerView: View {
                 case .List:
                     listViews
                 }
+                if viewModel.loading {
+                    Color.clear
+                        .frame(height: 50)
+                        .hidden()
+                        .overlay(alignment: .top) {
+                            ProgressView()
+                                .tint(Color.gray)
+                        }
+                }
             }
-            .padding(.bottom, 50)
             .equatable(by: viewModel.reloadTag)
+            .animation(.interactiveSpring(duration: 0.4, blendDuration: 0.4), value: viewModel.displayData)
         }, onLoadMore: {
             await viewModel.performFetchMore()
         })
         .background(Color.systemGroupedBackground)
-        .onChange(of: viewModel.reloadTag) { _, _ in
-            magicButtonItem.update(animations: viewModel.loading ? [.rotate(.north), .rotate(.north_360)] : [], action: handleMagicButtonOnTap)
-        }
-        .magicButton($magicButtonItem)
+        .magicButton(.constant(MagicButtonItem(.cameraFilters, .trailing, size: 44, animations: [.scale(0.7), .scale(1)], handleMagicButtonOnTap)))
         .navigationTitle("@explore")
-        .overlay(alignment: .bottom) {
+        .safeAreaInset(edge: .bottom) {
             PostExplorerBottomToolbar()
         }
         .toolbar {
@@ -61,11 +69,13 @@ struct PostsExplorerView: View {
         .alertPresenter($viewModel.alert)
         .makeSearchable(searchDatasource)
         .sheet(isPresented: $viewModel.showPostFilterview) {
-            PostFilterOptionView(query: $viewModel.query)
+            PostFilterOptionView(query: $viewModel.query, showView: $viewModel.showPostFilterview)
         }
         .refreshable {
-            guard !viewModel.loading else { return }
             await viewModel.refreshable(query: viewModel.query)
+        }
+        .onSearchSubmit { item in
+            await handleSearchViewResults(item: item)
         }
         .environmentObject(viewModel)
         .environmentObject(gridAppearance)
@@ -79,6 +89,13 @@ private extension PostsExplorerView {
             ScrollViewList(innerPadding: 0, outerPadding: 8) {
                 PostSingleColumnLargeCell(data: data)
             }
+            .background(Color.systemGroupedBackground)
+            .equatable(by: data)
+            .id(data.id)
+            .transition(.move(edge: .bottom))
+            //            .scrollTransition { effect, phase in
+            //                effect.offset(y: phase.isIdentity ? 0 : 100)
+            //            }
         }
     }
     @ViewBuilder private var listViews: some View {
@@ -103,17 +120,54 @@ private extension PostsExplorerView {
     }
 }
 private extension PostsExplorerView {
+    @ViewBuilder
     private var filteredTagsGroup: some View {
         FilterTagsView(items: $viewModel.query.values)
-            .padding(.leading)
-            .padding(.vertical, 2)
+            .padding(5)
             ._flexible(.horizontal)
+            .transition(.opacity)
     }
 }
 private extension PostsExplorerView {
     @MainActor
     private func handleMagicButtonOnTap() async  {
         viewModel.showPostFilterview = true
-        viewModel.reloadUI()
+    }
+}
+
+private extension PostsExplorerView {
+    
+    private func handleSearchViewResults(item: SearchAction.ActionItem) async {
+        @Injected(\.router) var router
+        switch item {
+        case .areaMap:
+            router.presentFullScreen(.init(.planningAreaMap({ area in
+                await MainActor.run {
+                    viewModel.query = .init(.accurate, [.init(.area, area.rawValue.capitalized)])
+                }
+            })))
+        case .mrtMap:
+            router.presentFullScreen(.init(
+                .mrtMap({ mrt in
+                    await MainActor.run {
+                        viewModel.query = .init(.accurate, [.init(.mrt, mrt.name)])
+                    }
+                })
+            ))
+        case .exploreAllPost:
+            await MainActor.run {
+                viewModel.query = .init(.accurate, [])
+            }
+        case .filter(let filters):
+            await MainActor.run {
+                viewModel.query = .init(.accurate, filters)
+            }
+        case .locationPickerMap:
+            router.presentFullScreen(.init(.locationPickerMap({ locaion in
+                await MainActor.run {
+                    viewModel.query = .init(.accurate, [.init(.area, locaion.area.rawValue), .init(.mrt, locaion.nearestMRT.mrt)])
+                }
+            })))
+        }
     }
 }

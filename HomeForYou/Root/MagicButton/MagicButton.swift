@@ -22,20 +22,20 @@ struct MagicButton: View {
                     .equatable(by: viewModel.item.alignment)
                     .foregroundStyle(.tint)
                     .shadow(color: .primary.opacity(0.2), radius: 2)
+                    .animation(.snappy(duration: 0.5).delay(0.2), value: viewModel.item.alignment)
                 if let symbolName = viewModel.item.symbol?.rawValue {
                     Image(systemName: symbolName)
                         .resizable()
                         .scaledToFill()
                         .symbolEffect(.bounce, value: viewModel.item.animations.count)
                         .symbolRenderingMode(.monochrome)
-                        .phaseAnimation(viewModel.item.animations)
+                        
                         .foregroundStyle(Color(uiColor: .systemBackground).gradient)
                         .frame(square: viewModel.item.size/2)
                 }
             }
             .frame(square: viewModel.item.size)
             .padding()
-            .animation(.snappy(duration: 0.5).delay(0.2), value: viewModel.item.alignment)
         }
         .buttonStyle(.plain)
         .offset(y: viewModel.item.alignment == .bottom ? -30 : 0)

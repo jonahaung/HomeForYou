@@ -14,8 +14,13 @@ struct PostExplorerTopToolbar: ToolbarContent {
     @EnvironmentObject private var searchDatasource: SearchDatasource
     
     var body: some ToolbarContent {
-        ToolbarItemGroup(placement: .topBarTrailing) {
-            
+        ToolbarItem(placement: .topBarTrailing) {
+            AsyncButton {
+                
+            } label: {
+                SystemImage(.ellipsis)
+            }
+
         }
     }
 }

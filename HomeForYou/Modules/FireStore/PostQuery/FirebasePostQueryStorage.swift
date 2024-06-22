@@ -10,8 +10,7 @@ import XUI
 import SwiftUI
 
 class FirebasePostQueryStorage: ObservableObject {
-    
-    @Published var priceRange: ClosedRange<Int> = PriceRange.defaultRange(for: .current)
+
     @Published var query: CompoundQuery = .init(.accurate, [])
     
     let allowedQueries = [PostKey.propertyType, .roomType, .furnishing, .baths, .beds, .floorLevel, .tenantType, .leaseTerm, .tenure]
@@ -25,7 +24,9 @@ extension FirebasePostQueryStorage {
             var values = self.query.values
             if let i = values.firstIndex(where: { $0.key == key }) {
                 values.remove(at: i)
-                values.insert(.init(key, newValue), at: i)
+                if newValue.components(separatedBy: ":").last?.isWhitespace == false {
+                    values.insert(.init(key, newValue), at: i)
+                }
             } else {
                 values.append(.init(key, newValue))
             }
@@ -50,6 +51,31 @@ extension FirebasePostQueryStorage {
             var filtered = self.query.values.filter{ $0.key != .restrictions }
             filtered.append(contentsOf: new.map{ .init(.restrictions, $0.rawValue)})
             self.query.values = filtered.sorted()
+        }
+    }
+    var priceRange: Binding<ClosedRange<Int>> {
+        .init {
+            guard
+                let value = self.query.values.last
+            else {
+                return PriceRange.defaultRange(for: .current)
+            }
+            let strings = value.value.components(separatedBy: "-")
+            guard strings.count == 2 else {
+                return PriceRange.defaultRange(for: .current)
+            }
+            guard
+                let first = strings.first, let lowerBound = Int(first),
+                  let second = strings.last, let upperBound = Int(second),
+                  second > first
+            else {
+                return PriceRange.defaultRange(for: .current)
+            }
+            return ClosedRange(uncheckedBounds: (lowerBound, upperBound))
+        } set: { new in
+            let string = "\(new.lowerBound)-\(new.upperBound)"
+            let value = PostQuery(.price, string)
+            self.query.values = [value]
         }
     }
     func allCases(for key: PostKey) -> [String] {
@@ -88,6 +114,11 @@ extension FirebasePostQueryStorage {
             fatalError()
         }
     }
+    @MainActor func createQuery() -> CompoundQuery {
+        let values = self.query.values.filter{ !$0.value.isWhitespace || $0.value != "Any" }
+        query.values = values
+        return query
+    }
 }
 extension FirebasePostQueryStorage {
     
@@ -95,8 +126,6 @@ extension FirebasePostQueryStorage {
         self.query = query
     }
     func clearQueries() {
-        query.values.enumerated().forEach { i, value in
-            query.values[i].value = ""
-        }
+        query.values.removeAll()
     }
 }

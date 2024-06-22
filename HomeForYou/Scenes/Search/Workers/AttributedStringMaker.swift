@@ -30,10 +30,8 @@ struct SearchResultsFactoryWorker {
 extension NSMutableParagraphStyle {
     
     static let wordWrappingLineBreak: NSMutableParagraphStyle = {
-        $0.lineBreakMode = .byWordWrapping
-        $0.alignment = .left
-        $0.lineSpacing = 0
-        $0.lineHeightMultiple = 0
+        $0.lineBreakMode = .byCharWrapping
+        $0.alignment = .justified
         return $0
     }(NSMutableParagraphStyle())
 }

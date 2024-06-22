@@ -12,7 +12,7 @@ struct PostCellDisplayData: Identifiable {
     typealias Tag = (PostKey, String)
     
     var id: String { post.id }
-    let title: AttributedString
+    let title: String
     let price: String
     let createdAt: String
     var primaryTags = [Tag]()
@@ -23,25 +23,23 @@ struct PostCellDisplayData: Identifiable {
     init(_ post: Post) {
         self.post = post
         @Injected(\.utils) var utils
-        price = utils.kmbFormatter.string(for: post.price) ?? ""
+        @Injected(\.ui) var ui
+        price = "$" + (utils.kmbFormatter.string(for: post.price) ?? "")
         title = {
-            let string = AttributedString(
-                post.title, attributes: .init([.font: UIFont.systemFont(ofSize: UIFont.labelFontSize, weight: .medium), .paragraphStyle: NSMutableParagraphStyle.wordWrappingLineBreak]))
-            
-            return string
+            post.title
         }()
         createdAt = utils.timeAgoFormatter.string(from: post.createdAt)
         
         primaryTags = [
-            (.propertyType, post.propertyType.title),
-            (.roomType, post._roomType.title),
-            (.beds, post.beds.rawValue),
-            (.baths, post.baths.rawValue),
+            (.propertyType, post.propertyType.rawValue.uppercased()),
+            (.roomType, post._roomType.rawValue.uppercased()),
+            (.beds, post.beds.rawValue.uppercased()),
+            (.baths, post.baths.rawValue.uppercased()),
         ]
         
         secondaryTags = [
-            (.area, post.area.title),
-            (.mrt, post.mrt)
+            (.area, post.area.rawValue.uppercased()),
+            (.mrt, post.mrt.uppercased())
         ]
     }
 }
@@ -51,6 +49,5 @@ extension PostCellDisplayData: Hashable {
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
-        hasher.combine(post)
     }
 }

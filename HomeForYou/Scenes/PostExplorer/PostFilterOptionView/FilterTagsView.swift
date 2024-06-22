@@ -25,22 +25,37 @@ struct FilterTagsView: View {
                     self.selection = isSelected ? nil : query
                 }
                 .overlay(alignment: .topTrailing) {
-                    AsyncButton {
-                        items.forEach { query in
-                            if query == self.selection, let i = items.firstIndex(where: { $0.key == query.key }) {
-                                selection = nil
-                                items.remove(at: i)
+                    if isSelected {
+                        AsyncButton {
+                            items.forEach { each in
+                                if each == self.selection, let i = items.firstIndex(where: { $0 == each }) {
+                                    selection = nil
+                                    items.remove(at: i)
+                                }
                             }
+                        } label: {
+                            SystemImage(.xmarkCircleFill)
+                                .symbolRenderingMode(.multicolor)
+                                .padding(.leading)
                         }
-                    } label: {
-                        SystemImage(.minusCircleFill)
-                            .imageScale(.small)
-                            .foregroundColor(.red)
+                        .offset(x: 7, y: -7)
+                        .zIndex(5)
+                        .transition(
+                            .asymmetric(
+                                insertion: .scale(scale: 0.1, anchor: .center),
+                                removal: .scale(scale: 0.1, anchor: .center)
+                            )
+                            .animation(.easeInOut)
+                        )
                     }
-                    .offset(x: 7, y: -7)
-                    .buttonStyle(.plain)
-                    ._hidable(!isSelected)
                 }
+                .transition(
+                    .asymmetric(
+                        insertion: .scale(scale: 0.1, anchor: .leading),
+                        removal: .scale(scale: 0.1, anchor: .leading)
+                    )
+                    .animation(.easeInOut)
+                )
             }
         }
     }

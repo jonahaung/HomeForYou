@@ -54,8 +54,8 @@ extension SceneItem {
                     .environmentObject(post)
             }
         case .postCollection:
-            let filters = data as? [PostQuery] ?? []
-            PostsExplorerView(query: CompoundQuery(.accurate, filters))
+            let query = data as? CompoundQuery ?? .init(.accurate, [])
+            PostsExplorerView(query: query)
         case .mrtMap(let onSelect):
             MRTMapView(onSelect: onSelect)
         case .roomCapture:

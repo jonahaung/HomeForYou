@@ -56,13 +56,13 @@ struct PostForm_Details<T: Postable>: View {
                 GridMultiPicker(source: Feature.allCases, selection: $editablePost.features)
                     .listRowInsets(.init())
             }
-            .listRowBackground(Color.clear)
+            .listRowBackground(Color.clear.hidden())
             
             Section("Restrictions") {
                 GridMultiPicker(source: Restriction.allCases, selection: $editablePost.restrictions)
                     .listRowInsets(.init())
             }
-            .listRowBackground(Color.clear)
+            .listRowBackground(Color.clear.hidden())
             
         }
         .navigationTitle("@details")

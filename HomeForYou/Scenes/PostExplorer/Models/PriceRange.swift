@@ -23,7 +23,7 @@ struct PriceRange: Hashable, Sendable {
         }
     }
 
-    static func defaultSteps(for category: Category) -> Double {
+    static func defaultSteps(for category: Category) -> Float {
         switch category {
         case .selling:
             return 10000

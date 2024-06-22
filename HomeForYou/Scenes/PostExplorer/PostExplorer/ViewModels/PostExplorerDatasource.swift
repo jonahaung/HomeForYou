@@ -25,17 +25,19 @@ actor PostExplorerDatasource {
     private(set) var nextQuery: Query?
     
     func performFetch(query: Query) async throws {
+        nextQuery = nil
         totalPostCount = try await query.count.getAggregation(source: AggregateSource.server).count.intValue
         let documents = try await query.limit(to: fetchLimit).getDocuments().documents
         let results = documents.compactMap { try? $0.decode(as: Post.self) }
         currentPostCount = documents.count
         let data = results.map{ PostCellDisplayData($0) }
-        fetchSubject.send(data)
         if let lastSnapshot = documents.last {
             self.nextQuery = query.start(afterDocument: lastSnapshot)
         } else {
             self.nextQuery = nil
         }
+        print(totalPostCount, currentPostCount)
+        fetchSubject.send(data)
     }
     
     func fetchMore() async throws  {
@@ -46,19 +48,20 @@ actor PostExplorerDatasource {
             throw FetchError.noMorePosts
         }
         let documents = try await nextQuery.limit(to: limit).getDocuments().documents
-        let results = documents.compactMap{ try? $0.decode(as: Post.self) }.uniqued()
+        let results = documents.compactMap{ try? $0.decode(as: Post.self) }
         currentPostCount += documents.count
         let data = results.map{ PostCellDisplayData($0) }
-        loadMoreSubject.send(data)
         if let lastSnapshot = documents.last {
             self.nextQuery = nextQuery.start(afterDocument: lastSnapshot)
         }
+        print(totalPostCount, currentPostCount)
+        loadMoreSubject.send(data)
     }
     
-    func canLoadMore() async -> Bool {
+    func canLoadMore() -> Bool {
         totalPostCount > currentPostCount
     }
-    func reset() async {
+    func reset() {
         currentPostCount = 0
         nextQuery = nil
         totalPostCount = 0

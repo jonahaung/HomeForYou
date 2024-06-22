@@ -31,7 +31,7 @@ struct LookingForFormView: View {
                 .labelsHidden()
                 .pickerStyle(.segmented)
             }
-            .listRowBackground(Color.clear)
+            .listRowBackground(Color.clear.hidden())
 
             Section {
                 _VFormRow(title: "Title", isEmpty: model.looking.title.isWhitespace) {

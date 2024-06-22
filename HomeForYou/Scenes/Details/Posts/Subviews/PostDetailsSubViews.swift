@@ -112,7 +112,7 @@ struct PostDetailsSections {
                     WrappedStack(.vertical) {
                         ForEach(post._keyWords) { keyword in
                             _Tag {
-                                Text(keyword.localizedString)
+                                Text(keyword.value.title)
                             }
                             .foregroundColor(.primary)
                             .routeToPosts(.init(.keywords, keyword.keyValueString))
@@ -208,30 +208,30 @@ struct PostDetailsSections {
         var body: some View {
             Section {
                 VStack {
-                    WrappedStack(.vertical) {
-                        ForEach(post.features) { value in
-                            _Tag {
-                                Text(value.title)
-                            }
-                            .foregroundColor(.primary)
-                            .routeToPosts(.init(.features, value.rawValue))
-                        }
-                    }
-                    WrappedStack(.vertical) {
-                        ForEach(post.restrictions) { value in
-                            _Tag {
-                                Text(value.title)
-                            }
-                            .foregroundColor(.primary)
-                            .routeToPosts(.init(.restrictions, value.rawValue))
-                        }
-                    }
+//                    WrappedStack(.vertical) {
+//                        ForEach(post.features) { value in
+//                            _Tag {
+//                                Text(value.title)
+//                            }
+//                            .foregroundColor(.primary)
+//                            .routeToPosts(.init(.features, value.rawValue))
+//                        }
+//                    }
+//                    WrappedStack(.vertical) {
+//                        ForEach(post.restrictions) { value in
+//                            _Tag {
+//                                Text(value.title)
+//                            }
+//                            .foregroundColor(.primary)
+//                            .routeToPosts(.init(.restrictions, value.rawValue))
+//                        }
+//                    }
                 }.padding(2)
                 
             } header: {
                 Text("Features & Restrictions")
             }
-            .listRowBackground(EmptyView())
+            .listRowBackground(Color.clear.hidden())
             .listRowInsets(.init())
         }
     }
